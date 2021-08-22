@@ -2,15 +2,20 @@ from datetime import datetime as dt
 from pydantic import BaseModel
 
 class AssetBase(BaseModel):
-    asset_number = int
-    asset_cost = int
-    asset_name = str
-    asset_description = str
-    asset_remarks = str
-    asset_acquisition = int
-    acquisition_date = int
-    asset_status = str
-    active_status = str
+    asset_provider_id : str
+    asset_type_id : str
+    # user_id : str
+    # department_id : str
+    # asset_number : int
+    asset_cost : int
+    asset_title : str
+    asset_description : str
+    asset_brand : str
+    asset_model : str
+    asset_serial : str
+    asset_acquisition : str
+    acquisition_date : dt
+    # asset_status : str
 
 
 # Schema for request body

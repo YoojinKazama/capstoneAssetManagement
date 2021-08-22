@@ -1,0 +1,60 @@
+<!-- Apply layout from base.html -->
+{%extends 'base.html'%} 
+
+{% block title %}Asset View{% endblock %}
+{% block title_header %} <div id="view_title"> </div>{% endblock %}
+
+{%block content%}
+
+<div class="card">
+    <div class="card-body">
+        <span hidden name="routeIdView" id="routeIdView" > </span>
+        <div>
+            <label for="originIdView">Origin</label><br>
+            <span name="originIdView" id="originIdView" > </span>
+        </div>
+        <div>
+            <label for="destinationIdView">Destination</label><br>
+            <span  name="destinationIdView" id="destinationIdView" > </span>
+        </div>
+        <div>
+            <label for="kmDistanceView">Km Distance</label><br>
+            <span name="kmDistanceView" id="kmDistanceView" > </span> 
+        </div>
+        <div>
+            <label class="label-control">Effectivity Date</label> <br>
+            <span id="effectivityDateView" name="effectivityDateView"> </span>
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}
+
+{% block scripts%}
+<script>
+
+$(document).ready(function () {
+        var id = "{{id}}"
+        console.log(id)
+        $.ajax({
+                url: 'http://127.0.0.1:8000/Asset/' + id,
+                type: "GET",
+                data: { id: id },
+                dataType: "JSON",
+            
+                success: function(data){
+                    var asset_info = data.data;
+                    console.log(asset_info);
+
+                    $("#view_title").append( "<h3>" + asset_info.asset_title + "</h3>" );
+
+                    
+                }
+        });
+    });
+
+
+</script>
+{% endblock %}

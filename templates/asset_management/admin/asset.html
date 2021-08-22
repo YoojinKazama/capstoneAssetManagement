@@ -1,0 +1,271 @@
+<!-- Apply layout from base.html -->
+{%extends 'base.html'%} 
+
+{% block title %}Asset - Dashboard{% endblock %}
+{% block title_header %} <h3> Asset </h3>{% endblock %}
+
+{%block content%}
+
+<div style="margin-bottom: 10px;">
+<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAsset">
+  Add Asset
+</button>
+</div>
+
+
+<div class="card card-primary card-outline">
+
+          <!-- DATA TABLES -->
+          <div class="card-header">
+            <h3 class="card-title">Assets</h3>
+          </div>
+          <!-- /DATA TABLES -->
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <table id="asset_table" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Asset No.</th>
+                <th>Title</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Serial</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <!-- /.card-body -->
+
+<!-- MODALS -->
+
+<div class="modal fade" id="addAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="addAssetForm">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_title">Title</label>
+                        <input class="form-control" name="asset_title" id="asset_title"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="asset_type">Category</label>
+                        <select name="asset_type" id="asset_type" class="form-control">
+                            
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="asset_provider">Asset Provider</label>
+                        <select name="asset_provider" id="asset_provider" class="form-control">
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="asset_cost">Cost</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">₱</div>
+                            </div>
+                            <input type="number"  class="form-control" name="asset_cost" id="asset_cost"  >
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="asset_acquisition">Acquisition</label>
+                        <select name="asset_acquisition" id="asset_acquisition" class="form-control">
+                            <option value="Bought">Bought</option>
+                            <option value="Donated">Donated</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="acquisition_date">Acquisition Date</label>
+                        <input type="date" class="form-control" name="acquisition_date" id="acquisition_date" >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-4">
+                        <label for="asset_brand">Brand</label>
+                        <input  class="form-control" name="asset_brand" id="asset_brand"  >
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="asset_model">Model</label>
+                        <input  class="form-control" name="asset_model" id="asset_model"  >
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="asset_serial">Serial</label>
+                        <input  class="form-control" name="asset_serial" id="asset_serial"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_description">Description</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="asset_description" id="asset_description">
+                        </textarea>
+                    </div>
+                <div>
+                
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addAssetBtn">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- /MODALS -->
+
+{%endblock%}
+
+{% block scripts%}
+<script>
+
+$(document).ready(function () {
+    $("#asset_table").dataTable({
+
+        ajax: "http://127.0.0.1:8000/Asset/",
+        columns: [
+                { data: "asset_id"},
+                { data: "asset_number"},
+                { data: "asset_title"},
+                { data: "asset_brand"},
+                { data: "asset_model" },
+                { data: "asset_serial" },
+                { data: "asset_status", render: function(data, type, row){
+                        if(data == "Available"){
+                            return '<span class="badge badge-success">Available</span>'
+                        }   
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+                { data: "active_status", render: function(data, type, row){
+                        if(data == "Active"){
+                            return '<div class="btn-group">'+
+                                    '<button class="btn btn-primary btn-sm btn_view" value="'+row.asset_id+'" title="View" type="button" ><i class="zmdi zmdi-eye"></i>View</button> </div>'       
+                        }   
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+        ],
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        
+        })
+    });
+
+$(document).on("click", ".btn_view", function(){
+        var id = this.value;
+        console.log(id);
+
+    });
+
+$(document).on("click", ".add_asset", function(){
+
+      $.ajax({
+      url: 'http://127.0.0.1:8000/Asset_Type/',
+      type: "GET",
+      dataType: "JSON",
+
+      success: function(data){
+        var asset_type = data.data;
+
+        var html = ""
+
+        for(var i=0; i < asset_type.length; i++){
+          html += `<option value="${asset_type[i].asset_type_id}">${asset_type[i].asset_type_title}</option>`
+        }
+        
+        $('#asset_type').html(html);
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/Asset_Provider/',
+                type: "GET",
+                dataType: "JSON",
+
+                success: function(data){
+                    var asset_provider = data.data;
+
+                    var html = ""
+
+                    for(var i=0; i < asset_provider.length; i++){
+                    html += `<option value="${asset_provider[i].asset_provider_id}">${asset_provider[i].asset_provider_name}</option>`
+                    }
+                    
+                    $('#asset_provider').html(html);
+                    
+
+                }
+                })
+      }
+    })
+  });
+
+
+$(document).on("click", "#addAssetBtn", function(e){
+
+      e.preventDefault();
+
+    
+    form =  { asset_provider_id: $(asset_provider).val(),
+                asset_type_id: $(asset_type).val(),
+                asset_cost: $(asset_cost).val(),
+                asset_title: $(asset_title).val(),
+                asset_description: $(asset_description).val(),
+                asset_brand: $(asset_brand).val(),
+                asset_model: $(asset_model).val(),
+                asset_serial: $(asset_serial).val(),
+                asset_acquisition: $(asset_acquisition).val(),
+                acquisition_date: new Date($(acquisition_date).val())
+                };
+
+    encoded = JSON.stringify(form)
+    console.log(encoded)
+
+        $.ajax({
+            url:'http://127.0.0.1:8000/Asset/',
+            type: "POST",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+            document.getElementById("addAssetForm").reset();
+            
+            //refresh();
+            }
+        })
+    });
+
+$(document).on("click", ".btn_view", function(){
+        var id = this.value;
+
+        window.location.href = "http://127.0.0.1:8000/asset_management/asset/"+ id + "/view";
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,313 @@
+<!-- Apply layout from base.html -->
+{%extends 'base.html'%} 
+
+{% block title %}Asset Category{% endblock %}
+{% block title_header %} <h3> Asset Category</h3>{% endblock %}
+
+{%block content%}
+
+<div style="margin-bottom: 10px;">
+<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAsset">
+  Add Asset Category
+</button>
+</div>
+
+
+<div class="card card-primary card-outline">
+
+          <!-- DATA TABLES -->
+          <div class="card-header">
+            <h3 class="card-title">Assets Category</h3>
+          </div>
+          <!-- /DATA TABLES -->
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <table id="asset_type_table" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Category Title</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <!-- /.card-body -->
+
+<!-- MODALS -->
+
+<div class="modal fade" id="addAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Asset Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="addAssetTypeForm">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_type_title">Category name</label>
+                        <input class="form-control" name="asset_type_title" id="asset_type_title"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="description">Description</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="description" id="description">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL --> 
+<div class="modal fade" id="viewAssetType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="viewAssetType">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <input hidden class="form-control" name="view_asset_type_id" id="view_asset_type_id" >
+                        <label for="view_asset_type_title">Category name</label> <br>
+                        <span name="view_asset_type_title" id="view_asset_type_title"  >
+                        </span> <br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="view_description">Description</label> <br>
+                        <span style="margin-top: 10px;" rows="2" cols="50" name="view_description" id="view_description">
+                        </span> <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL --> 
+<div class="modal fade" id="editAssetType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="editAssetType">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <input hidden class="form-control" name="edit_asset_type_id" id="edit_asset_type_id" >
+                        <label for="edit_asset_type_title">Category name</label> <br>
+                        <input type="text" class="form-control" name="edit_asset_type_title" id="edit_asset_type_title"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="edit_description">Description</label> <br>
+                        <textarea class="form-control" style="margin-top: 10px;" rows="2" cols="50" name="edit_description" id="edit_description">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="editAssetTypeBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /MODALS -->
+
+{%endblock%}
+
+{% block scripts%}
+<script>
+
+$(document).ready(function () {
+    $("#asset_type_table").dataTable({
+
+        ajax: "http://127.0.0.1:8000/Asset_Type/",
+        columns: [
+                { data: "asset_type_id"},
+                { data: "asset_type_title" },
+                { data: "description" },
+                { data: "active_status", render: function(data, type, row){
+                        if(data == "Active"){
+                            return '<div class="btn-group">'+
+                                    '<button class="btn btn-primary btn-sm btn_view" value="'+row.asset_type_id+'" title="View" type="button" ><i class="zmdi zmdi-eye"></i>View</button> &nbsp'+
+                                    '<button class="btn btn-warning btn-sm btn_edit" value="'+row.asset_type_id+'" title="Edit" type="button" ><i class="zmdi zmdi-edit"></i>Edit</button> &nbsp'+
+                                    '<button class="btn btn-danger btn-sm btn_delete" value="'+row.asset_type_id+'" title="Delete" type="button"> <i class="zmdi zmdi-delete"></i>Delete</button></div> &nbsp';
+                        }  
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+        ],
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        
+        })
+    });
+
+$(document).on("click", ".btn_view", function(){
+      var id = this.value;
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            type: "GET",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+                console.log(data);
+                var assetTypeInfo = data.data;
+
+                $('#view_asset_type_id').val(assetTypeInfo.asset_type_id);
+                $('#viewModal').html(assetTypeInfo.asset_type_title);
+                $('#view_asset_type_title').html(assetTypeInfo.asset_type_title);
+                $('#view_description').html(assetTypeInfo.description);
+
+                $('#viewAssetType').modal('show');
+            }
+        // ajax closing tag
+        })
+    });
+
+  $(document).on("click", ".btn_edit", function(){
+      var id = this.value;
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            type: "GET",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+                console.log(data);
+                var assetTypeInfo = data.data;
+
+                $('#edit_asset_type_id').val(assetTypeInfo.asset_type_id);
+                $('#editModal').html("Edit " + assetTypeInfo.asset_type_title);
+                $('#edit_asset_type_title').val(assetTypeInfo.asset_type_title);
+                $('#edit_description').val(assetTypeInfo.description);
+
+                $('#editAssetType').modal('show');
+            }
+        // ajax closing tag
+        })
+    });
+
+$(document).on("click", "#editAssetTypeBtn", function(e){
+
+    e.preventDefault();
+
+    id = $(edit_asset_type_id).val()
+
+    form =  { asset_type_title: $(edit_asset_type_title).val(),
+                description: $(edit_description).val(),
+                };
+
+    encoded = JSON.stringify(form)
+
+        $.ajax({
+            url:'http://127.0.0.1:8000/Asset_Type/' + id,
+            type: "PUT",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+            document.getElementById("addAssetTypeForm").reset();
+            $('#editAssetType').modal('hide');
+            
+            refresh();
+            }
+        })
+    });
+
+$(document).on("click", ".btn_delete", function(){
+        var id = this.value;
+        // console.log(id);
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            type: "DELETE",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+               refresh();
+            }
+        // ajax closing tag
+        })
+    });
+
+$(document).on("click", "#addAssetTypeBtn", function(e){
+
+    e.preventDefault();
+
+    form =  { asset_type_title: $(asset_type_title).val(),
+                description: $(description).val(),
+                };
+
+    encoded = JSON.stringify(form)
+
+        $.ajax({
+            url:'http://127.0.0.1:8000/Asset_Type/',
+            type: "POST",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+            document.getElementById("addAssetTypeForm").reset();
+            $('#editAssetType').modal('hide');
+            
+            refresh();
+            }
+        })
+    });
+
+
+function refresh(){
+
+        $('#asset_type_table').DataTable().ajax.reload();
+    }
+    
+</script>
+{% endblock %}
