@@ -36,6 +36,10 @@ def dashboard(request: Request,):
 def dashboard(request: Request,):
     return template.TemplateResponse("asset_management/admin/asset_type.html", {"request": request})
 
+@app.get("/asset_management/asset_provider", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/admin/asset_provider.html", {"request": request})
+
 @app.get("/asset_management/asset", response_class=HTMLResponse)
 def get_asset(request: Request,):
     return template.TemplateResponse("asset_management/admin/asset.html", {"request": request})

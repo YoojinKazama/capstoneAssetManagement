@@ -8,22 +8,48 @@
 
 <div class="card">
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="asset_title">Asset Title</label><br>
+                <span name="asset_title" id="asset_title" > </span>
+            </div>
+            <div class="col-md-6">
+                <label for="asset_status">Status</label><br>
+                <span  name="asset_status" id="asset_status" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="asset_number">Asset Number</label><br>
+                <span name="asset_number" id="asset_number" > </span>
+            </div>
+            <div class="col-md-6">
+                <label for="asset_cost">Cost</label><br>
+                <span  name="asset_cost" id="asset_cost" > </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"> 
+        <h5> Asset Provider</h5>
+    </div>
+    <div class="card-body">
         <span hidden name="routeIdView" id="routeIdView" > </span>
         <div>
-            <label for="originIdView">Origin</label><br>
-            <span name="originIdView" id="originIdView" > </span>
+            <label for="asset_provider_name">Provider:</label><br>
+            <span name="asset_provider_name" id="asset_provider_name" > </span>
         </div>
-        <div>
-            <label for="destinationIdView">Destination</label><br>
-            <span  name="destinationIdView" id="destinationIdView" > </span>
-        </div>
-        <div>
-            <label for="kmDistanceView">Km Distance</label><br>
-            <span name="kmDistanceView" id="kmDistanceView" > </span> 
-        </div>
-        <div>
-            <label class="label-control">Effectivity Date</label> <br>
-            <span id="effectivityDateView" name="effectivityDateView"> </span>
+        <div class="row">
+            <div class = "col-md-6">
+                <label for="asset_provider_contact">Contact:</label><br>
+                <span  name="asset_provider_contact" id="asset_provider_contact" > </span>
+            </div>
+            <div class = "col-md-6">
+                <label for="asset_provider_email">Email:</label><br>
+                <span name="asset_provider_email" id="asset_provider_email" > </span> 
+            </div>
         </div>
     </div>
 </div>
@@ -49,6 +75,19 @@ $(document).ready(function () {
                     console.log(asset_info);
 
                     $("#view_title").append( "<h3>" + asset_info.asset_title + "</h3>" );
+
+                    $("#asset_title").html(asset_info.asset_title );
+                    $("#asset_number").html(asset_info.asset_number );
+                    $("#asset_cost").html("₱" + asset_info.asset_cost);
+
+                    if (asset_info.asset_status == "Available"){
+                        $("#asset_status").html("Available");
+                    }
+
+                    //ASSET_PROVIDER
+                    $("#asset_provider_name").html(asset_info.asset_provider.asset_provider_name );
+                    $("#asset_provider_contact").html(asset_info.asset_provider.asset_provider_contact );
+                    $("#asset_provider_email").html(asset_info.asset_provider.asset_provider_email );
 
                     
                 }

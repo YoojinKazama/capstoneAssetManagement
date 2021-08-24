@@ -4,10 +4,22 @@
 {% block title %}Asset Category{% endblock %}
 {% block title_header %} <h3> Asset Category</h3>{% endblock %}
 
+{% block breadcrumb%}
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
+    <li class="breadcrumb-item"><a href="#"> Asset Management</a></li>
+    <li class="breadcrumb-item active">Asset Category</li>
+  </ol>
+</div>  
+{% endblock %}
+
+
 {%block content%}
 
 <div style="margin-bottom: 10px;">
-<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAsset">
+<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAssetType">
   Add Asset Category
 </button>
 </div>
@@ -38,7 +50,7 @@
 
 <!-- MODALS -->
 
-<div class="modal fade" id="addAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addAssetType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -65,10 +77,10 @@
                 </div>
             </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+        </div>
       </div>
     </div>
   </div>
@@ -112,7 +124,7 @@
   </div>
 </div>
 
-<!-- VIEW MODAL --> 
+<!-- EDIT MODAL --> 
 <div class="modal fade" id="editAssetType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -296,7 +308,7 @@ $(document).on("click", "#addAssetTypeBtn", function(e){
 
             success: function(data){
             document.getElementById("addAssetTypeForm").reset();
-            $('#editAssetType').modal('hide');
+            $('#addAssetType').modal('hide');
             
             refresh();
             }

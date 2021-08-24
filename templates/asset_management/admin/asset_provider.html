@@ -1,0 +1,342 @@
+<!-- Apply layout from base.html -->
+{%extends 'base.html'%} 
+
+{% block title %}Asset Provider{% endblock %}
+{% block title_header %} <h3> Asset Provider</h3>{% endblock %}
+
+{% block breadcrumb%}
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
+    <li class="breadcrumb-item"><a href="#"> Asset Management</a></li>
+    <li class="breadcrumb-item active">Asset Provider</li>
+  </ol>
+</div>  
+{% endblock %}
+
+{%block content%}
+
+<div style="margin-bottom: 10px;">
+<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAssetProvider">
+  Add Asset Provider
+</button>
+</div>
+
+
+<div class="card card-primary card-outline">
+
+          <!-- DATA TABLES -->
+          <div class="card-header">
+            <h3 class="card-title">Assets Provider</h3>
+          </div>
+          <!-- /DATA TABLES -->
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <table id="asset_provider_table" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Asset Provider Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <!-- /.card-body -->
+
+<!-- MODALS -->
+
+<div class="modal fade" id="addAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Asset Provider</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="addAssetProviderForm">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_provider_name">Asset Provider Name</label>
+                        <input class="form-control" name="asset_provider_name" id="asset_provider_name"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_provider_contact">Contact</label>
+                        <input class="form-control" name="asset_provider_contact" id="asset_provider_contact"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="asset_provider_email">Email</label>
+                        <input class="form-control" name="asset_provider_email" id="asset_provider_email"  >
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL --> 
+<div class="modal fade" id="viewAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="viewAssetProvider">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="view_asset_provider_name">Asset Provider Name</label> <br>
+                        <span  name="view_asset_provider_name" id="view_asset_provider_name"  > </span> <br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="view_asset_provider_contact">Contact</label> <br>
+                        <span  name="view_asset_provider_contact" id="view_asset_provider_contact"  > </span> <br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="view_asset_provider_email">Email</label> <br>
+                        <span  name="view_asset_provider_email" id="view_asset_provider_email"  > </span> <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL --> 
+<div class="modal fade" id="editAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="editAssetProviderForm">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <input hidden class="form-control" name="edit_asset_provider_id" id="edit_asset_provider_id"  >
+                        <label for="edit_asset_provider_name">Asset Provider Name</label>
+                        <input class="form-control" name="edit_asset_provider_name" id="edit_asset_provider_name"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="edit_asset_provider_contact">Contact</label>
+                        <input class="form-control" name="edit_asset_provider_contact" id="edit_asset_provider_contact"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="edit_asset_provider_email">Email</label>
+                        <input class="form-control" name="edit_asset_provider_email" id="edit_asset_provider_email"  >
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="editAssetProviderBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /MODALS -->
+
+{%endblock%}
+
+{% block scripts%}
+<script>
+
+$(document).ready(function () {
+    $("#asset_provider_table").dataTable({
+
+        ajax: "http://127.0.0.1:8000/Asset_Provider/",
+        columns: [
+                { data: "asset_provider_id"},
+                { data: "asset_provider_name" },
+                { data: "asset_provider_contact" },
+                { data: "asset_provider_email" },
+                { data: "active_status", render: function(data, type, row){
+                        if(data == "Active"){
+                            return '<div class="btn-group">'+
+                                    '<button class="btn btn-primary btn-sm btn_view" value="'+row.asset_provider_id+'" title="View" type="button" ><i class="zmdi zmdi-eye"></i>View</button> &nbsp'+
+                                    '<button class="btn btn-warning btn-sm btn_edit" value="'+row.asset_provider_id+'" title="Edit" type="button" ><i class="zmdi zmdi-edit"></i>Edit</button> &nbsp'+
+                                    '<button class="btn btn-danger btn-sm btn_delete" value="'+row.asset_provider_id+'" title="Delete" type="button"> <i class="zmdi zmdi-delete"></i>Delete</button></div> &nbsp';
+                        }  
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+        ],
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        
+        })
+    });
+
+$(document).on("click", ".btn_view", function(){
+      var id = this.value;
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
+            type: "GET",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+                console.log(data);
+                var assetProviderInfo = data.data;
+
+                $('#viewModal').html(assetProviderInfo.asset_provider_name);
+                $('#view_asset_provider_name').html(assetProviderInfo.asset_provider_name);
+                $('#view_asset_provider_contact').html(assetProviderInfo.asset_provider_contact);
+                $('#view_asset_provider_email').html(assetProviderInfo.asset_provider_email);
+
+                $('#viewAssetProvider').modal('show');
+            }
+        // ajax closing tag
+        })
+    });
+
+  $(document).on("click", ".btn_edit", function(){
+      var id = this.value;
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
+            type: "GET",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+                console.log(data);
+                var assetTypeInfo = data.data;
+
+                $('#edit_asset_provider_id').val(assetTypeInfo.asset_provider_id);
+                $('#editModal').html("Edit " + assetTypeInfo.asset_provider_name);
+                $('#edit_asset_provider_name').val(assetTypeInfo.asset_provider_name);
+                $('#edit_asset_provider_contact').val(assetTypeInfo.asset_provider_contact);
+                $('#edit_asset_provider_email').val(assetTypeInfo.asset_provider_email);
+
+                $('#editAssetProvider').modal('show');
+            }
+        // ajax closing tag
+        })
+    });
+
+$(document).on("click", "#editAssetProviderBtn", function(e){
+
+    e.preventDefault();
+
+    id = $(edit_asset_provider_id).val()
+
+    form =  { asset_provider_name: $(edit_asset_provider_name).val(),
+                asset_provider_contact: $(edit_asset_provider_contact).val(),
+                asset_provider_email: $(edit_asset_provider_email).val(),
+                };
+
+    encoded = JSON.stringify(form)
+
+        $.ajax({
+            url:'http://127.0.0.1:8000/Asset_Provider/' + id,
+            type: "PUT",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+            document.getElementById("editAssetProviderForm").reset();
+            $('#editAssetProvider').modal('hide');
+            
+            refresh();
+            }
+        })
+    });
+
+$(document).on("click", ".btn_delete", function(){
+        var id = this.value;
+        // console.log(id);
+
+        $.ajax({
+            url: 'http://127.0.0.1:8000/Asset_Provider' + id,
+            type: "DELETE",
+            data: { id: id },
+            dataType: "JSON",
+        
+            success: function(data){
+               refresh();
+            }
+        // ajax closing tag
+        })
+    });
+
+$(document).on("click", "#addAssetTypeBtn", function(e){
+
+    e.preventDefault();
+
+    form =  { asset_provider_name: $(asset_provider_name).val(),
+                asset_provider_contact: $(asset_provider_contact).val(),
+                asset_provider_email: $(asset_provider_email).val(),
+                };
+
+    encoded = JSON.stringify(form)
+
+        $.ajax({
+            url:'http://127.0.0.1:8000/Asset_Provider/',
+            type: "POST",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+            document.getElementById("addAssetProviderForm").reset();
+            $('#addAssetProvider').modal('hide');
+            
+            refresh();
+            }
+        })
+    });
+
+
+function refresh(){
+
+        $('#asset_provider_table').DataTable().ajax.reload();
+    }
+    
+</script>
+{% endblock %}

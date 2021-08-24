@@ -1,7 +1,7 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.asset_schema import CreateAsset
+from schemas.asset_schema import CreateAsset, UpdateAsset
 from models.asset_model import Asset
 from database import get_db
 # from dependencies import get_token
@@ -53,9 +53,9 @@ def add(asset: CreateAsset, db: Session = Depends(get_db)):
         print(e)
 
 @router.put('/{id}')
-def update(id: str, asset: CreateAsset, db: Session = Depends(get_db)): 
+def update(id: str, asset: UpdateAsset, db: Session = Depends(get_db)): 
     if not db.query(Asset).filter(Asset.asset_id == id).update({
-        'asset_provider_id': asset.asset_number,
+        'asset_provider_id': asset.asset_provider_id,
         'asset_type_id': asset.asset_type_id,
         # 'user_id': asset.user_id,
         # 'department_id': asset.department_id,

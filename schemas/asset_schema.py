@@ -22,6 +22,10 @@ class AssetBase(BaseModel):
 class CreateAsset(AssetBase):
     pass
 
+class UpdateAsset(AssetBase):
+    asset_status: str
+    
+
 #Schema for response body
 class Asset(AssetBase):
     created_at: dt

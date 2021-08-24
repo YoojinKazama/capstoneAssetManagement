@@ -4,6 +4,17 @@
 {% block title %}Asset - Dashboard{% endblock %}
 {% block title_header %} <h3> Asset </h3>{% endblock %}
 
+{% block breadcrumb%}
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
+    <li class="breadcrumb-item"><a href="#"> Asset Management</a></li>
+    <li class="breadcrumb-item active">Assets</li>
+  </ol>
+</div>  
+{% endblock %}
+
 {%block content%}
 
 <div style="margin-bottom: 10px;">
@@ -11,6 +22,7 @@
   Add Asset
 </button>
 </div>
+
 
 
 <div class="card card-primary card-outline">
