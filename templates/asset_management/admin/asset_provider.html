@@ -1,6 +1,10 @@
 <!-- Apply layout from base.html -->
 {%extends 'base.html'%} 
 
+{%block plugins_css%}
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+{%endblock%}
+
 {% block title %}Asset Provider{% endblock %}
 {% block title_header %} <h3> Asset Provider</h3>{% endblock %}
 
@@ -9,7 +13,7 @@
   <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
-    <li class="breadcrumb-item"><a href="#"> Asset Management</a></li>
+    <li class="breadcrumb-item"><a href="/asset_management/"> Asset Management</a></li>
     <li class="breadcrumb-item active">Asset Provider</li>
   </ol>
 </div>  
@@ -85,7 +89,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+        <button type="button" class="btn btn-primary" id="addAssetProviderBtn">Submit</button>
       </div>
     </div>
   </div>
@@ -179,7 +183,11 @@
 
 {%endblock%}
 
+
+
 {% block scripts%}
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+
 <script>
 
 $(document).ready(function () {
@@ -282,6 +290,8 @@ $(document).on("click", "#editAssetProviderBtn", function(e){
             success: function(data){
             document.getElementById("editAssetProviderForm").reset();
             $('#editAssetProvider').modal('hide');
+
+            toastr.success('Asset Provider edited successfully')
             
             refresh();
             }
@@ -299,13 +309,14 @@ $(document).on("click", ".btn_delete", function(){
             dataType: "JSON",
         
             success: function(data){
-               refresh();
+              toastr.info('Asset Provider deleted successfully')
+              refresh();
             }
         // ajax closing tag
         })
     });
 
-$(document).on("click", "#addAssetTypeBtn", function(e){
+$(document).on("click", "#addAssetProviderBtn", function(e){
 
     e.preventDefault();
 
@@ -328,6 +339,8 @@ $(document).on("click", "#addAssetTypeBtn", function(e){
             $('#addAssetProvider').modal('hide');
             
             refresh();
+
+            toastr.success('Asset Provider added successfully')
             }
         })
     });

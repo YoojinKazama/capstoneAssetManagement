@@ -1,6 +1,10 @@
 <!-- Apply layout from base.html -->
 {%extends 'base.html'%} 
 
+{%block plugins_css%}
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+{%endblock%}
+
 {% block title %}Asset Category{% endblock %}
 {% block title_header %} <h3> Asset Category</h3>{% endblock %}
 
@@ -9,7 +13,7 @@
   <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
-    <li class="breadcrumb-item"><a href="#"> Asset Management</a></li>
+    <li class="breadcrumb-item"><a href="/asset_management/"> Asset Management</a></li>
     <li class="breadcrumb-item active">Asset Category</li>
   </ol>
 </div>  
@@ -167,6 +171,8 @@
 {%endblock%}
 
 {% block scripts%}
+
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
 <script>
 
 $(document).ready(function () {
@@ -266,7 +272,9 @@ $(document).on("click", "#editAssetTypeBtn", function(e){
             success: function(data){
             document.getElementById("addAssetTypeForm").reset();
             $('#editAssetType').modal('hide');
-            
+
+
+            toastr.success('Asset Category edited successfully')
             refresh();
             }
         })
@@ -283,6 +291,8 @@ $(document).on("click", ".btn_delete", function(){
             dataType: "JSON",
         
             success: function(data){
+
+              toastr.info('Asset Category deleted successfully')
                refresh();
             }
         // ajax closing tag
@@ -309,7 +319,8 @@ $(document).on("click", "#addAssetTypeBtn", function(e){
             success: function(data){
             document.getElementById("addAssetTypeForm").reset();
             $('#addAssetType').modal('hide');
-            
+
+            toastr.success('Asset Category added successfully')
             refresh();
             }
         })

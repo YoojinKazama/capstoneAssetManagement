@@ -53,7 +53,7 @@ def add(asset: CreateAsset, db: Session = Depends(get_db)):
         print(e)
 
 @router.put('/{id}')
-def update(id: str, asset: UpdateAsset, db: Session = Depends(get_db)): 
+def update(id: str, asset: CreateAsset, db: Session = Depends(get_db)): 
     if not db.query(Asset).filter(Asset.asset_id == id).update({
         'asset_provider_id': asset.asset_provider_id,
         'asset_type_id': asset.asset_type_id,
@@ -67,7 +67,6 @@ def update(id: str, asset: UpdateAsset, db: Session = Depends(get_db)):
         'asset_serial': asset.asset_serial,
         'asset_acquisition': asset.asset_acquisition,
         'acquisition_date': asset.acquisition_date,
-        'asset_status': asset.asset_status,
     }):
         raise HTTPException(404, 'asset to update is not found')
     db.commit()
