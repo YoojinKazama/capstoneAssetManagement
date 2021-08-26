@@ -7,10 +7,20 @@ from sqlalchemy.orm import Session
 from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route
 from database import get_db
 from models import asset_model
-import json
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [""]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=["*"],
+)
+
 
 # Register template folder
 template = Jinja2Templates('templates')
