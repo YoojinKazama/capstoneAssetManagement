@@ -1,6 +1,7 @@
 <!-- Apply layout from base.html -->
 {%extends 'base.html'%} 
 
+
 {% block title %}Asset View{% endblock %}
 {% block title_header %} <div id="view_title"> </div>{% endblock %}
 
@@ -39,51 +40,61 @@
     <div class="card-body">
     
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3 border-top border-left border-right">
                 <label for="asset_title">Asset Title</label><br>
                 <span name="asset_title" id="asset_title" > </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 border-top border-right">
                 <label for="asset_number">Asset Number</label><br>
                 <span name="asset_number" id="asset_number" > </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 border-top border-right">
+                <label for="asset_type">Category</label><br>
+                <span  name="asset_type" id="asset_type" > </span>
+            </div>
+            <div class="col-md-3 border-top border-right">
                 <label for="asset_status">Status</label><br>
                 <span  name="asset_status" id="asset_status" > </span>
             </div>
         </div> 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 border-top border-left">
                 <label for="asset_acquisition">Acquisiton</label><br>
                 <span name="asset_acquisition" id="asset_acquisition" > </span>
             </div>
-            <div class="col-md-4">
-                <label for="acquisition_date">Acquisiton Date</label><br>
+            <div class="col-md-4 border">
+                <label for="acquisition_date" >Acquisiton Date</label><br>
                 <span  name="acquisition_date" id="acquisition_date" > </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 border-top border-right">
                 <label for="asset_cost">Cost</label><br>
                 <span  name="asset_cost" id="asset_cost" > </span>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 border-top border-left">
                 <label for="asset_brand">Brand</label><br>
                 <span name="asset_brand" id="asset_brand" > </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 border-left border-right">
                 <label for="asset_model">Model</label><br>
                 <span  name="asset_model" id="asset_model" > </span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 border-top border-right">
                 <label for="asset_serial">Serial</label><br>
                 <span  name="asset_serial" id="asset_serial" > </span>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 border">
                 <label for="asset_description">Description</label><br>
                 <span name="asset_description" id="asset_description" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 border-bottom border-left border-right">
+                <label for="created_by">Created by</label><br>
+                <span name="created_by" id="created_by" > </span>
             </div>
         </div>
     </div>
@@ -95,16 +106,18 @@
     </div>
     <div class="card-body">
         <span hidden name="routeIdView" id="routeIdView" > </span>
-        <div>
-            <label for="asset_provider_name">Provider:</label><br>
-            <span name="asset_provider_name" id="asset_provider_name" > </span>
+        <div class="row">
+            <div class = "col-md-12 border">
+                <label for="asset_provider_name">Provider:</label><br>
+                <span name="asset_provider_name" id="asset_provider_name" > </span>
+            </div>
         </div>
         <div class="row">
-            <div class = "col-md-6">
+            <div class = "col-md-6 border-left border-right border-bottom">
                 <label for="asset_provider_contact">Contact:</label><br>
                 <span  name="asset_provider_contact" id="asset_provider_contact" > </span>
             </div>
-            <div class = "col-md-6">
+            <div class = "col-md-6 border-right border-bottom">
                 <label for="asset_provider_email">Email:</label><br>
                 <span name="asset_provider_email" id="asset_provider_email" > </span> 
             </div>
@@ -204,7 +217,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 ">
                         <label for="asset_brand">Brand</label>
                         <input  class="form-control" name="edit_asset_brand" id="edit_asset_brand"  >
                     </div>
@@ -298,6 +311,7 @@ $(document).ready(function () {
                     $("#view_title").append( "<h3>" + asset_info.asset_title + "</h3>" );
 
                     $("#asset_title").html(asset_info.asset_title );
+                    $("#asset_type").html(asset_info.asset_type.asset_type_title );
                     $("#asset_number").html(asset_info.asset_number );
                     $("#asset_cost").html("₱" + asset_info.asset_cost);
                     $("#asset_acquisition").html( asset_info.asset_acquisition);

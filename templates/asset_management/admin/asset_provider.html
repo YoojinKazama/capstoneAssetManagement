@@ -303,7 +303,7 @@ $(document).on("click", ".btn_delete", function(){
         // console.log(id);
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Provider' + id,
+            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
             type: "DELETE",
             data: { id: id },
             dataType: "JSON",
