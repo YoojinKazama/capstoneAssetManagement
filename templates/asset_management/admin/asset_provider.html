@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'base.html'%} 
+{%extends 'admin_base.html'%} 
 
 {%block plugins_css%}
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
@@ -193,7 +193,7 @@
 $(document).ready(function () {
     $("#asset_provider_table").dataTable({
 
-        ajax: "http://127.0.0.1:8000/Asset_Provider/",
+        ajax: "/asset_management/api/Asset_Provider/",
         columns: [
                 { data: "asset_provider_id"},
                 { data: "asset_provider_name" },
@@ -222,7 +222,7 @@ $(document).on("click", ".btn_view", function(){
       var id = this.value;
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
+            url: '/asset_management/api/Asset_Provider/' + id,
             type: "GET",
             data: { id: id },
             dataType: "JSON",
@@ -246,7 +246,7 @@ $(document).on("click", ".btn_view", function(){
       var id = this.value;
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
+            url: '/asset_management/api/Asset_Provider/' + id,
             type: "GET",
             data: { id: id },
             dataType: "JSON",
@@ -281,7 +281,7 @@ $(document).on("click", "#editAssetProviderBtn", function(e){
     encoded = JSON.stringify(form)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset_Provider/' + id,
+            url:'/asset_management/api/Asset_Provider/' + id,
             type: "PUT",
             data: encoded,
             dataType: "JSON",
@@ -303,7 +303,7 @@ $(document).on("click", ".btn_delete", function(){
         // console.log(id);
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Provider/' + id,
+            url: '/asset_management/api/Asset_Provider/' + id,
             type: "DELETE",
             data: { id: id },
             dataType: "JSON",
@@ -328,7 +328,7 @@ $(document).on("click", "#addAssetProviderBtn", function(e){
     encoded = JSON.stringify(form)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset_Provider/',
+            url:'/asset_management/api/Asset_Provider/',
             type: "POST",
             data: encoded,
             dataType: "JSON",

@@ -8,7 +8,7 @@ from database import get_db
 
 
 router = APIRouter(
-    prefix='/Asset_Type',
+    prefix='/asset_management/api/Asset_Type',
     tags=['Asset_Type'],
     # dependencies=[Depends(get_token)]
 )

@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datatables import DataTable
 from sqlalchemy.orm import Session
-from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route
+from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route
 from database import get_db
 from models import asset_model
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,7 +29,7 @@ template = Jinja2Templates('templates')
 app.mount('/static', StaticFiles(directory='static'), name='static')
 
 # Register Routes
-# app.include_router(authRoutes.router)
+app.include_router(auth_route.router)
 app.include_router(asset_route.router)
 app.include_router(asset_type_route.router)
 app.include_router(asset_provider_route.router)
@@ -37,6 +37,14 @@ app.include_router(maintenance_provider_route.router)
 app.include_router(maintenance_route.router)
 
 
+
+@app.get("/", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/login.html", {"request": request})
+
+@app.get("/forbidden", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/forbidden.html", {"request": request})
 
 @app.get("/asset_management/", response_class=HTMLResponse)
 def dashboard(request: Request,):

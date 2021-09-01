@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'base.html'%} 
+{%extends 'admin_base.html'%} 
 
 {%block plugins_css%}
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
@@ -159,7 +159,7 @@
 $(document).ready(function () {
     $("#asset_table").dataTable({
 
-        ajax: "http://127.0.0.1:8000/Asset/",
+        ajax: "/asset_management/api/Asset/",
         columns: [
                 { data: "asset_id"},
                 { data: "asset_number"},
@@ -203,7 +203,7 @@ $(document).on("click", ".btn_view", function(){
 $(document).on("click", ".add_asset", function(){
 
       $.ajax({
-      url: 'http://127.0.0.1:8000/Asset_Type/',
+      url: '/asset_management/api/Asset_Type/',
       type: "GET",
       dataType: "JSON",
 
@@ -219,7 +219,7 @@ $(document).on("click", ".add_asset", function(){
         $('#asset_type').html(html);
 
             $.ajax({
-                url: 'http://127.0.0.1:8000/Asset_Provider/',
+                url: '/asset_management/api/Asset_Provider/',
                 type: "GET",
                 dataType: "JSON",
 
@@ -263,7 +263,7 @@ $(document).on("click", "#addAssetBtn", function(e){
     console.log(encoded)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset/',
+            url:'/asset_management/api/Asset/',
             type: "POST",
             data: encoded,
             dataType: "JSON",
@@ -282,7 +282,7 @@ $(document).on("click", "#addAssetBtn", function(e){
 $(document).on("click", ".btn_view", function(){
         var id = this.value;
 
-        window.location.href = "http://127.0.0.1:8000/asset_management/asset/"+ id + "/view";
+        window.location.href = "/asset_management/api/asset/"+ id + "/view";
     });
 
 

@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'base.html'%} 
+{%extends 'admin_base.html'%} 
 
 {%block plugins_css%}
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
@@ -178,7 +178,7 @@
 $(document).ready(function () {
     $("#asset_type_table").dataTable({
 
-        ajax: "http://127.0.0.1:8000/Asset_Type/",
+        ajax: "/asset_management/api/Asset_Type/",
         columns: [
                 { data: "asset_type_id"},
                 { data: "asset_type_title" },
@@ -206,7 +206,7 @@ $(document).on("click", ".btn_view", function(){
       var id = this.value;
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            url: '/asset_management/api/Asset_Type/' + id,
             type: "GET",
             data: { id: id },
             dataType: "JSON",
@@ -230,7 +230,7 @@ $(document).on("click", ".btn_view", function(){
       var id = this.value;
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            url: '/asset_management/api/Asset_Type/' + id,
             type: "GET",
             data: { id: id },
             dataType: "JSON",
@@ -263,7 +263,7 @@ $(document).on("click", "#editAssetTypeBtn", function(e){
     encoded = JSON.stringify(form)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset_Type/' + id,
+            url:'/asset_management/api/Asset_Type/' + id,
             type: "PUT",
             data: encoded,
             dataType: "JSON",
@@ -285,7 +285,7 @@ $(document).on("click", ".btn_delete", function(){
         // console.log(id);
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset_Type/' + id,
+            url: '/asset_management/api/Asset_Type/' + id,
             type: "DELETE",
             data: { id: id },
             dataType: "JSON",
@@ -310,7 +310,7 @@ $(document).on("click", "#addAssetTypeBtn", function(e){
     encoded = JSON.stringify(form)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset_Type/',
+            url:'/asset_management/api/Asset_Type/',
             type: "POST",
             data: encoded,
             dataType: "JSON",

@@ -1,6 +1,9 @@
 <!-- Apply layout from base.html -->
-{%extends 'base.html'%} 
+{%extends 'admin_base.html'%} 
 
+{%block plugins_css%}
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+{%endblock%}
 
 {% block title %}Asset View{% endblock %}
 {% block title_header %} <div id="view_title"> </div>{% endblock %}
@@ -253,12 +256,13 @@
 {%endblock%}
 
 {% block scripts%}
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
 <script>
 
 function editDropdowns(){
 
     $.ajax({
-      url: 'http://127.0.0.1:8000/Asset_Type/',
+      url: '/asset_management/api/Asset_Type/',
       type: "GET",
       dataType: "JSON",
 
@@ -274,7 +278,7 @@ function editDropdowns(){
         $('#edit_asset_type').html(html);
 
             $.ajax({
-                url: 'http://127.0.0.1:8000/Asset_Provider/',
+                url: '/asset_management/api/Asset_Provider/',
                 type: "GET",
                 dataType: "JSON",
 
@@ -296,10 +300,10 @@ function editDropdowns(){
     })
 }
 
-$(document).ready(function () {
-        var id = "{{id}}"
+function assetDetails(){
+var id = "{{id}}"
         $.ajax({
-                url: 'http://127.0.0.1:8000/Asset/' + id,
+                url: '/asset_management/api/Asset/' + id,
                 type: "GET",
                 data: { id: id },
                 dataType: "JSON",
@@ -308,7 +312,7 @@ $(document).ready(function () {
                     var asset_info = data.data;
                     console.log(asset_info);
 
-                    $("#view_title").append( "<h3>" + asset_info.asset_title + "</h3>" );
+                    $("#view_title").html( "<h3>" + asset_info.asset_title + "</h3>" );
 
                     $("#asset_title").html(asset_info.asset_title );
                     $("#asset_type").html(asset_info.asset_type.asset_type_title );
@@ -333,12 +337,13 @@ $(document).ready(function () {
                     
                 }
         });
-    });
+}
 
+assetDetails()
 editDropdowns()
 $(document).on("click", ".editAsset", function(){
         $.ajax({
-                url: 'http://127.0.0.1:8000/Asset/' + "{{id}}",
+                url: '/asset_management/api/Asset/' + "{{id}}",
                 type: "GET",
                 dataType: "JSON",
             
@@ -384,16 +389,18 @@ $(document).on("click", "#editAssetBtn", function(e){
     console.log(encoded)
 
         $.ajax({
-            url:'http://127.0.0.1:8000/Asset/' + "{{id}}",
+            url:'/asset_management/api/Asset/' + "{{id}}",
             type: "PUT",
             data: encoded,
             dataType: "JSON",
             contentType: "application/json",
 
             success: function(data){
-            window.location.href = "http://127.0.0.1:8000/asset_management/asset/"+"{{id}}"+ "/view";
-            
-            refresh();
+
+            assetDetails()
+            $('#editAsset').modal('hide');
+            toastr.success('Asset edited successfully')
+
             }
         })
     });
@@ -401,13 +408,13 @@ $(document).on("click", "#editAssetBtn", function(e){
 $(document).on("click", "#asset_delete", function(){
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/Asset/' + "{{id}}",
+            url: '/asset_management/api/Asset/' + "{{id}}",
             type: "DELETE",
             dataType: "JSON",
         
             success: function(data){
 
-              window.location.href = "http://127.0.0.1:8000/asset_management/asset/"
+              window.location.href = "/asset_management/asset/"
             }
         // ajax closing tag
         })
