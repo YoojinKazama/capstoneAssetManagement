@@ -18,6 +18,11 @@ def all(db: Session = Depends(get_db)):
     asset = db.query(Asset).filter(Asset.active_status == "Active").all()
     return {'data': asset}
 
+@router.get('/creation')
+def creation(db: Session = Depends(get_db)):
+    asset = db.query(Asset).order_by(Asset.created_at.desc()).first()
+    return {'data': asset}
+
 @router.get('/{id}')
 def read(id: str, db: Session = Depends(get_db)):
     asset = db.query(Asset).filter(Asset.asset_id == id).first()
@@ -28,7 +33,7 @@ def read(id: str, db: Session = Depends(get_db)):
 @router.post('/')
 def add(asset: CreateAsset, db: Session = Depends(get_db)):
     try:
-        asset_type = Asset(
+        asset_schema = Asset(
             
             asset_provider_id = asset.asset_provider_id,
             asset_type_id = asset.asset_type_id,
@@ -44,16 +49,18 @@ def add(asset: CreateAsset, db: Session = Depends(get_db)):
             asset_acquisition = asset.asset_acquisition,
             acquisition_date = asset.acquisition_date,
             # asset_status = asset.asset_status,
+            created_by = asset.created_by,
 
         )
-        db.add(asset_type)
+
+        db.add(asset_schema)
         db.commit()
         return {'message': 'asset created successfully.'}
     except Exception as e:
         print(e)
 
 @router.put('/{id}')
-def update(id: str, asset: CreateAsset, db: Session = Depends(get_db)): 
+def update(id: str, asset: UpdateAsset, db: Session = Depends(get_db)): 
     if not db.query(Asset).filter(Asset.asset_id == id).update({
         'asset_provider_id': asset.asset_provider_id,
         'asset_type_id': asset.asset_type_id,
@@ -80,4 +87,6 @@ def remove(id: str, db: Session = Depends(get_db)):
         raise HTTPException(404, 'asset to delete is not found')
     db.commit()
     return {'message': 'asset removed successfully.'}
+
+
 

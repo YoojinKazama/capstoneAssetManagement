@@ -45,6 +45,7 @@
                 <th>ID</th>
                 <th>Asset No.</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Serial</th>
@@ -72,37 +73,38 @@
             <form id="addAssetForm">
                 <div class="form-row">
                     <div class="form-group col-sm-12">
-                        <label for="asset_title">Title</label>
-                        <input class="form-control" name="asset_title" id="asset_title"  >
+                        <label for="asset_title">Title</label><label style="color: red;"> *</label>
+                        <input required class="form-control" name="asset_title" id="asset_title"  >
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-6">
-                        <label for="asset_type">Category</label>
-                        <select name="asset_type" id="asset_type" class="form-control">
+                        <label for="asset_type">Category</label><label style="color: red;"> *</label>
+                        <select required name="asset_type" id="asset_type" class="form-control">
                             
                         </select>
                     </div>
                     <div class="form-group col-sm-6">
-                        <label for="asset_provider">Asset Provider</label>
-                        <select name="asset_provider" id="asset_provider" class="form-control">
+                        <label for="asset_provider">Asset Provider</label><label style="color: red;"> *</label>
+                        <select required name="asset_provider" id="asset_provider" class="form-control">
                             
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-6">
-                        <label for="asset_cost">Cost</label>
+                        <label for="asset_cost">Cost</label><label style="color: red;"> *</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">₱</div>
                             </div>
-                            <input type="number"  class="form-control" name="asset_cost" id="asset_cost"  >
+                            <input required type="number"  class="form-control" name="asset_cost" id="asset_cost"  >
                         </div>
                     </div>
                     <div class="form-group col-sm-6">
-                        <label for="asset_acquisition">Acquisition</label>
-                        <select name="asset_acquisition" id="asset_acquisition" class="form-control">
+                        <label for="asset_acquisition">Acquisition</label><label style="color: red;"> *</label>
+                        <select required name="asset_acquisition" id="asset_acquisition" class="form-control">
+                            <option value="">- - Select - -</option>
                             <option value="Bought">Bought</option>
                             <option value="Donated">Donated</option>
                         </select>
@@ -110,8 +112,8 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-12">
-                        <label for="acquisition_date">Acquisition Date</label>
-                        <input type="date" class="form-control" name="acquisition_date" id="acquisition_date" >
+                        <label for="acquisition_date">Acquisition Date</label><label style="color: red;"> *</label>
+                        <input required type="date" class="form-control" name="acquisition_date" id="acquisition_date" >
                     </div>
                 </div>
                 <div class="form-row">
@@ -135,13 +137,12 @@
                         </textarea>
                     </div>
                 <div>
-                
-            </form>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="addAssetBtn">Submit</button>
+        <input type="submit" class="btn btn-primary" id="addAssetBtn">
+        </form>
       </div>
     </div>
   </div>
@@ -164,12 +165,13 @@ $(document).ready(function () {
                 { data: "asset_id"},
                 { data: "asset_number"},
                 { data: "asset_title"},
+                { data: "asset_type.asset_type_title"},
                 { data: "asset_brand"},
                 { data: "asset_model" },
                 { data: "asset_serial" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){
-                            return '<span class="badge badge-success">Available</span>'
+                            return '<div class="text-center"><span class="badge badge-success">Available</span></div>'
                         }   
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -179,8 +181,11 @@ $(document).ready(function () {
                 },
                 { data: "active_status", render: function(data, type, row){
                         if(data == "Active"){
-                            return '<div class="btn-group">'+
-                                    '<button class="btn btn-primary btn-sm btn_view" value="'+row.asset_id+'" title="View" type="button" ><i class="zmdi zmdi-eye"></i>View</button> </div>'       
+                            return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                              '<div class="dropdown-menu dropdown-menu-right">' +
+                                  '<div class="dropdown-item d-flex btn_view" id="'+ row.asset_id +'" role="button">' +
+                                    '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
+                                    '<div>View Asset</div></div></div></div>';
                         }   
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -194,12 +199,6 @@ $(document).ready(function () {
         })
     });
 
-$(document).on("click", ".btn_view", function(){
-        var id = this.value;
-        console.log(id);
-
-    });
-
 $(document).on("click", ".add_asset", function(){
 
       $.ajax({
@@ -211,6 +210,13 @@ $(document).on("click", ".add_asset", function(){
         var asset_type = data.data;
 
         var html = ""
+
+        if(asset_type.length == 0){
+              var html = `<option value=""> - - No Category - - </option>`;
+            }
+            else{
+              var html = `<option value=""> - - Select Category - - </option>`;
+            }
 
         for(var i=0; i < asset_type.length; i++){
           html += `<option value="${asset_type[i].asset_type_id}">${asset_type[i].asset_type_title}</option>`
@@ -228,6 +234,13 @@ $(document).on("click", ".add_asset", function(){
 
                     var html = ""
 
+                    if(asset_provider.length == 0){
+                      var html = `<option value=""> - - No Provider - - </option>`;
+                    }
+                    else{
+                      var html = `<option value=""> - - Select Provider - - </option>`;
+                    }
+
                     for(var i=0; i < asset_provider.length; i++){
                     html += `<option value="${asset_provider[i].asset_provider_id}">${asset_provider[i].asset_provider_name}</option>`
                     }
@@ -242,7 +255,7 @@ $(document).on("click", ".add_asset", function(){
   });
 
 
-$(document).on("click", "#addAssetBtn", function(e){
+$("#addAssetForm").on("submit", function(e){
 
       e.preventDefault();
 
@@ -256,11 +269,11 @@ $(document).on("click", "#addAssetBtn", function(e){
                 asset_model: $(asset_model).val(),
                 asset_serial: $(asset_serial).val(),
                 asset_acquisition: $(asset_acquisition).val(),
-                acquisition_date: new Date($(acquisition_date).val())
+                acquisition_date: new Date($(acquisition_date).val()),
+                created_by: sessionStorage.getItem("id")
                 };
 
     encoded = JSON.stringify(form)
-    console.log(encoded)
 
         $.ajax({
             url:'/asset_management/api/Asset/',
@@ -273,16 +286,50 @@ $(document).on("click", "#addAssetBtn", function(e){
             document.getElementById("addAssetForm").reset();
             $('#addAsset').modal('hide');
             toastr.success('Asset added successfully')
+
+              
+            $.ajax({
+                url:'/asset_management/api/Asset/creation',
+                type: "GET",
+                dataType: "JSON",
+                contentType: "application/json",
+
+                success: function(data){
+
+                  asset_info = data.data
+
+                  event = {
+                    asset_id : asset_info.asset_id,
+                    event_title : "Creation",
+                    event_message: "Created by " + sessionStorage.getItem("name")
+                  }
+
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(event),
+                    dataType: "JSON",
+                    contentType: "application/json",
+
+                    success: function(data){
+                    console.log("EVENT CREATED")
+
+                    
+                    refresh();
+                    }
+                })
+                
+                }
+            })
             
-            refresh();
             }
         })
     });
 
 $(document).on("click", ".btn_view", function(){
-        var id = this.value;
+        var id = this.id;
 
-        window.location.href = "/asset_management/api/asset/"+ id + "/view";
+        window.location.href = "/asset_management/asset/"+ id + "/view";
     });
 
 

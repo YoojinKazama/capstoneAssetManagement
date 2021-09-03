@@ -28,13 +28,13 @@
     <!-- BLOCK FOR EXTRA STYLES -->
     {%block styles%}
     {%endblock%}
+  
 
 </head>
 
 
   
     <body class="hold-transition login-page bg-white">
-    <div class = "card">
         <div class="login-box">
           <div class="login-logo">
             <a href=""><b>HM</b>CMS</a>
@@ -44,9 +44,9 @@
             <div class="card-body login-card-body">
               <p class="login-box-msg">Sign in to start your session</p>
 
-              <form id="login_form">
+              <form id="login_form" class = "needs-validation" novalidate>
                 <div class="input-group mb-3">
-                  <input type="email" id="login_email" class="form-control" placeholder="Email">
+                  <input required type="email" id="login_email" class="form-control" placeholder="Email">
                   <div class="input-group-append">
                     <div class="input-group-text">
                       <span class="fas fa-envelope"></span>
@@ -54,7 +54,7 @@
                   </div>
                 </div>
                 <div class="input-group mb-3">
-                  <input type="password" id="login_password" class="form-control" placeholder="Password">
+                  <input required type="password" id="login_password" class="form-control" placeholder="Password">
                   <div class="input-group-append">
                     <div class="input-group-text">
                       <span class="fas fa-lock"></span>
@@ -72,7 +72,7 @@
                   </div>
                   <!-- /.col -->
                   <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" id="loginBtn" class="btn btn-primary btn-block">Sign In</button>
                   </div>
                   <!-- /.col -->
                 </div>
@@ -81,13 +81,8 @@
               <p class="mb-1">
                 <a href="#">I forgot my password</a>
               </p>
-              <p class="mb-0">
-                <a href="#" class="text-center">Register a new membership</a>
-              </p>
-
             <!-- /.login-card-body -->
           </div>
-        </div>
         </div>
         <!-- /.login-box -->
 
@@ -133,9 +128,29 @@
 
 
     <script>
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+            });
+        }, false);
+        })();
+
       $(document).ready(function(){
 
-          $('#login_form').on('submit', function(e){
+        $(document).on("submit", function(e){
             e.preventDefault()
 
             let formData = {
@@ -166,6 +181,7 @@
 
               sessionStorage.setItem("id", user.user_id);
               sessionStorage.setItem("email", user.user_email);
+              sessionStorage.setItem("name", user.user_name);
               sessionStorage.setItem("type", user.user_type);
 
               console.log(sessionStorage.getItem("id"))

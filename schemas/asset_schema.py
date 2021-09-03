@@ -1,3 +1,4 @@
+from typing import Optional
 from datetime import datetime as dt
 from pydantic import BaseModel
 
@@ -9,21 +10,22 @@ class AssetBase(BaseModel):
     # asset_number : int
     asset_cost : int
     asset_title : str
-    asset_description : str
-    asset_brand : str
-    asset_model : str
-    asset_serial : str
+    asset_description : Optional [str] = None
+    asset_brand : Optional [str] = None
+    asset_model : Optional [str] = None
+    asset_serial : Optional [str] = None
     asset_acquisition : str
     acquisition_date : dt
+    
     # asset_status : str
 
 
 # Schema for request body
 class CreateAsset(AssetBase):
-    pass
+    created_by : str
 
 class UpdateAsset(AssetBase):
-    asset_status: str
+    pass
     
 
 #Schema for response body

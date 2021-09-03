@@ -23,19 +23,19 @@
 {%block content%}
 
 <div class="btn-group" style="margin-bottom: 10px">
-    <button type="button" class="btn btn-info editAsset" data-toggle="modal" data-target="#editAsset">Edit Asset</button>
+    <button type="button" class="btn btn-info editAsset" data-toggle="modal" data-target="#editAsset"><i class="fas fa-edit"></i>&nbsp; &nbsp;Edit</button>
     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
         <span class="sr-only">Toggle Dropdown</span>
     </button>
         <div class="dropdown-menu" role="menu">
-            <a class="dropdown-item" href="#">Check out</a>
-            <a class="dropdown-item" href="#">Repair</a>
-            <a class="dropdown-item" href="#">Broken</a>
-            <a class="dropdown-item" href="#">Missing</a>
-            <a class="dropdown-item" href="#">Sell</a>
-            <a class="dropdown-item" href="#">Dispose</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" style="color: red" href="#" id="asset_delete" >Delete</a>
+            <a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>
         </div>
     </div>
 
@@ -131,33 +131,33 @@
 <div class="row">
 
 <div class="col-12 col-md-12">
-    <div class="card card-primary card-tabs">
-        <div class="card-header p-0 pt-1">
-        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+    <div class="card card-primary card-outline card-tabs">
+        <div class="card-header p-0 pt-1 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
             <li class="nav-item">
-            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Maintenance</a>
+            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Events</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Events</a>
+            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Maintenance</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Warranty</a>
+            <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Warranty</a>
             </li>
         </ul>
         </div>
         <div class="card-body">
-        <div class="tab-content" id="custom-tabs-one-tabContent">
-            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+        <div class="tab-content" id="custom-tabs-three-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                {%include 'asset_management/admin/timeline.html'%} 
             </div>
-            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+            <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
                 Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
             </div>
-            <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+            <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
                 Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
             </div>
         </div>
-    </div>
+        </div>
 </div>
 
 <!-- MODALS -->
@@ -178,19 +178,19 @@
                 <div class="form-row">
                     <div class="form-group col-sm-12">
                         <label for="edit_asset_title">Title</label>
-                        <input class="form-control" name="edit_asset_title" id="edit_asset_title"  >
+                        <input required class="form-control" name="edit_asset_title" id="edit_asset_title"  >
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-6">
                         <label for="edit_asset_type">Category</label>
-                        <select name="edit_asset_type" id="edit_asset_type" class="form-control">
+                        <select required name="edit_asset_type" id="edit_asset_type" class="form-control">
                             
                         </select>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="edit_asset_provider">Asset Provider</label>
-                        <select name="edit_asset_provider" id="edit_asset_provider" class="form-control">
+                        <select required name="edit_asset_provider" id="edit_asset_provider" class="form-control">
                             
                         </select>
                     </div>
@@ -202,12 +202,13 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">₱</div>
                             </div>
-                            <input type="number"  class="form-control" name="edit_asset_cost" id="edit_asset_cost"  >
+                            <input required type="number"  class="form-control" name="edit_asset_cost" id="edit_asset_cost"  >
                         </div>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="edit_asset_acquisition">Acquisition</label>
-                        <select name="edit_asset_acquisition" id="edit_asset_acquisition" class="form-control">
+                        <select required name="edit_asset_acquisition" id="edit_asset_acquisition" class="form-control">
+                            <option value="">- - Select - -</option>
                             <option value="Bought">Bought</option>
                             <option value="Donated">Donated</option>
                         </select>
@@ -216,7 +217,7 @@
                 <div class="form-row">
                     <div class="form-group col-sm-12">
                         <label for="acquisition_date">Acquisition Date</label>
-                        <input type="date" class="form-control" name="edit_acquisition_date" id="edit_acquisition_date" >
+                        <input required type="date" class="form-control" name="edit_acquisition_date" id="edit_acquisition_date" >
                     </div>
                 </div>
                 <div class="form-row">
@@ -240,13 +241,12 @@
                         </textarea>
                     </div>
                 <div>
-                
-            </form>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="editAssetBtn">Submit</button>
+        <input type="submit" class="btn btn-primary" id="editAssetBtn">            
+        </form>
       </div>
     </div>
   </div>
@@ -257,6 +257,7 @@
 
 {% block scripts%}
 <script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
 <script>
 
 function editDropdowns(){
@@ -270,6 +271,13 @@ function editDropdowns(){
         var asset_type = data.data;
 
         var html = ""
+
+        if(asset_type.length == 0){
+              var html = `<option value=""> - - No Category - - </option>`;
+            }
+        else{
+            var html = `<option value=""> - - Select Category - - </option>`;
+        }
 
         for(var i=0; i < asset_type.length; i++){
           html += `<option value="${asset_type[i].asset_type_id}">${asset_type[i].asset_type_title}</option>`
@@ -286,6 +294,13 @@ function editDropdowns(){
                     var asset_provider = data.data;
 
                     var html = ""
+
+                    if(asset_provider.length == 0){
+                      var html = `<option value=""> - - No Provider - - </option>`;
+                    }
+                    else{
+                      var html = `<option value=""> - - Select Provider - - </option>`;
+                    }
 
                     for(var i=0; i < asset_provider.length; i++){
                     html += `<option value="${asset_provider[i].asset_provider_id}">${asset_provider[i].asset_provider_name}</option>`
@@ -319,11 +334,12 @@ var id = "{{id}}"
                     $("#asset_number").html(asset_info.asset_number );
                     $("#asset_cost").html("₱" + asset_info.asset_cost);
                     $("#asset_acquisition").html( asset_info.asset_acquisition);
-                    $("#acquisition_date").html(new Date(asset_info.acquisition_date).toISOString().slice(0, 10));
+                    $("#acquisition_date").html(moment(asset_info.acquisition_date).format('LL'));
                     $("#asset_model").html(asset_info.asset_model);
                     $("#asset_brand").html(asset_info.asset_brand);
                     $("#asset_serial").html(asset_info.asset_serial);
                     $("#asset_description").html(asset_info.asset_description);
+                    $("#created_by").html(asset_info.user.user_name);
 
                     if (asset_info.asset_status == "Available"){
                         $("#asset_status").html("Available");
@@ -371,7 +387,9 @@ $(document).on("click", ".editAsset", function(){
         });
     });
 
-$(document).on("click", "#editAssetBtn", function(e){
+$("#editAssetForm").on("submit", function(e){
+
+    e.preventDefault();
 
     form =  { asset_provider_id: $(edit_asset_provider).val(),
                 asset_type_id: $(edit_asset_type).val(),
@@ -397,10 +415,28 @@ $(document).on("click", "#editAssetBtn", function(e){
 
             success: function(data){
 
-            assetDetails()
-            $('#editAsset').modal('hide');
-            toastr.success('Asset edited successfully')
+                event = {
+                    asset_id : "{{id}}",
+                    event_title : "Edited",
+                    event_message: "Edited by " + sessionStorage.getItem("name")
+                  }
 
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(event),
+                    dataType: "JSON",
+                    contentType: "application/json",
+
+                    success: function(data){
+                    console.log("EVENT CREATED")
+
+                    assetDetails()
+                    load_event()
+                    $('#editAsset').modal('hide');
+                    toastr.success('Asset edited successfully')
+                    }
+                })
             }
         })
     });
@@ -421,5 +457,67 @@ $(document).on("click", "#asset_delete", function(){
         
     });
 
+function load_event(){
+        $.ajax({
+        url: '/asset_management/api/Event/' + "{{id}}",
+        type: "GET",
+        dataType: "JSON",
+
+        success: function(data){
+            var event = data.data;
+
+            var html = ""
+
+
+            for(var i=0; i < event.length; i++){
+
+                if (event[i].event_title == "Creation"){
+
+                    html += 
+                    '<div class="time-label">' +
+                        '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
+                    '</div>' +
+                    '<div>' +
+                    '<i class="fas fa-plus bg-primary"></i>' +
+                    '<div class="timeline-item">' +
+                    '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
+                    '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
+                    '<div class="timeline-body">' +
+                        event[i].event_message +
+                    '</div>' +
+                    '</div>' +
+                '</div> <div><i class="fas fa-clock bg-gray"></i></div>'
+                }
+
+                if (event[i].event_title == "Edited"){
+                    if ( i  == 0 || new Date(event[i + 1].created_at) >= new Date(event[i].created_at) ) {
+                        html += 
+                    '<div class="time-label">' +
+                        '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
+                    '</div>'
+                    }
+                        html += 
+                        '<div>' +
+                        '<i class="fas fa-edit bg-info"></i>' +
+                        '<div class="timeline-item">' +
+                        '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
+                        '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
+                        '<div class="timeline-body">' +
+                            event[i].event_message +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                }
+
+
+            }
+         $('.timeline').html(html);
+            
+
+        }
+        })
+
+    }
+    load_event()
 </script>
 {% endblock %}

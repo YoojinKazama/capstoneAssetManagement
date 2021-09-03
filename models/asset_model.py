@@ -25,6 +25,8 @@ class Asset(Base):
     active_status = Column(String(255), nullable=True, default=('Active'))
     created_at = Column(DateTime, default=text('NOW()'))
     updated_at = Column(DateTime, onupdate=text('NOW()'))
+    created_by = Column(String(60), ForeignKey('users.user_id'))
 
     asset_provider = relationship('Asset_provider', back_populates='asset', lazy='joined')
     asset_type = relationship('Asset_Type', back_populates='asset', lazy='joined')
+    user = relationship('User', back_populates='asset', lazy='joined')

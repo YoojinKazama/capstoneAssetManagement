@@ -15,3 +15,5 @@ class User(Base):
     active_status = Column(String(255), nullable=True, default=('Active'))
     created_at = Column(DateTime, default=text('NOW()'))
     updated_at = Column(DateTime, onupdate=text('NOW()'))
+
+    asset = relationship('Asset')

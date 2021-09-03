@@ -45,6 +45,7 @@
                 <th>ID</th>
                 <th>Category Title</th>
                 <th>Description</th>
+                <th>Date Created</th>
                 <th>Action</th>
               </tr>
               </thead>
@@ -67,9 +68,9 @@
         <div class="card-body">
             <form id="addAssetTypeForm">
                 <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="asset_type_title">Category name</label>
-                        <input class="form-control" name="asset_type_title" id="asset_type_title"  >
+                    <div class="form-group col-sm-12 ">
+                        <label for="asset_type_title">Category name</label><label style="color: red;"> *</label>
+                        <input required class="form-control" name="asset_type_title" id="asset_type_title"  >
                     </div>
                 </div>
                 <div class="form-row">
@@ -79,11 +80,11 @@
                         </textarea>
                     </div>
                 </div>
-            </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="addAssetTypeBtn">Submit</button>
+          <input type="submit" class="btn btn-primary" id="addAssetTypeBtn">
+          </form>
         </div>
       </div>
     </div>
@@ -142,10 +143,10 @@
         <div class="card-body">
             <form id="editAssetType">
                 <div class="form-row">
+                      <input hidden class="form-control" name="edit_asset_type_id" id="edit_asset_type_id" >
                     <div class="form-group col-sm-12">
-                        <input hidden class="form-control" name="edit_asset_type_id" id="edit_asset_type_id" >
-                        <label for="edit_asset_type_title">Category name</label> <br>
-                        <input type="text" class="form-control" name="edit_asset_type_title" id="edit_asset_type_title"  >
+                        <label for="edit_asset_type_title">Category name</label><label style="color: red;"> *</label> <br>
+                        <input required type="text" class="form-control" name="edit_asset_type_title" id="edit_asset_type_title"  >
                     </div>
                 </div>
                 <div class="form-row">
@@ -155,12 +156,13 @@
                         </textarea>
                     </div>
                 </div>
-            </form>
+            
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="editAssetTypeBtn">Save</button>
+        <input type="submit" class="btn btn-primary">
+        </form>
       </div>
     </div>
   </div>
@@ -173,6 +175,8 @@
 {% block scripts%}
 
 <script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script>
 
 $(document).ready(function () {
@@ -183,12 +187,24 @@ $(document).ready(function () {
                 { data: "asset_type_id"},
                 { data: "asset_type_title" },
                 { data: "description" },
+                { data: "created_at", render:function(data){
+                    return moment(data).format('LL')
+                  } 
+                },
                 { data: "active_status", render: function(data, type, row){
                         if(data == "Active"){
-                            return '<div class="btn-group">'+
-                                    '<button class="btn btn-primary btn-sm btn_view" value="'+row.asset_type_id+'" title="View" type="button" ><i class="zmdi zmdi-eye"></i>View</button> &nbsp'+
-                                    '<button class="btn btn-info btn-sm btn_edit" value="'+row.asset_type_id+'" title="Edit" type="button" ><i class="zmdi zmdi-edit"></i>Edit</button> &nbsp'+
-                                    '<button class="btn btn-danger btn-sm btn_delete" value="'+row.asset_type_id+'" title="Delete" type="button"> <i class="zmdi zmdi-delete"></i>Delete</button></div> &nbsp';
+                            return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                              '<div class="dropdown-menu dropdown-menu-right">' +
+                                  '<div class="dropdown-item d-flex btn_view" id="'+ row.asset_type_id +'" role="button">' +
+                                    '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
+                                    '<div>View Category</div></div>' +
+                                    '<div class="dropdown-item d-flex btn_edit" id="'+ row.asset_type_id +'" role="button">' +
+                                      '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
+                                      '<div>Edit Category</div></div>' +
+                                      '<div class="dropdown-divider"</div></div>' +
+                                      '<div class="dropdown-item d-flex btn_delete" id="'+ row.asset_type_id +'" role="button">' +
+                                        '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
+                                        '<div style="color: red">Delete Category</div></div></div></div>';
                         }  
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -203,7 +219,7 @@ $(document).ready(function () {
     });
 
 $(document).on("click", ".btn_view", function(){
-      var id = this.value;
+      var id = this.id;
 
         $.ajax({
             url: '/asset_management/api/Asset_Type/' + id,
@@ -227,7 +243,7 @@ $(document).on("click", ".btn_view", function(){
     });
 
   $(document).on("click", ".btn_edit", function(){
-      var id = this.value;
+      var id = this.id;
 
         $.ajax({
             url: '/asset_management/api/Asset_Type/' + id,
@@ -250,7 +266,7 @@ $(document).on("click", ".btn_view", function(){
         })
     });
 
-$(document).on("click", "#editAssetTypeBtn", function(e){
+$("#editAssetType").on("submit", function(e){
 
     e.preventDefault();
 
@@ -281,7 +297,7 @@ $(document).on("click", "#editAssetTypeBtn", function(e){
     });
 
 $(document).on("click", ".btn_delete", function(){
-        var id = this.value;
+        var id = this.id;
         // console.log(id);
 
         $.ajax({
@@ -299,7 +315,7 @@ $(document).on("click", ".btn_delete", function(){
         })
     });
 
-$(document).on("click", "#addAssetTypeBtn", function(e){
+$("#addAssetTypeForm").on("submit", function(e){
 
     e.preventDefault();
 
