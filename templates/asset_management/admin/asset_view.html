@@ -251,7 +251,8 @@
     </div>
   </div>
 
-
+{% block footer%}
+{% endblock %}
 <!-- /MODALS -->
 {%endblock%}
 
@@ -472,11 +473,13 @@ function load_event(){
             for(var i=0; i < event.length; i++){
 
                 if (event[i].event_title == "Creation"){
-
-                    html += 
+                    if ( moment(event[i - 1].created_at).format('LL') <  moment(event[i].created_at).format('LL') || moment(event[i - 1].created_at).format('LL') >  moment(event[i].created_at).format('LL') ) {
+                        html += 
                     '<div class="time-label">' +
                         '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
-                    '</div>' +
+                    '</div>'}
+
+                    html += 
                     '<div>' +
                     '<i class="fas fa-plus bg-primary"></i>' +
                     '<div class="timeline-item">' +
@@ -490,7 +493,7 @@ function load_event(){
                 }
 
                 if (event[i].event_title == "Edited"){
-                    if ( i  == 0 || new Date(event[i + 1].created_at) >= new Date(event[i].created_at) ) {
+                    if ( i  == 0 ||  moment(event[i - 1].created_at).format('LL') >  moment(event[i].created_at).format('LL') ) {
                         html += 
                     '<div class="time-label">' +
                         '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +

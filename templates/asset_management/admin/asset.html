@@ -49,6 +49,7 @@
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Serial</th>
+                <th>Created At</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -168,6 +169,7 @@ $(document).ready(function () {
                 { data: "asset_type.asset_type_title"},
                 { data: "asset_brand"},
                 { data: "asset_model" },
+                { data: "created_at" },
                 { data: "asset_serial" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){
@@ -194,7 +196,8 @@ $(document).ready(function () {
                     
                 },
         ],
-        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
+        "order": [[6, "desc"]]
         
         })
     });
