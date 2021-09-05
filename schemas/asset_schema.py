@@ -26,7 +26,10 @@ class CreateAsset(AssetBase):
 
 class UpdateAsset(AssetBase):
     pass
-    
+
+class UpdateStatus(BaseModel):
+    asset_remarks : str
+    asset_status : str
 
 #Schema for response body
 class Asset(AssetBase):

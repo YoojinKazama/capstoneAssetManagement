@@ -27,15 +27,8 @@
     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
         <span class="sr-only">Toggle Dropdown</span>
     </button>
-        <div class="dropdown-menu" role="menu">
-            <a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>
+        <div class="dropdown-menu edit-status" role="menu">
+            
         </div>
     </div>
 
@@ -100,6 +93,12 @@
                 <span name="created_by" id="created_by" > </span>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12 border-bottom border-left border-right">
+                <label for="asset_remarks">Remarks</label><br>
+                <span name="asset_remarks" id="asset_remarks" > </span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -161,6 +160,8 @@
 </div>
 
 <!-- MODALS -->
+
+
 
 <!-- EDIT ASSET -->
 <div class="modal fade" id="editAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -250,15 +251,52 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
+  </div>
 
-{% block footer%}
-{% endblock %}
+<div class="modal fade" id="missingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Lost/Missing Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="missingForm">
+            <div class="form-row">
+                <input hidden value="{{id}}" type="text" class="form-control" name="missing_asset_id" id="missing_asset_id" >
+                <div class="form-group col-sm-12">
+                    <label for="missing_date">Date Lost</label>
+                    <input required type="date" class="form-control" name="missing_date" id="missing_date" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-12">
+                    <label for="missing_remarks">Remarks</label>
+                    <input class="form-control" name="missing_remarks" id="missing_remarks">
+                </div>
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+
 <!-- /MODALS -->
 {%endblock%}
 
 {% block scripts%}
 <script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
 <script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/asset_management/event.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/asset_management/status.js')}}"></script>
 <script>
 
 function editDropdowns(){
@@ -341,9 +379,29 @@ var id = "{{id}}"
                     $("#asset_serial").html(asset_info.asset_serial);
                     $("#asset_description").html(asset_info.asset_description);
                     $("#created_by").html(asset_info.user.user_name);
+                    $("#asset_remarks").html(asset_info.asset_remarks);
 
                     if (asset_info.asset_status == "Available"){
-                        $("#asset_status").html("Available");
+                        $("#asset_status").html('<span class="badge badge-success">Available</span>');
+                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<div class="dropdown-divider"></div>' +
+                                                '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
+                    }
+                    if (asset_info.asset_status == "Missing"){
+                        $("#asset_status").html('<span class="badge badge-warning">Missing</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
+                                                '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<div class="dropdown-divider"></div>' +
+                                                '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
 
                     //ASSET_PROVIDER
@@ -416,7 +474,7 @@ $("#editAssetForm").on("submit", function(e){
 
             success: function(data){
 
-                event = {
+                events = {
                     asset_id : "{{id}}",
                     event_title : "Edited",
                     event_message: "Edited by " + sessionStorage.getItem("name")
@@ -425,7 +483,7 @@ $("#editAssetForm").on("submit", function(e){
                     $.ajax({
                     url:'/asset_management/api/Event/',
                     type: "POST",
-                    data: JSON.stringify(event),
+                    data: JSON.stringify(events),
                     dataType: "JSON",
                     contentType: "application/json",
 
@@ -433,7 +491,7 @@ $("#editAssetForm").on("submit", function(e){
                     console.log("EVENT CREATED")
 
                     assetDetails()
-                    load_event()
+                    load_event("{{id}}")
                     $('#editAsset').modal('hide');
                     toastr.success('Asset edited successfully')
                     }
@@ -458,69 +516,41 @@ $(document).on("click", "#asset_delete", function(){
         
     });
 
-function load_event(){
-        $.ajax({
-        url: '/asset_management/api/Event/' + "{{id}}",
-        type: "GET",
-        dataType: "JSON",
+    $(document).on("click", ".undo-missing", function(){
+         $.ajax({
+             url: '/asset_management/api/missing_asset/' + "{{id}}",
+             type: "DELETE",
+             dataType: "JSON",
+        
+             success: function(data){
 
-        success: function(data){
-            var event = data.data;
+                events = {
+                    asset_id : "{{id}}",
+                    event_title : "Undo Missing",
+                    event_message: "Updated by " + sessionStorage.getItem("name")
+                  }
+    
+                $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(events),
+                    dataType: "JSON",
+                    contentType: "application/json",
 
-            var html = ""
+                    success: function(data){
+                    console.log("EVENT CREATED")
 
-
-            for(var i=0; i < event.length; i++){
-
-                if (event[i].event_title == "Creation"){
-                    if ( moment(event[i - 1].created_at).format('LL') <  moment(event[i].created_at).format('LL') || moment(event[i - 1].created_at).format('LL') >  moment(event[i].created_at).format('LL') ) {
-                        html += 
-                    '<div class="time-label">' +
-                        '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
-                    '</div>'}
-
-                    html += 
-                    '<div>' +
-                    '<i class="fas fa-plus bg-primary"></i>' +
-                    '<div class="timeline-item">' +
-                    '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
-                    '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
-                        event[i].event_message +
-                    '</div>' +
-                    '</div>' +
-                '</div> <div><i class="fas fa-clock bg-gray"></i></div>'
-                }
-
-                if (event[i].event_title == "Edited"){
-                    if ( i  == 0 ||  moment(event[i - 1].created_at).format('LL') >  moment(event[i].created_at).format('LL') ) {
-                        html += 
-                    '<div class="time-label">' +
-                        '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
-                    '</div>'
+                    assetDetails()
+                    load_event("{{id}}")
+                    toastr.success('Asset edited successfully')
                     }
-                        html += 
-                        '<div>' +
-                        '<i class="fas fa-edit bg-info"></i>' +
-                        '<div class="timeline-item">' +
-                        '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
-                        '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                        '<div class="timeline-body">' +
-                            event[i].event_message +
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
-                }
+                })
+             }
+         // ajax closing tag
+         })
+        
+    });
 
-
-            }
-         $('.timeline').html(html);
-            
-
-        }
-        })
-
-    }
-    load_event()
+    load_event("{{id}}")
 </script>
 {% endblock %}

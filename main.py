@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from datatables import DataTable
 from sqlalchemy.orm import Session
 from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
+from routes import missing_asset_route
 from database import get_db
 from models import asset_model
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,6 +37,7 @@ app.include_router(asset_provider_route.router)
 app.include_router(maintenance_provider_route.router)
 app.include_router(maintenance_route.router)
 app.include_router(event_route.router)
+app.include_router(missing_asset_route.router)
 
 
 
