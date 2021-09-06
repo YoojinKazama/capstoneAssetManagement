@@ -53,4 +53,4 @@ def remove(id: str, db: Session = Depends(get_db)):
         'asset_status': 'Available',
     })
     db.commit()
-    return {'message': 'asset provider removed successfully.'}
+    return {'message': 'asset status removed successfully.'}

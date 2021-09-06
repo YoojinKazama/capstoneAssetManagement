@@ -31,7 +31,7 @@
 function filter_user(){
 user_type = sessionStorage.getItem("type")
   if (user_type == null){
-    window.location.href = "/";
+    window.location.href = "/forbidden/";
   }
   else if (user_type != "Equipment Manager"){
    window.location.href = "/forbidden/";
@@ -69,7 +69,21 @@ filter_user()
     <!-- /.navbar-nav -->
 
     <!-- Right navbar links -->
-    
+  <ul class="navbar-nav ml-auto">
+
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fa fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" id="logoutBtn">
+            <i class="fas fa-file mr-2"></i> Log out
+          </a>
+        </div>
+      </li>
+    </ul>
     <!-- /.navbar-nav -->
   </nav>
   <!-- /.navbar -->
@@ -92,7 +106,7 @@ filter_user()
           <img src="{{url_for('static', path='/dist/img/user2-160x160.jpg')}}" class="img-circle border" alt="User Image">
         </div>
         <div class="info mr-1">
-          <a href="#" class="d-block text-truncate">Alexander Pierce With A Long Surname</a>
+          <a href="#" class="d-block text-truncate" id="profile_name"></a>
         </div>
       </div>
 
@@ -241,5 +255,22 @@ filter_user()
     {%block scripts%}
     {%endblock%}
 
+<script>
+$(document).ready(function () {
+
+  $("#profile_name").html(sessionStorage.getItem("name"));
+
+});
+
+$(document).on("click", "#logoutBtn", function(){
+  sessionStorage.setItem("type", "");
+  sessionStorage.setItem("id", "");
+  sessionStorage.setItem("email", "");
+  sessionStorage.setItem("name", "");
+  sessionStorage.setItem("type", "");
+  
+  window.location.href = '/login'
+  });
+</script>
 </body>
 </html>

@@ -32,12 +32,13 @@ def register(request: CreateUser, db: Session = Depends(get_db)):
             user_password = request.user_password,
             user_type = "Equipment Manager",
         )
-        # else:
-        #     user = User(
-        #         user_type = request.user_type,
-        #         user_email = request.user_email,
-        #         user_password = request.user_password
-        #     )
+        else:
+            user = User(
+                user_name = request.user_name,
+                user_type = request.user_type,
+                user_email = request.user_email,
+                user_password = request.user_password
+            )
         db.add(user)
         db.commit()
         return {'message': 'Registered Successfully!'}

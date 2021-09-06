@@ -29,6 +29,17 @@
     {%block styles%}
     {%endblock%}
   
+  <script>
+
+  function filter_user(){
+  user_type = sessionStorage.getItem("type")
+    if (user_type == "Equipment Manager"){
+    window.location.href = "/asset_management/";
+    }
+  }
+  filter_user()
+
+  </script>
 
 </head>
 
@@ -194,13 +205,13 @@
                     window.location.href = '/asset_management/'
                   },2000)
                 }
-                else if(user.user_types.title == "Admin"){
+                else if(user.user_type == "Employee"){
                   setInterval(function(){
-                    window.location.href = '/forbidden/';
+                    window.location.href = '/asset_management/user/on_hand_assets';
                   },2000)
                   
                 }
-                else if(user.user_types.title == "HR"){
+                else if(user.user_type == "HR"){
                   setInterval(function(){
                     window.location.href = '/forbidden/';
                   },2000)

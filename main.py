@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from datatables import DataTable
 from sqlalchemy.orm import Session
 from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
-from routes import missing_asset_route
+from routes import missing_asset_route, asset_request_route
 from database import get_db
 from models import asset_model
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,6 +38,8 @@ app.include_router(maintenance_provider_route.router)
 app.include_router(maintenance_route.router)
 app.include_router(event_route.router)
 app.include_router(missing_asset_route.router)
+app.include_router(asset_request_route.router)
+
 
 
 
@@ -68,4 +70,12 @@ def get_asset(request: Request,):
 @app.get("/asset_management/asset/{id}/view", response_class=HTMLResponse)
 def get_asset(request: Request, id: str):
     return template.TemplateResponse("asset_management/admin/asset_view.html", {"request": request, "id": id})
+
+@app.get("/asset_management/user/on_hand_assets", response_class=HTMLResponse)
+def get_asset(request: Request,):
+    return template.TemplateResponse("asset_management/user/on_hand_assets.html", {"request": request})
+
+@app.get("/asset_management/user/request_assets", response_class=HTMLResponse)
+def get_asset(request: Request,):
+    return template.TemplateResponse("asset_management/user/request_assets.html", {"request": request})
     

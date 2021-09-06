@@ -15,3 +15,4 @@ class Asset_Type(Base):
     updated_at = Column(DateTime, onupdate=text('NOW()'))
 
     asset = relationship('Asset')
+   

@@ -9,7 +9,7 @@ class Missing_Asset(Base):
 
     missing_id = Column(String(36), primary_key=True, default=text('UUID()'))
     asset_id = Column(String(36), ForeignKey('assets.asset_id'), nullable=True)
-    remarks = Column(String(255), nullable=True)
+    remarks = Column(Text, nullable=True)
     missing_date = Column(DateTime, nullable=True)
     active_status = Column(String(255), nullable=True, default=('Active'))
     created_at = Column(DateTime, default=text('NOW()'))
