@@ -55,6 +55,10 @@ def dashboard(request: Request,):
 def dashboard(request: Request,):
     return template.TemplateResponse("asset_management/admin/dashboard.html", {"request": request})
 
+@app.get("/asset_management/requests", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/admin/request_assets.html", {"request": request})
+
 @app.get("/asset_management/asset_type", response_class=HTMLResponse)
 def dashboard(request: Request,):
     return template.TemplateResponse("asset_management/admin/asset_type.html", {"request": request})
@@ -70,6 +74,9 @@ def get_asset(request: Request,):
 @app.get("/asset_management/asset/{id}/view", response_class=HTMLResponse)
 def get_asset(request: Request, id: str):
     return template.TemplateResponse("asset_management/admin/asset_view.html", {"request": request, "id": id})
+
+
+#-------------USER----------------#
 
 @app.get("/asset_management/user/on_hand_assets", response_class=HTMLResponse)
 def get_asset(request: Request,):

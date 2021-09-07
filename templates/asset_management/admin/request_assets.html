@@ -1,4 +1,4 @@
-{%extends 'asset_management/user/user_base.html'%}
+{%extends 'asset_management/admin/admin_base.html'%}
 
 <!-- Apply layout from base.html -->
 
@@ -14,21 +14,13 @@
   <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
-    <li class="breadcrumb-item"><a href="/asset_management"> Asset Management</a></li>
-    <li class="breadcrumb-item active">Request Assets</li>
+    <li class="breadcrumb-item"><a href="/asset_management/"> Asset Management</a></li>
+    <li class="breadcrumb-item active">Asset Requests</li>
   </ol>
-</div>  
+</div> 
 {% endblock %}
 
 {%block content%}
-
-<div style="margin-bottom: 10px;">
-<button type="button" class="btn btn-primary request_asset" data-toggle="modal" data-target="#requestAsset">
-  Request Asset
-</button>
-</div>
-
-
 
 <div class="card card-primary card-outline">
 
@@ -59,56 +51,6 @@
           <!-- /.card-body -->
 </div>
 <!-- MODALS -->
-
-<div class="modal fade" id="requestAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Asset</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
-            <form id="requestAssetForm">
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="asset_type">Category</label><label style="color: red;"> *</label>
-                        <select required name="asset_type" id="asset_type" class="form-control">
-                            
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="request_brand">Brand</label>
-                        <input  class="form-control" name="request_brand" id="request_brand"  >
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="request_model">Model</label>
-                        <input  class="form-control" name="request_model" id="request_model"  >
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="request_description">Request Description</label>
-                        <textarea required rows="2" cols="50" class="form-control" name="request_description" id="request_description">
-                        </textarea>
-                    </div>
-                <div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="addRequestBtn">
-        </form>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
-</div>
 
 
 <!-- VIEW -->
@@ -187,26 +129,18 @@
                   <div class="form-row">
                       <div class="form-group col-sm-12">
                         <input hidden class="form-control" name="request_id" id="request_id"  >
-                          <label for="edit_asset_type">Category</label><label style="color: red;"> *</label>
-                          <select required name="edit_asset_type" id="edit_asset_type" class="form-control">
-                              
+                          <label for="request_status">Status</label><label style="color: red;"> *</label>
+                          <select required name="request_status" id="request_status" class="form-control">
+                              <option value="Pending">Pending</option>
+                              <option value="Approved">Approved</option>
+                              <option value="Rejected">Rejected</option>
                           </select>
                       </div>
                   </div>
                   <div class="form-row">
-                      <div class="form-group col-sm-6">
-                          <label for="edit_request_brand">Brand</label>
-                          <input  class="form-control" name="edit_request_brand" id="edit_request_brand"  >
-                      </div>
-                      <div class="form-group col-sm-6">
-                          <label for="edit_request_model">Model</label>
-                          <input  class="form-control" name="edit_request_model" id="edit_request_model"  >
-                      </div>
-                  </div>
-                  <div class="form-row">
                       <div class="form-group col-sm-12">
-                          <label for="edit_request_description">Request Description</label>
-                          <textarea required rows="2" cols="50" class="form-control" name="edit_request_description" id="edit_request_description">
+                          <label for="request_remark">Remark</label>
+                          <textarea required rows="2" cols="50" class="form-control" name="request_remark" id="request_remark">
                           </textarea>
                       </div>
                   <div>
@@ -233,9 +167,8 @@
 <script>
 
 $(document).ready(function () {
-  id = sessionStorage.getItem("id")
     $("#request_table").dataTable({
-        ajax: "/asset_management/api/Request_asset/requests_by_employee/" + id,
+        ajax: "/asset_management/api/Request_asset/",
         columns: [
                 { data: "request_id"},
                 { data: "asset_type.asset_type_title"},
@@ -257,20 +190,12 @@ $(document).ready(function () {
                       else if(data == "Rejected"){
                         return '<div class="text-center"><span class="badge badge-warning">Rejected</span></div>'
                     }
-                      
                   }
                 },
                 { data: "active_status", render: function(data, type, row){
                       if(data == "Active"){
                         var html = ""
-                        if (row.request_status == "Approved"){
-                          html += '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
-                          '<div class="dropdown-menu dropdown-menu-right">' +
-                          '<div class="dropdown-item d-flex btn_view" id="'+ row.request_id +'" role="button">' +
-                          '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
-                          '<div>View Request</div></div></div></div>' }
-                        else{
-                          html += '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                        html += '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
                             '<div class="dropdown-menu dropdown-menu-right">' +
                             '<div class="dropdown-item d-flex btn_view" id="'+ row.request_id +'" role="button">' +
                             '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
@@ -278,14 +203,7 @@ $(document).ready(function () {
                             '<div class="dropdown-item d-flex btn_edit" id="'+ row.request_id +'" role="button">' +
                             '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
                             '<div>Edit Request</div></div>' + 
-                            '<div class="dropdown-divider"</div></div>' +
-                            '<div class="dropdown-item d-flex btn_delete" id="'+ row.request_id +'" role="button">' +
-                            '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
-                            '<div style="color: red">Delete Category</div></div></div></div>'
-                            '<div class="dropdown-item d-flex btn_delete" id="'+ row.request_id +'" role="button">' +
-                            '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
-                            '<div style="color: red">Delete Request</div></div></div></div>'
-                        }
+                            '</div></div></div>'
                         return html
                     }   
                       else{
@@ -297,68 +215,6 @@ $(document).ready(function () {
         "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
         "order": [[6, "desc"]]
         
-        })
-    });
-
-$(document).ready(function () {
-
-      $.ajax({
-      url: '/asset_management/api/Asset_Type/',
-      type: "GET",
-      dataType: "JSON",
-
-      success: function(data){
-        var asset_type = data.data;
-
-        var html = ""
-
-        if(asset_type.length == 0){
-              var html = `<option value=""> - - No Category - - </option>`;
-            }
-            else{
-              var html = `<option value=""> - - Select Category - - </option>`;
-            }
-
-        for(var i=0; i < asset_type.length; i++){
-          html += `<option value="${asset_type[i].asset_type_id}">${asset_type[i].asset_type_title}</option>`
-        }
-        $('#edit_asset_type').html(html);
-        $('#asset_type').html(html);
-        
-
-      }
-    })
-  });
-
-
-$("#requestAssetForm").on("submit", function(e){
-
-      e.preventDefault();
-
-    
-    form =  { 
-                asset_type_id: $(asset_type).val(),
-                request_brand: $(request_brand).val(),
-                request_model: $(request_model).val(),
-                request_description: $(request_description).val(),
-                request_status: "Pending",
-                created_by: sessionStorage.getItem("id")
-                };
-
-        $.ajax({
-            url:'/asset_management/api/Request_asset/',
-            type: "POST",
-            data: JSON.stringify(form),
-            dataType: "JSON",
-            contentType: "application/json",
-
-            success: function(data){
-            document.getElementById("requestAssetForm").reset();
-            $('#requestAsset').modal('hide');
-            refresh()
-            toastr.success('Request added successfully')
-            }
-
         })
     });
 
@@ -375,7 +231,16 @@ $(document).on("click", ".btn_view", function(){
               var requestInfo = data.data;
 
               $('#view_asset_type').html(requestInfo.asset_type.asset_type_title);
-              $('#view_request_status').html(requestInfo.request_status);
+              
+              if (requestInfo.request_status == "Approved"){
+                $('#view_request_status').html('<span class="badge badge-success">Approved</span>');
+              }
+              if (requestInfo.request_status == "Pending"){
+                $('#view_request_status').html('<span class="badge badge-info">Pending</span>');
+              }
+              if (requestInfo.request_status == "Rejected"){
+                $('#view_request_status').html('<span class="badge badge-warning">Rejected</span>');
+              }
               $('#view_request_brand').html(requestInfo.request_brand);
               $('#view_request_model').html(requestInfo.request_model);
               $('#view_request_description').html(requestInfo.request_description);
@@ -401,11 +266,8 @@ $(document).on("click", ".btn_view", function(){
             var requestInfo = data.data;
 
             $('#request_id').val(requestInfo.request_id);
-            $('#edit_asset_type').val(requestInfo.asset_type_id);
-            $('#edit_request_brand').val(requestInfo.request_brand);
-            $('#edit_request_model').val(requestInfo.request_model);
-            $('#edit_request_description').val(requestInfo.request_description);
-            $('#edit_request_remark').val(requestInfo.request_remark);
+            $('#request_status').val(requestInfo.request_status);
+            $('#request_remark').val(requestInfo.request_remark);
 
             $('#editRequest').modal('show');
         }
@@ -421,15 +283,13 @@ $(document).on("click", ".btn_view", function(){
   id = $(request_id).val()
 
   form =  { 
-        asset_type_id: $(edit_asset_type).val(),
-        request_brand: $(edit_request_brand).val(),
-        request_model: $(edit_request_model).val(),
-        request_description: $(edit_request_description).val(),
-        request_status: "Pending",
+        request_status: $(request_status).val(),
+        request_remark: $(request_remark).val(),
+        updated_by: sessionStorage.getItem("id")
         };
 
       $.ajax({
-          url:'/asset_management/api/Request_asset/' + id,
+          url:'/asset_management/api/Request_asset/update_status/' + id,
           type: "PUT",
           data: JSON.stringify(form),
           dataType: "JSON",
@@ -444,25 +304,6 @@ $(document).on("click", ".btn_view", function(){
 
       })
   });
-
-  $(document).on("click", ".btn_delete", function(){
-    var id = this.id;
-    // console.log(id);
-
-    $.ajax({
-        url: '/asset_management/api/Request_asset/' + id,
-        type: "DELETE",
-        data: { id: id },
-        dataType: "JSON",
-    
-        success: function(data){
-
-          toastr.info('Request deleted successfully')
-           refresh();
-        }
-    // ajax closing tag
-    })
-});
 
 
 function refresh(){

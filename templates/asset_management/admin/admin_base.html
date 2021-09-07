@@ -126,35 +126,55 @@ filter_user()
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-header">ASSET MANAGEMENT</li>
-          <li class="nav-item">
-            <a href="/asset_management/" class="nav-link" id="dashboard_sidebar">
-              <script>if(window.location.pathname == '/asset_management/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
-              <i class="nav-icon fas fa-chart-line"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
-              <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')}</script>
-              <i class="fas fa-tags"></i>
-              <p>Asset</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
-            <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')}</script>
-              <i class="fas fa-tags"></i>
-              <p>Asset Category</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
-            <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')}</script>
-              <i class="fas fa-tags"></i>
-              <p>Asset Providers</p>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a href="/asset_management/" class="nav-link" id="dashboard_sidebar">
+                <script>if(window.location.pathname == '/asset_management/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            <li class="nav-item" id="asset_sidebar_dropdown">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tags"></i>
+                <p>
+                  Assets
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
+                    <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')
+                                                                                      document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
+                    <i class="fas fa-stream"></i>
+                    <p>List of Assets</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
+                  <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')
+                                                                                        document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
+                    <i class="fas fa-box"></i>
+                    <p>Asset Category</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
+                  <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')
+                                                                                            document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
+                    <i class="fas fa-handshake"></i>
+                    <p>Asset Providers</p>
+                  </a>
+                </li>
+            </li>
         </ul>
+        <li class="nav-item">
+          <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
+          <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>
+            <i class="fas fa-hand-holding-heart"></i>
+            <p>Requests</p>
+          </a>
+        </li>
       </nav>
       <!-- /.sidebar-menu -->
 
