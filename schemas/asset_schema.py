@@ -7,7 +7,6 @@ class AssetBase(BaseModel):
     asset_type_id : str
     # user_id : str
     # department_id : str
-    # asset_number : int
     asset_cost : int
     asset_title : str
     asset_description : Optional [str] = None

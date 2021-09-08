@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Text, DateTime, text
+from sqlalchemy import Integer, String, Text, DateTime, Numeric, text
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
@@ -13,7 +13,7 @@ class Asset(Base):
     user_id = Column(String(60), ForeignKey('users.user_id'), nullable=True)
     # department_id = Column(String(60), ForeignKey('user.user_id'), nullable=True)
     asset_number = Column(Integer, nullable=True)
-    asset_cost = Column(Integer, nullable=True)
+    asset_cost = Column(Numeric, nullable=True)
     asset_title = Column(String(255), nullable=True)
     asset_description = Column(Text, nullable=True)
     asset_brand = Column(String(255), nullable=True)

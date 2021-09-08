@@ -30,11 +30,8 @@
 
 function filter_user(){
 user_type = sessionStorage.getItem("type")
-  if (user_type == null){
+  if (user_type == null || user_type == "Employee"){
     window.location.href = "/forbidden/";
-  }
-  else if (user_type != "Equipment Manager"){
-   window.location.href = "/forbidden/";
   }
 }
 filter_user()

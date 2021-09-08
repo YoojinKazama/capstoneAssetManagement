@@ -200,7 +200,7 @@
               console.log(sessionStorage.getItem("type"))
 
 
-              if(user.user_type == "Equipment Manager"){
+              if(user.user_type == "Equipment Manager" || user.user_type == "Admin" ){
                   setInterval(function(){
                     window.location.href = '/asset_management/'
                   },2000)

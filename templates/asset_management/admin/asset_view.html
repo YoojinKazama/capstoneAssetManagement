@@ -273,41 +273,7 @@
   </div>
   </div>
   
-  <div class="modal fade" id="missingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Lost/Missing Asset</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-            <form id="missingForm">
-                <div class="form-row">
-                    <input hidden value="{{id}}" type="text" class="form-control" name="missing_asset_id" id="missing_asset_id" >
-                    <div class="form-group col-sm-12">
-                        <label for="missing_date">Date Lost</label>
-                        <input required type="date" class="form-control" name="missing_date" id="missing_date" >
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="missing_remarks">Remarks</label>
-                        <input class="form-control" name="missing_remarks" id="missing_remarks">
-                    </div>
-                </div>           
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="submit" value="Save" class="btn btn-primary">
-            </form>
-        </div>
-      </div>
-    </div>
-    </div>
-    </div>
+{% include 'asset_management/admin/status_modals.html' %}
 
 
 <!-- Confirm Delete Modal -->
@@ -402,6 +368,7 @@ function editDropdowns(){
 
 function assetDetails(){
 var id = "{{id}}"
+$(".created_by_id").val(sessionStorage.getItem("id"));
         $.ajax({
                 url: '/asset_management/api/Asset/' + id,
                 type: "GET",
@@ -426,6 +393,7 @@ var id = "{{id}}"
                     $("#asset_description").html(asset_info.asset_description);
                     $("#created_by").html(asset_info.created_by_details.user_name);
                     $("#asset_remarks").html(asset_info.asset_remarks);
+                    $(".current_status").val(asset_info.asset_status);
 
                     if (asset_info.asset_status == "Available"){
                         $("#asset_status").html('<span class="badge badge-success">Available</span>');
@@ -433,7 +401,7 @@ var id = "{{id}}"
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
                                                 '<div class="dropdown-divider"></div>' +
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
@@ -444,7 +412,19 @@ var id = "{{id}}"
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
-                                                '<a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<div class="dropdown-divider"></div>' +
+                                                '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
+                    }
+
+                    if (asset_info.asset_status == "Sold"){
+                        $("#asset_status").html('<span class="badge badge-info" >Sold</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
+                                                '<a class="dropdown-item undo-sold" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Undo Sold</a>' +
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
                                                 '<div class="dropdown-divider"></div>' +
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
@@ -570,7 +550,7 @@ $(document).on("click", "#asset_delete", function(){
 
     $(document).on("click", ".undo-missing", function(){
          $.ajax({
-             url: '/asset_management/api/missing_asset/' + "{{id}}",
+             url: '/asset_management/api/missing_asset/undo/' + "{{id}}",
              type: "DELETE",
              dataType: "JSON",
         
@@ -602,6 +582,41 @@ $(document).on("click", "#asset_delete", function(){
          })
         
     });
+
+    $(document).on("click", ".undo-sold", function(){
+        $.ajax({
+            url: '/asset_management/api/sell_asset/undo/' + "{{id}}",
+            type: "DELETE",
+            dataType: "JSON",
+       
+            success: function(data){
+
+               events = {
+                   asset_id : "{{id}}",
+                   event_title : "Undo Sold",
+                   event_message: "Updated by " + sessionStorage.getItem("name")
+                 }
+   
+               $.ajax({
+                   url:'/asset_management/api/Event/',
+                   type: "POST",
+                   data: JSON.stringify(events),
+                   dataType: "JSON",
+                   contentType: "application/json",
+
+                   success: function(data){
+                   console.log("EVENT CREATED")
+
+                   assetDetails()
+                   load_event("{{id}}")
+                   toastr.success('Asset edited successfully')
+                   }
+               })
+            }
+        // ajax closing tag
+        })
+       
+   });
 
     load_event("{{id}}")
 </script>
