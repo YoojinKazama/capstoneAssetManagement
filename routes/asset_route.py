@@ -23,6 +23,11 @@ def creation(db: Session = Depends(get_db)):
     asset = db.query(Asset).order_by(Asset.created_at.desc()).first()
     return {'data': asset}
 
+@router.get('/get_all_by_users/{id}')
+def all(id: str, db: Session = Depends(get_db)):
+    asset = db.query(Asset).filter(Asset.active_status == "Active", Asset.user_id == id).all()
+    return {'data': asset}
+
 @router.get('/{id}')
 def read(id: str, db: Session = Depends(get_db)):
     asset = db.query(Asset).filter(Asset.asset_id == id).first()

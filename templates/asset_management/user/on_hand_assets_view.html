@@ -1,0 +1,227 @@
+<!-- Apply layout from base.html -->
+{%extends 'asset_management/user/user_base.html'%}
+
+{%block plugins_css%}
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+{%endblock%}
+
+{% block title %}View Asset{% endblock %}
+{% block title_header %} <div id="view_title"> </div>{% endblock %}
+
+{% block breadcrumb%}
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
+    <li class="breadcrumb-item"><a href="/asset_management/"> Asset Management</a></li>
+    <li class="breadcrumb-item"><a href="/asset_management/user/on_hand_assets">On-Hand Assets</a></li>
+    <li class="breadcrumb-item active">View Asset</li>
+  </ol>
+</div>  
+{% endblock %}
+
+{%block content%}
+
+<div class="card card-primary card-outline">
+    <div class="card-body">
+    
+        <div class="row">
+            <div class="col-md-3 border-top border-left border-right">
+                <label for="asset_title">Asset Title</label><br>
+                <span name="asset_title" id="asset_title" > </span>
+            </div>
+            <div class="col-md-3 border-top border-right">
+                <label for="asset_number">Asset Number</label><br>
+                <span name="asset_number" id="asset_number" > </span>
+            </div>
+            <div class="col-md-3 border-top border-right">
+                <label for="asset_type">Category</label><br>
+                <span  name="asset_type" id="asset_type" > </span>
+            </div>
+            <div class="col-md-3 border-top border-right">
+                <label for="asset_status">Status</label><br>
+                <span  name="asset_status" id="asset_status" > </span>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-md-4 border-top border-left">
+                <label for="asset_acquisition">Acquisiton</label><br>
+                <span name="asset_acquisition" id="asset_acquisition" > </span>
+            </div>
+            <div class="col-md-4 border">
+                <label for="acquisition_date" >Acquisiton Date</label><br>
+                <span  name="acquisition_date" id="acquisition_date" > </span>
+            </div>
+            <div class="col-md-4 border-top border-right">
+                <label for="asset_cost">Cost</label><br>
+                <span  name="asset_cost" id="asset_cost" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 border-top border-left">
+                <label for="asset_brand">Brand</label><br>
+                <span name="asset_brand" id="asset_brand" > </span>
+            </div>
+            <div class="col-md-4 border-left border-right">
+                <label for="asset_model">Model</label><br>
+                <span  name="asset_model" id="asset_model" > </span>
+            </div>
+            <div class="col-md-4 border-top border-right">
+                <label for="asset_serial">Serial</label><br>
+                <span  name="asset_serial" id="asset_serial" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 border">
+                <label for="asset_description">Description</label><br>
+                <span name="asset_description" id="asset_description" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 border-bottom border-left border-right">
+                <label for="created_by">Created by</label><br>
+                <span name="created_by" id="created_by" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 border-bottom border-left border-right">
+                <label for="asset_remarks">Remarks</label><br>
+                <span name="asset_remarks" id="asset_remarks" > </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-primary">
+    <div class="card-header"> 
+        <h5> Asset Provider</h5>
+    </div>
+    <div class="card-body">
+        <span hidden name="routeIdView" id="routeIdView" > </span>
+        <div class="row">
+            <div class = "col-md-12 border">
+                <label for="asset_provider_name">Provider:</label><br>
+                <span name="asset_provider_name" id="asset_provider_name" > </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class = "col-md-6 border-left border-right border-bottom">
+                <label for="asset_provider_contact">Contact:</label><br>
+                <span  name="asset_provider_contact" id="asset_provider_contact" > </span>
+            </div>
+            <div class = "col-md-6 border-right border-bottom">
+                <label for="asset_provider_email">Email:</label><br>
+                <span name="asset_provider_email" id="asset_provider_email" > </span> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+<div class="col-12 col-md-12">
+    <div class="card card-primary card-outline card-tabs">
+        <div class="card-header p-0 pt-1 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+            <li class="nav-item">
+            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Events</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Maintenance</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Warranty</a>
+            </li>
+        </ul>
+        </div>
+        <div class="card-body">
+        <div class="tab-content" id="custom-tabs-three-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                <div class="container-fluid">
+
+                    <!-- Timelime example  -->
+                    <div class="row">
+                      <div class="col-md-12">
+                        <!-- The time line -->
+                        <div class="timeline">
+                          
+                          <div>
+                            <i class="fas fa-clock bg-gray"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                  </div>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+            </div>
+        </div>
+        </div>
+</div>
+</div>
+</div>
+
+
+<!-- MODALS -->
+<!-- /MODALS -->
+{%endblock%}
+
+{% block scripts%}
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/dist/js/asset_management/event.js')}}"></script>
+<script>
+
+
+function assetDetails(){
+var id = "{{id}}"
+        $.ajax({
+                url: '/asset_management/api/Asset/' + id,
+                type: "GET",
+                data: { id: id },
+                dataType: "JSON",
+            
+                success: function(data){
+                    var asset_info = data.data;
+                    console.log(asset_info);
+
+                    $("#view_title").html( "<h3>" + asset_info.asset_title + "</h3>" );
+
+                    $("#asset_title").html(asset_info.asset_title );
+                    $("#asset_type").html(asset_info.asset_type.asset_type_title );
+                    $("#asset_number").html(asset_info.asset_number );
+                    $("#asset_cost").html("₱" + asset_info.asset_cost);
+                    $("#asset_acquisition").html( asset_info.asset_acquisition);
+                    $("#acquisition_date").html(moment(asset_info.acquisition_date).format('LL'));
+                    $("#asset_model").html(asset_info.asset_model);
+                    $("#asset_brand").html(asset_info.asset_brand);
+                    $("#asset_serial").html(asset_info.asset_serial);
+                    $("#asset_description").html(asset_info.asset_description);
+                    $("#created_by").html(asset_info.created_by_details.user_name);
+                    $("#asset_remarks").html(asset_info.asset_remarks);
+
+                    if (asset_info.asset_status == "Available"){
+                        $("#asset_status").html('<span class="badge badge-success">Available</span>');
+                    }
+                    if (asset_info.asset_status == "Missing"){
+                        $("#asset_status").html('<span class="badge badge-warning">Missing</span></div>');
+                    }
+
+                    //ASSET_PROVIDER
+                    $("#asset_provider_name").html(asset_info.asset_provider.asset_provider_name );
+                    $("#asset_provider_contact").html(asset_info.asset_provider.asset_provider_contact );
+                    $("#asset_provider_email").html(asset_info.asset_provider.asset_provider_email );
+
+                    
+                }
+        });
+}
+
+assetDetails()
+load_event("{{id}}")
+</script>
+{% endblock %}

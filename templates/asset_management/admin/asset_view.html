@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
 {%endblock%}
 
-{% block title %}Asset View{% endblock %}
+{% block title %}View Asset{% endblock %}
 {% block title_header %} <div id="view_title"> </div>{% endblock %}
 
 {% block breadcrumb%}
@@ -173,6 +173,9 @@
         </div>
         </div>
 </div>
+</div>
+</div>
+
 
 <!-- MODALS -->
 
@@ -180,7 +183,7 @@
 
 <!-- EDIT ASSET -->
 <div class="modal fade" id="editAsset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editAssetTitle"></h5>
@@ -261,7 +264,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="editAssetBtn">            
+        <input type="submit" class="btn btn-primary" value="Save" id="editAssetBtn">            
         </form>
       </div>
     </div>
@@ -269,40 +272,68 @@
   </div>
   </div>
   </div>
+  
+  <div class="modal fade" id="missingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Lost/Missing Asset</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <form id="missingForm">
+                <div class="form-row">
+                    <input hidden value="{{id}}" type="text" class="form-control" name="missing_asset_id" id="missing_asset_id" >
+                    <div class="form-group col-sm-12">
+                        <label for="missing_date">Date Lost</label>
+                        <input required type="date" class="form-control" name="missing_date" id="missing_date" >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="missing_remarks">Remarks</label>
+                        <input class="form-control" name="missing_remarks" id="missing_remarks">
+                    </div>
+                </div>           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
 
-<div class="modal fade" id="missingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Lost/Missing Asset</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirm_delete">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-secondary"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Delete Asset</h4>
+          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to delete this asset?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-info confirmed_delete">Yes, delete it.</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <form id="missingForm">
-            <div class="form-row">
-                <input hidden value="{{id}}" type="text" class="form-control" name="missing_asset_id" id="missing_asset_id" >
-                <div class="form-group col-sm-12">
-                    <label for="missing_date">Date Lost</label>
-                    <input required type="date" class="form-control" name="missing_date" id="missing_date" >
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm-12">
-                    <label for="missing_remarks">Remarks</label>
-                    <input class="form-control" name="missing_remarks" id="missing_remarks">
-                </div>
-            </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary">
-        </form>
-      </div>
+      <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
   </div>
+  <!-- /.modal -->
+
 
 <!-- /MODALS -->
 {%endblock%}
@@ -393,7 +424,7 @@ var id = "{{id}}"
                     $("#asset_brand").html(asset_info.asset_brand);
                     $("#asset_serial").html(asset_info.asset_serial);
                     $("#asset_description").html(asset_info.asset_description);
-                    $("#created_by").html(asset_info.user.user_name);
+                    $("#created_by").html(asset_info.created_by_details.user_name);
                     $("#asset_remarks").html(asset_info.asset_remarks);
 
                     if (asset_info.asset_status == "Available"){
@@ -516,19 +547,25 @@ $("#editAssetForm").on("submit", function(e){
     });
 
 $(document).on("click", "#asset_delete", function(){
+    var id = this.id;
+    $('#confirm_delete').modal('show');
+    
+        $(document).on("click", ".confirmed_delete", function(){
+            
+            $.ajax({
+                url: '/asset_management/api/Asset/' + "{{id}}",
+                type: "DELETE",
+                dataType: "JSON",
+            
+                success: function(data){
 
-        $.ajax({
-            url: '/asset_management/api/Asset/' + "{{id}}",
-            type: "DELETE",
-            dataType: "JSON",
-        
-            success: function(data){
-
-              window.location.href = "/asset_management/asset/"
-            }
-        // ajax closing tag
-        })
-        
+                window.location.href = "/asset_management/asset/"
+                }
+            // ajax closing tag
+            })
+            
+        });
+    
     });
 
     $(document).on("click", ".undo-missing", function(){

@@ -55,7 +55,7 @@
 <!-- MODALS -->
 
 <div class="modal fade" id="addAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Asset Provider</h5>
@@ -97,7 +97,7 @@
 
 <!-- VIEW MODAL --> 
 <div class="modal fade" id="viewAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="viewModal"></h5>
@@ -138,7 +138,7 @@
 
 <!-- EDIT MODAL --> 
 <div class="modal fade" id="editAssetProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editModal"></h5>
@@ -172,12 +172,37 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="editAssetProviderBtn">
+        <input type="submit" class="btn btn-primary" value="Save" id="editAssetProviderBtn">
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirm_delete">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-secondary"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Delete Provider</h4>
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fas fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete this asset provider?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-info confirmed_delete">Yes, delete it.</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 
 <!-- /MODALS -->
 
@@ -307,21 +332,34 @@ $( "#editAssetProviderForm").on("submit", function(e){
     });
 
 $(document).on("click", ".btn_delete", function(){
-        var id = this.id;
-        // console.log(id);
+      var id = this.id;
+      $('#confirm_delete').modal('show');
+      
+      $(document).on("click", ".confirmed_delete", function(){
 
-        $.ajax({
+          $.ajax({
             url: '/asset_management/api/Asset_Provider/' + id,
             type: "DELETE",
             data: { id: id },
             dataType: "JSON",
         
             success: function(data){
+              $('#confirm_delete').modal('hide');
               toastr.info('Asset Provider deleted successfully')
               refresh();
             }
         // ajax closing tag
         })
+        
+      });
+      
+    });
+
+$(document).on("click", ".btn_delete", function(){
+        var id = this.id;
+        // console.log(id);
+
+        
     });
 
 $("#addAssetProviderForm").on("submit", function(e){

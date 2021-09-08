@@ -7,7 +7,7 @@
 {%endblock%}
 
 {% block title %}Asset - Dashboard{% endblock %}
-{% block title_header %} <h3> Asset </h3>{% endblock %}
+{% block title_header %} <h3>Asset Requests</h3>{% endblock %}
 
 {% block breadcrumb%}
 <div class="col-sm-6">
@@ -36,9 +36,8 @@
               <thead>
               <tr>
                 <th>ID</th>
+                <th>Requested by</th>
                 <th>Category</th>
-                <th>Brand</th>
-                <th>Model</th>
                 <th>Description</th>
                 <th>Remarks</th>
                 <th>Created At</th>
@@ -55,7 +54,7 @@
 
 <!-- VIEW -->
   <div class="modal fade" id="viewRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">View Request</h5>
@@ -65,6 +64,13 @@
         </div>
         <div class="modal-body">
           <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                    <label for="requested_by">Requested by</label> <br>
+                    <span required name="requested_by" id="requested_by" >   
+                    </span>
+                </div>
+              </div>
               <div class="row">
                   <div class="col-sm-6">
                       <label for="view_asset_type">Category</label> <br>
@@ -79,13 +85,11 @@
                   
               </div>
               <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-6">
                       <label for="view_request_brand">Brand</label> <br>
                       <span name="view_request_brand" id="view_request_brand"  ></span>
                   </div>
-              </div>
-              <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-6">
                     <label for="view_request_model">Model</label><br>
                     <span name="view_request_model" id="view_request_model"  ></span>
                   </div>
@@ -115,7 +119,7 @@
 
   <!-- Edit -->
   <div class="modal fade" id="editRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Edit Request</h5>
@@ -171,9 +175,8 @@ $(document).ready(function () {
         ajax: "/asset_management/api/Request_asset/",
         columns: [
                 { data: "request_id"},
+                { data: "created_by_details.user_name"},
                 { data: "asset_type.asset_type_title"},
-                { data: "request_brand"},
-                { data: "request_model" },
                 { data: "request_description" },
                 { data: "request_remark" },
                 { data: "created_at", render:function(data){
@@ -212,8 +215,8 @@ $(document).ready(function () {
                   }
                 },
         ],
-        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
-        "order": [[6, "desc"]]
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 5] }],
+        "order": [[5, "desc"]]
         
         })
     });
@@ -230,6 +233,7 @@ $(document).on("click", ".btn_view", function(){
               console.log(data);
               var requestInfo = data.data;
 
+              $('#requested_by').html(requestInfo.created_by_details.user_name);
               $('#view_asset_type').html(requestInfo.asset_type.asset_type_title);
               
               if (requestInfo.request_status == "Approved"){

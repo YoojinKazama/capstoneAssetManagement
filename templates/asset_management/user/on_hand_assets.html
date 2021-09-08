@@ -1,1 +1,126 @@
-{%extends 'asset_management/user/user_base.html'%} 
+{%extends 'asset_management/user/user_base.html'%}
+
+<!-- Apply layout from base.html -->
+
+{%block plugins_css%}
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+{%endblock%}
+
+{% block title %}Asset - Dashboard{% endblock %}
+{% block title_header %} <h3> On-Hand Assets </h3>{% endblock %}
+
+{% block breadcrumb%}
+<div class="col-sm-6">
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
+    <li class="breadcrumb-item"><a href="/asset_management"> Asset Management</a></li>
+    <li class="breadcrumb-item active">On-Hand Assets</li>
+  </ol>
+</div>  
+{% endblock %}
+
+{%block content%}
+
+<div class="card card-primary card-outline">
+
+          <!-- DATA TABLES -->
+          <div class="card-header">
+            <h3 class="card-title">Assets</h3>
+          </div>
+          <!-- /DATA TABLES -->
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <table id="asset_table" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Asset No.</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Serial</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <!-- /.card-body -->
+
+<!-- MODALS -->
+
+<!-- /MODALS -->
+
+{%endblock%}
+
+{% block scripts%}
+
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+
+<script>
+
+$(document).ready(function () {
+    id = sessionStorage.getItem("id")
+    $("#asset_table").dataTable({
+
+        ajax: "/asset_management/api/Asset/get_all_by_users/" + id,
+        columns: [
+                { data: "asset_id"},
+                { data: "asset_number"},
+                { data: "asset_title"},
+                { data: "asset_type.asset_type_title"},
+                { data: "asset_brand"},
+                { data: "asset_model" },
+                { data: "created_at" },
+                { data: "asset_serial" },
+                { data: "asset_status", render: function(data, type, row){
+                        if(data == "Available"){
+                            return '<div class="text-center"><span class="badge badge-success">Available</span></div>'
+                        }
+                        else if(data == "Missing"){
+                            return '<div class="text-center"><span class="badge badge-warning">Missing</span></div>'
+                        }   
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+                { data: "active_status", render: function(data, type, row){
+                        if(data == "Active"){
+                            return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                              '<div class="dropdown-menu dropdown-menu-right">' +
+                                  '<div class="dropdown-item d-flex btn_view" id="'+ row.asset_id +'" role="button">' +
+                                    '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
+                                    '<div>View Asset</div></div></div></div>';
+                        }   
+                        else{
+                            return '<button class="btn btn-danger >Activate</button>';
+                        }
+                    }
+                    
+                },
+        ],
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
+        "order": [[6, "desc"]]
+        
+        })
+    });
+
+$(document).on("click", ".btn_view", function(){
+        var id = this.id;
+
+        window.location.href = "/asset_management/asset/"+ id + "/view";
+    });
+
+
+function refresh(){
+
+        $('#asset_table').DataTable().ajax.reload();
+    }
+</script>
+{% endblock %}
