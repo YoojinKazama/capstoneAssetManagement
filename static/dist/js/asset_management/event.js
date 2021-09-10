@@ -164,6 +164,34 @@ function load_event(id){
                     '</div>'
             }
 
+            if (event[i].event_title == "Repair" || event[i].event_title == "Undo Repair"){
+                if ( i  == 0 ||  moment(event[i - 1].created_at).format('LL') >  moment(event[i].created_at).format('LL') ) {
+                    html += 
+                '<div class="time-label">' +
+                    '<span class="bg-green">' + moment(event[i].created_at).format('LL') + '</span>' +
+                '</div>'
+                }
+                    if (event[i].event_title == "Undo Repair"){
+                        html += 
+                        '<div>' +
+                        '<i class="fas fa-hammer bg-info"></i>'
+                    }
+                    else {
+                        html += 
+                        '<div>' +
+                        '<i class="fas fa-hammer bg-info"></i>'
+                    }
+                    html += 
+                    '<div class="timeline-item">' +
+                    '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
+                    '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
+                    '<div class="timeline-body">' +
+                        event[i].event_message +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+            }
+
         }
      $('.timeline').html(html);
         

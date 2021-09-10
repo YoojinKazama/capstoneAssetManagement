@@ -16,6 +16,9 @@ $("#missingForm").on("submit", function(e){
     if (current == "Broken"){
         replace_status = "broken_asset"
     }
+    if (current == "Repair"){
+        replace_status = "repair_asset"
+    }
     console.log(replace_status)
     
     e.preventDefault();
@@ -89,6 +92,9 @@ $("#sellForm").on("submit", function(e){
     }
     if (current == "Broken"){
         replace_status = "broken_asset"
+    }
+    if (current == "Repair"){
+        replace_status = "repair_asset"
     }
 
     e.preventDefault();
@@ -170,6 +176,9 @@ $("#disposeForm").on("submit", function(e){
     if (current == "Broken"){
         replace_status = "broken_asset"
     }
+    if (current == "Repair"){
+        replace_status = "repair_asset"
+    }
 
     e.preventDefault();
     form =  { 
@@ -246,6 +255,9 @@ $("#brokenForm").on("submit", function(e){
     if (current == "Disposed"){
         replace_status = "dispose_asset"
     }
+    if (current == "Repair"){
+        replace_status = "repair_asset"
+    }
     console.log(replace_status)
     
     e.preventDefault();
@@ -299,6 +311,87 @@ $("#brokenForm").on("submit", function(e){
                 
             }
         })    
+    
+    });
+
+//////////////////// SELL
+
+$("#repairForm").on("submit", function(e){
+
+    var current = $(current_status).val()
+    console.log(current)
+
+    var replace_status = ""
+
+    if (current == "Missing"){
+        replace_status = "missing_asset"
+    }
+    if (current == "Sold"){
+        replace_status = "sell_asset"
+    }
+    if (current == "Disposed"){
+        replace_status = "dispose_asset"
+    }
+    if (current == "Broken"){
+        replace_status = "broken_asset"
+    }
+    
+
+    e.preventDefault();
+    form =  { 
+        created_by : $(created_by_id).val(),
+        asset_id : $(repair_asset_id).val(),
+        assigned_to : $(assigned_to).val(),
+        repair_date : new Date($(repair_date).val()),
+        repair_price : $(repair_price).val(),
+        remarks: $(sell_remarks).val(),
+        };
+        
+        $.ajax({
+            url:'/asset_management/api/repair_asset/',
+            type: "POST",
+            data: JSON.stringify(form),
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+
+                if (replace_status != ""){
+                    $.ajax({
+                        url:'/asset_management/api/'+ replace_status +'/'+ $(repair_asset_id).val(),
+                        type: "DELETE",
+                        dataType: "JSON",
+                        contentType: "application/json"
+                    })
+                }
+
+                events = {
+                    asset_id : $(repair_asset_id).val(),
+                    event_title : "Repair",
+                    event_message: $(repair_remarks).val() +". Asset repair scheduled on "+ moment($(repair_date).val()).format('LL') +
+                                                             " costing ₱"+ $(repair_price).val() + " assigned to " +$(assigned_to).val() +
+                                                             ". Updated by " + sessionStorage.getItem("name")
+                }
+
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(events),
+                    dataType: "JSON",
+                    contentType: "application/json",
+
+                    success: function(data){
+                    console.log("EVENT CREATED")
+
+                    assetDetails()
+                    load_event($(repair_asset_id).val())
+                    $('#repairModal').modal('hide');
+                    toastr.success('Asset edited successfully')
+                    }
+                })
+                
+            }
+        })
     
     });
     
