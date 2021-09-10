@@ -169,14 +169,20 @@ $(document).ready(function () {
                 { data: "asset_type.asset_type_title"},
                 { data: "asset_brand"},
                 { data: "asset_model" },
-                { data: "created_at" },
                 { data: "asset_serial" },
+                { data: "created_at" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){
                             return '<div class="text-center"><span class="badge badge-success">Available</span></div>'
                         }
                         else if(data == "Missing"){
                             return '<div class="text-center"><span class="badge badge-warning">Missing</span></div>'
+                        } 
+                        else if(data == "Sold"){
+                            return '<div class="text-center"><span class="badge badge-info">Sold</span></div>'
+                        }
+                        else if(data == "Disposed"){
+                            return '<div class="text-center"><span class="badge badge-info">Disposed</span></div>'
                         }   
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -199,8 +205,8 @@ $(document).ready(function () {
                     
                 },
         ],
-        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
-        "order": [[6, "desc"]]
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 7] }],
+        "order": [[7, "desc"]]
         
         })
     });

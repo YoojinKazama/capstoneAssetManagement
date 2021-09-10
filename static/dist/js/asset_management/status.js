@@ -10,6 +10,9 @@ $("#missingForm").on("submit", function(e){
     if (current == "Sold"){
         replace_status = "sell_asset"
     }
+    if (current == "Disposed"){
+        replace_status = "dispose_asset"
+    }
     console.log(replace_status)
     
     e.preventDefault();
@@ -78,6 +81,9 @@ $("#sellForm").on("submit", function(e){
     if (current == "Missing"){
         replace_status = "missing_asset"
     }
+    if (current == "Disposed"){
+        replace_status = "dispose_asset"
+    }
 
     e.preventDefault();
     form =  { 
@@ -110,7 +116,7 @@ $("#sellForm").on("submit", function(e){
                 }
 
                 events = {
-                    asset_id : $(missing_asset_id).val(),
+                    asset_id : $(sell_asset_id).val(),
                     event_title : "Sold",
                     event_message: $(sell_remarks).val() +". Asset sold on "+ moment($(sell_date).val()).format('LL') +
                                                              " at ₱"+ $(sell_price).val() + " to " +$(sell_to).val() +
@@ -129,8 +135,81 @@ $("#sellForm").on("submit", function(e){
                     console.log("EVENT CREATED")
 
                     assetDetails()
-                    load_event($(missing_asset_id).val())
+                    load_event($(sell_asset_id).val())
                     $('#sellModal').modal('hide');
+                    toastr.success('Asset edited successfully')
+                    }
+                })
+                
+            }
+        })
+    
+    });
+
+//////////////////// DISPOSE
+
+$("#disposeForm").on("submit", function(e){
+
+    var current = $(current_status).val()
+    console.log(current)
+
+    var replace_status = ""
+
+    if (current == "Missing"){
+        replace_status = "missing_asset"
+    }
+    if (current == "Sold"){
+        replace_status = "sell_asset"
+    }
+
+    e.preventDefault();
+    form =  { 
+        created_by : $(created_by_id).val(),
+        asset_id : $(dispose_asset_id).val(),
+        dispose_to : $(dispose_to).val(),
+        dispose_date : new Date($(dispose_date).val()),
+        remarks: $(dispose_remarks).val(),
+        };
+        
+        $.ajax({
+            url:'/asset_management/api/dispose_asset/',
+            type: "POST",
+            data: JSON.stringify(form),
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+
+                if (replace_status != ""){
+                    $.ajax({
+                        url:'/asset_management/api/'+ replace_status +'/'+ $(dispose_asset_id).val(),
+                        type: "DELETE",
+                        dataType: "JSON",
+                        contentType: "application/json"
+                    })
+                }
+
+                events = {
+                    asset_id : $(dispose_asset_id).val(),
+                    event_title : "Disposed",
+                    event_message: $(dispose_remarks).val() +". Asset disposed on "+ moment($(dispose_date).val()).format('LL') +
+                                                             " to " +$(dispose_to).val() +
+                                                             ". Updated by " + sessionStorage.getItem("name")
+                }
+
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(events),
+                    dataType: "JSON",
+                    contentType: "application/json",
+
+                    success: function(data){
+                    console.log("EVENT CREATED")
+
+                    assetDetails()
+                    load_event($(dispose_asset_id).val())
+                    $('#disposeModal').modal('hide');
                     toastr.success('Asset edited successfully')
                     }
                 })

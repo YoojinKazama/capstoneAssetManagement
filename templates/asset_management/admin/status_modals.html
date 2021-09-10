@@ -102,3 +102,47 @@
     </div>
     </div>
     </div>
+
+<div class="modal fade" id="disposeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Dispose Asset</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <form id="disposeForm">
+                <div class="form-row">
+                    <input hidden type="text" class="form-control created_by_id" name="created_by_id" id="created_by_id" >
+                    <input hidden type="text" class="form-control current_status" name="current_status" id="current_status">
+                    <input hidden value="{{id}}" type="text" class="form-control" name="dispose_asset_id" id="dispose_asset_id" >
+                    <div class="form-group col-sm-12">
+                        <label for="dispose_to">Dispose to</label>
+                        <input required type="text" class="form-control" name="dispose_to" id="dispose_to" >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="dispose_date">Dispose Date</label>
+                        <input required type="date" class="form-control" name="dispose_date" id="dispose_date">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="dispose_remarks">Remarks</label>
+                        <input type="text" class="form-control" name="dispose_remarks" id="dispose_remarks">
+                    </div>
+                </div>           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>

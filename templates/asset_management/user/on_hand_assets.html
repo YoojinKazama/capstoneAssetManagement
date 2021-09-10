@@ -83,7 +83,13 @@ $(document).ready(function () {
                         }
                         else if(data == "Missing"){
                             return '<div class="text-center"><span class="badge badge-warning">Missing</span></div>'
-                        }   
+                        }
+                        else if(data == "Sold"){
+                            return '<div class="text-center"><span class="badge badge-info">Sold</span></div>'
+                        }
+                        else if(data == "Disposed"){
+                            return '<div class="text-center"><span class="badge badge-info">Disposed</span></div>'
+                        }  
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
                         }

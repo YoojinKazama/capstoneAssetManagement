@@ -402,7 +402,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
-                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
                                                 '<div class="dropdown-divider"></div>' +
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
@@ -413,7 +413,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
-                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
                                                 '<div class="dropdown-divider"></div>' +
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
@@ -425,7 +425,19 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                                                 '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
                                                 '<a class="dropdown-item undo-sold" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Undo Sold</a>' +
-                                                '<a class="dropdown-item" href="#"><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>' +
+                                                '<div class="dropdown-divider"></div>' +
+                                                '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
+                    }
+
+                    if (asset_info.asset_status == "Disposed"){
+                        $("#asset_status").html('<span class="badge badge-info" >Disposed</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
+                                                '<a class="dropdown-item" href="#"><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
+                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
+                                                '<a class="dropdown-item undo-disposed" ><i class="fas fa-thumbs-down"></i>&nbsp;Undo Dispose</a>' +
                                                 '<div class="dropdown-divider"></div>' +
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
@@ -617,6 +629,41 @@ $(document).on("click", "#asset_delete", function(){
         })
        
    });
+
+   $(document).on("click", ".undo-disposed", function(){
+    $.ajax({
+        url: '/asset_management/api/dispose_asset/undo/' + "{{id}}",
+        type: "DELETE",
+        dataType: "JSON",
+   
+        success: function(data){
+
+           events = {
+               asset_id : "{{id}}",
+               event_title : "Undo Disposed",
+               event_message: "Updated by " + sessionStorage.getItem("name")
+             }
+
+           $.ajax({
+               url:'/asset_management/api/Event/',
+               type: "POST",
+               data: JSON.stringify(events),
+               dataType: "JSON",
+               contentType: "application/json",
+
+               success: function(data){
+               console.log("EVENT CREATED")
+
+               assetDetails()
+               load_event("{{id}}")
+               toastr.success('Asset edited successfully')
+               }
+           })
+        }
+    // ajax closing tag
+    })
+   
+});
 
     load_event("{{id}}")
 </script>
