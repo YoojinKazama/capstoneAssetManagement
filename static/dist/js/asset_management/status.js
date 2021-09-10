@@ -13,6 +13,9 @@ $("#missingForm").on("submit", function(e){
     if (current == "Disposed"){
         replace_status = "dispose_asset"
     }
+    if (current == "Broken"){
+        replace_status = "broken_asset"
+    }
     console.log(replace_status)
     
     e.preventDefault();
@@ -83,6 +86,9 @@ $("#sellForm").on("submit", function(e){
     }
     if (current == "Disposed"){
         replace_status = "dispose_asset"
+    }
+    if (current == "Broken"){
+        replace_status = "broken_asset"
     }
 
     e.preventDefault();
@@ -161,6 +167,9 @@ $("#disposeForm").on("submit", function(e){
     if (current == "Sold"){
         replace_status = "sell_asset"
     }
+    if (current == "Broken"){
+        replace_status = "broken_asset"
+    }
 
     e.preventDefault();
     form =  { 
@@ -216,6 +225,80 @@ $("#disposeForm").on("submit", function(e){
                 
             }
         })
+    
+    });
+
+//////////////////// BROKEN
+
+$("#brokenForm").on("submit", function(e){
+
+    var current = $(current_status).val()
+    console.log(current)
+
+    var replace_status = ""
+
+    if (current == "Missing"){
+        replace_status = "missing_asset"
+    }
+    if (current == "Sold"){
+        replace_status = "sell_asset"
+    }
+    if (current == "Disposed"){
+        replace_status = "dispose_asset"
+    }
+    console.log(replace_status)
+    
+    e.preventDefault();
+    form =  { 
+        created_by : $(created_by_id).val(),
+        asset_id : $(broken_asset_id).val(),
+        remarks: $(broken_remarks).val(),
+        broken_date: new Date($(broken_date).val()),
+        };
+
+        $.ajax({
+            url:'/asset_management/api/broken_asset/',
+            type: "POST",
+            data: JSON.stringify(form),
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+
+                if (replace_status != ""){
+                    $.ajax({
+                        url:'/asset_management/api/'+ replace_status +'/'+ $(broken_asset_id).val(),
+                        type: "DELETE",
+                        dataType: "JSON",
+                        contentType: "application/json"
+                    })
+                }
+
+                events = {
+                    asset_id : $(broken_asset_id).val(),
+                    event_title : "Broken",
+                    event_message: $(broken_remarks).val() +". Asset broke on "+ moment($(broken_date).val()).format('LL') + ". Updated by " + sessionStorage.getItem("name")
+                }
+
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(events),
+                    dataType: "JSON",
+                    contentType: "application/json",
+
+                    success: function(data){
+                    console.log("EVENT CREATED")
+
+                    assetDetails()
+                    load_event($(broken_asset_id).val())
+                    $('#brokenModal').modal('hide');
+                    toastr.success('Asset edited successfully')
+                    }
+                })
+                
+            }
+        })    
     
     });
     
