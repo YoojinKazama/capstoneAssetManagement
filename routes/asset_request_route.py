@@ -68,6 +68,7 @@ def update_status(id: str, request_schema: RequestBase, db: Session = Depends(ge
         'request_brand': request_schema.request_brand,
         'request_model': request_schema.request_model,
         'request_description': request_schema.request_description,
+        'request_status': request_schema.request_status,
     }):
         raise HTTPException(404, 'request to update is not found')
     db.commit()

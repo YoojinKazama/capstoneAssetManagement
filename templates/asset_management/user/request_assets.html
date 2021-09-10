@@ -306,9 +306,6 @@ $(document).ready(function () {
                             '<div class="dropdown-divider"</div></div>' +
                             '<div class="dropdown-item d-flex btn_delete" id="'+ row.request_id +'" role="button">' +
                             '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
-                            '<div style="color: red">Delete Category</div></div></div></div>'
-                            '<div class="dropdown-item d-flex btn_delete" id="'+ row.request_id +'" role="button">' +
-                            '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
                             '<div style="color: red">Delete Request</div></div></div></div>'
                         }
                         return html
@@ -462,7 +459,7 @@ $(document).on("click", ".btn_view", function(){
         request_description: $(edit_request_description).val(),
         request_status: "Pending",
         };
-
+  console.log(JSON.stringify(form))
       $.ajax({
           url:'/asset_management/api/Request_asset/' + id,
           type: "PUT",

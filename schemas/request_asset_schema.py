@@ -7,13 +7,13 @@ class RequestBase(BaseModel):
     request_brand: str
     request_model: str
     request_description: str
-    
+    request_status: str
     
 
 
 # Schema for request body
 class CreateRequest(RequestBase):
-    request_status: str
+    
     created_by: str
     
 
