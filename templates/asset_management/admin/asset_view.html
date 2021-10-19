@@ -146,6 +146,9 @@
         </div>
         <div class="card-body">
         <div class="tab-content" id="custom-tabs-three-tabContent">
+            <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. 
+            </div>
             <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
                 <div class="container-fluid">
 
@@ -165,11 +168,9 @@
                   </div>
             </div>
             <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
-                Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                {% include 'asset_management/admin/maintenance.html' %}
             </div>
-            <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
-            </div>
+            
         </div>
         </div>
 </div>
@@ -300,7 +301,99 @@
   </div>
   <!-- /.modal -->
 
-
+<div class="modal fade" id="checkOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Check Out Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form id="addMaintenanceForm">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="maintenance_name">Name</label><label style="color: red;">*</label>
+                        <input required class="form-control" name="maintenance_name" id="maintenance_name"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="maintenance_details">Details</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="maintenance_details" id="maintenance_details">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="maintenance_provider">Maintenance Provider</label><label style="color: red;">*</label>
+                        <select required name="maintenance_provider" id="maintenance_provider" class="form-control">
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="maintenance_cost">Cost</label><label style="color: red;">*</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">₱</div>
+                            </div>
+                            <input required type="number"  class="form-control" name="maintenance_cost" id="maintenance_cost"  >
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="maintenance_due">Due Date</label><label style="color: red;">*</label>
+                        <input required type="date" name="maintenance_due" id="maintenance_due" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="maintenance_status">Status</label>
+                        <select required  class="form-control" name="maintenance_status" id="maintenance_status"  >
+                            <option value = ""> - - Select - -</option>
+                            <option value = "Completed">Completed</option>
+                            <option value = "Pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row" id="completed_date">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="acquisition_date">Repeatable</label><label style="color: red;">*</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="True" name="repeatable" id="repeatable_yes">
+                            <label class="form-check-label" for="repeatable_yes">
+                                Yes
+                            </label>
+                            </div>
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="repeatable" id="repeatable_no" checked>
+                            <label class="form-check-label" for="repeatable_no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="frequency_form">
+                    
+                </div>
+                <div class="form-row" id="frequency_days">
+                    
+                </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" id="addAssetBtn">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- /MODALS -->
 {%endblock%}
 
@@ -397,7 +490,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
 
                     if (asset_info.asset_status == "Available"){
                         $("#asset_status").html('<span class="badge badge-success">Available</span>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -408,7 +501,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
                     if (asset_info.asset_status == "Missing"){
                         $("#asset_status").html('<span class="badge badge-warning">Missing</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
@@ -420,7 +513,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
 
                     if (asset_info.asset_status == "Sold"){
                         $("#asset_status").html('<span class="badge badge-info" >Sold</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -432,7 +525,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
 
                     if (asset_info.asset_status == "Disposed"){
                         $("#asset_status").html('<span class="badge badge-info" >Disposed</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -444,7 +537,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
 
                     if (asset_info.asset_status == "Broken"){
                         $("#asset_status").html('<span class="badge badge-warning" >Broken</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item undo-broken" ><i class="fas fa-heart-broken"></i>&nbsp;Undo Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -456,7 +549,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
 
                     if (asset_info.asset_status == "Repair"){
                         $("#asset_status").html('<span class="badge badge-info" >Repair</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item undo-repair" ><i class="fas fa-hammer"></i>&nbsp;Undo Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -498,7 +591,7 @@ $(document).on("click", ".editAsset", function(){
                     $("#edit_asset_number").val(asset_info.asset_number );
                     $("#edit_asset_cost").val(asset_info.asset_cost);
                     $("#edit_asset_acquisition").val(asset_info.asset_acquisition);
-                    $("#edit_acquisition_date").val(new Date(asset_info.acquisition_date).toISOString().slice(0, 10));
+                    $("#edit_acquisition_date").val(moment(new Date(asset_info.acquisition_date)).format('YYYY[-]MM[-]DD'));
                     $("#edit_asset_model").val(asset_info.asset_model);
                     $("#edit_asset_brand").val(asset_info.asset_brand);
                     $("#edit_asset_serial").val(asset_info.asset_serial);

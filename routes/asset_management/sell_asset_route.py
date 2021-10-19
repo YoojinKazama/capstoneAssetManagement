@@ -1,10 +1,10 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.sell_asset_schema import CreateSell
-from schemas.asset_schema import UpdateStatus
-from models.sell_asset_model import Sell_Asset
-from models.asset_model import Asset
+from schemas.asset_management.sell_asset_schema import CreateSell
+from schemas.asset_management.asset_schema import UpdateStatus
+from models.asset_management.sell_asset_model import Sell_Asset
+from models.asset_management.asset_model import Asset
 from database import get_db
 # from dependencies import get_token
 

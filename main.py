@@ -4,10 +4,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datatables import DataTable
 from sqlalchemy.orm import Session
-from routes import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
-from routes import missing_asset_route, asset_request_route, sell_asset_route, dispose_asset_route, broken_asset_route, repair_asset_route
+from routes.asset_management import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
+from routes.asset_management import missing_asset_route, asset_request_route, sell_asset_route, dispose_asset_route, broken_asset_route, repair_asset_route
 from database import get_db
-from models import asset_model
+from models.asset_management import asset_model
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -78,6 +78,14 @@ def get_asset(request: Request,):
 @app.get("/asset_management/asset/{id}/view", response_class=HTMLResponse)
 def get_asset(request: Request, id: str):
     return template.TemplateResponse("asset_management/admin/asset_view.html", {"request": request, "id": id})
+
+@app.get("/asset_management/maintenance_provider", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/admin/maintenance_provider.html", {"request": request})
+
+@app.get("/asset_management/maintenance_page", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/admin/maintenance_page.html", {"request": request})
 
 
 #-------------USER----------------#

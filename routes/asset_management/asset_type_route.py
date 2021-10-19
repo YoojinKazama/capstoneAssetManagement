@@ -1,8 +1,8 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.asset_type_schema import CreateAssetType
-from models.asset_type_model import Asset_Type
+from schemas.asset_management.asset_type_schema import CreateAssetType
+from models.asset_management.asset_type_model import Asset_Type
 from database import get_db
 # from dependencies import get_token
 

@@ -165,6 +165,33 @@ filter_user()
                 </li>
             </li>
         </ul>
+        <li class="nav-item" id="maintenance_sidebar_dropdown">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>
+              Maintenance
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/asset_management/maintenance_page" class="nav-link" id="maintenance_page_sidebar">
+                <script>if(window.location.pathname == '/asset_management/maintenance_page'){document.getElementById("maintenance_page_sidebar").classList.add('active')
+                                                                                  document.getElementById("maintenance_sidebar_dropdown").classList.add('menu-open')}</script>
+                <i class="fas fa-tools"></i>
+                <p>List of Maintenances</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/asset_management/maintenance_provider" class="nav-link" id="maintenance_provider_sidebar">
+              <script>if(window.location.pathname == '/asset_management/maintenance_provider'){document.getElementById("maintenance_provider_sidebar").classList.add('active')
+                                                                                    document.getElementById("maintenance_sidebar_dropdown").classList.add('menu-open')}</script>
+                <i class="fas fa-users-cog"></i>
+                <p>Maintenance Providers</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-item">
           <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
           <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>

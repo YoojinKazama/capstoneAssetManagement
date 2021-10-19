@@ -1,17 +1,16 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.broken_asset_schema import CreateBroken
-from schemas.asset_schema import UpdateStatus
-from models.broken_asset_model import Broken_Asset
-from models.asset_model import Asset
+from schemas.asset_management.dispose_asset_schema import CreateDispose
+from models.asset_management.dispose_asset_model import Dispose_Asset
+from models.asset_management.asset_model import Asset
 from database import get_db
 # from dependencies import get_token
 
 
 router = APIRouter(
-    prefix='/asset_management/api/broken_asset',
-    tags=['Broken_Asset'],
+    prefix='/asset_management/api/dispose_asset',
+    tags=['Dispose_Asset'],
     # dependencies=[Depends(get_token)]
 )
 
@@ -23,23 +22,24 @@ router = APIRouter(
 #     return {'data': event}
 
 @router.post('/')
-def add(broken_asset: CreateBroken, db: Session = Depends(get_db)):
+def add(dispose_asset: CreateDispose, db: Session = Depends(get_db)):
     try:
-        broken_asset_schema = Broken_Asset(
+        dispose_asset_schema = Dispose_Asset(
             
-            asset_id = broken_asset.asset_id,
-            remarks = broken_asset.remarks,
-            broken_date = broken_asset.broken_date,
-            created_by = broken_asset.created_by,
+            asset_id = dispose_asset.asset_id,
+            remarks = dispose_asset.remarks,
+            dispose_to = dispose_asset.dispose_to,
+            dispose_date = dispose_asset.dispose_date,
+            created_by = dispose_asset.created_by,
 
         )
 
-        db.query(Asset).filter(Asset.asset_id == broken_asset_schema.asset_id).update({
-        "asset_remarks" : broken_asset_schema.remarks,
-        "asset_status" : "Broken",
+        db.query(Asset).filter(Asset.asset_id == dispose_asset_schema.asset_id).update({
+        "asset_remarks" : dispose_asset_schema.remarks,
+        "asset_status" : "Disposed",
         })
 
-        db.add(broken_asset_schema)
+        db.add(dispose_asset_schema)
         db.commit()
         return {'message': 'Status created successfully.'}
     except Exception as e:
@@ -47,7 +47,7 @@ def add(broken_asset: CreateBroken, db: Session = Depends(get_db)):
 
 @router.delete('/undo/{id}')
 def remove(id: str, db: Session = Depends(get_db)): 
-    db.query(Broken_Asset).filter(Broken_Asset.asset_id == id).update({
+    db.query(Dispose_Asset).filter(Dispose_Asset.asset_id == id).update({
         'active_status': 'Inactive',
     })
     db.query(Asset).filter(Asset.asset_id == id).update({
@@ -58,7 +58,7 @@ def remove(id: str, db: Session = Depends(get_db)):
 
 @router.delete('/{id}')
 def remove(id: str, db: Session = Depends(get_db)): 
-    db.query(Broken_Asset).filter(Broken_Asset.asset_id == id).update({
+    db.query(Dispose_Asset).filter(Dispose_Asset.asset_id == id).update({
         'active_status': 'Inactive',
     })
     db.commit()

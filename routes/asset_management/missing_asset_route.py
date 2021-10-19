@@ -1,10 +1,10 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.missing_asset_schema import CreateMissing
-from schemas.asset_schema import UpdateStatus
-from models.missing_asset_model import Missing_Asset
-from models.asset_model import Asset
+from schemas.asset_management.missing_asset_schema import CreateMissing
+from schemas.asset_management.asset_schema import UpdateStatus
+from models.asset_management.missing_asset_model import Missing_Asset
+from models.asset_management.asset_model import Asset
 from database import get_db
 # from dependencies import get_token
 

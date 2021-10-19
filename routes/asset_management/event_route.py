@@ -1,8 +1,8 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.event_schema import CreateEvent
-from models.event_model import Events
+from schemas.asset_management.event_schema import CreateEvent
+from models.asset_management.event_model import Events
 from database import get_db
 # from dependencies import get_token
 

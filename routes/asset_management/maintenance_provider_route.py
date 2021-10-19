@@ -1,8 +1,8 @@
   
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from schemas.maintenance_provider_schema import CreateMaintenanceProvider
-from models.maintenance_provider_model import Maintenance_provider
+from schemas.asset_management.maintenance_provider_schema import CreateMaintenanceProvider
+from models.asset_management.maintenance_provider_model import Maintenance_provider
 from database import get_db
 # from dependencies import get_token
 

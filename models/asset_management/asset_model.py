@@ -10,8 +10,6 @@ class Asset(Base):
     asset_id = Column(String(60), primary_key=True, default=text('UUID()'))
     asset_provider_id = Column(String(60), ForeignKey('asset_providers.asset_provider_id'), nullable=True)
     asset_type_id = Column(String(60), ForeignKey('asset_types.asset_type_id'), nullable=True)
-    user_id = Column(String(60), ForeignKey('users.user_id'), nullable=True)
-    # department_id = Column(String(60), ForeignKey('user.user_id'), nullable=True)
     asset_number = Column(Integer, nullable=True)
     asset_cost = Column(Numeric, nullable=True)
     asset_title = Column(String(255), nullable=True)
@@ -30,5 +28,4 @@ class Asset(Base):
 
     asset_provider = relationship('Asset_provider', back_populates='asset', lazy='joined')
     asset_type = relationship('Asset_Type', back_populates='asset', lazy='joined')
-    user = relationship('User', foreign_keys=[user_id], lazy='joined')
     created_by_details = relationship('User', foreign_keys=[created_by], lazy='joined')

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 from database import get_db
-from models.user_model import User
-from schemas.auth_schema import TokenData, AuthForm
-from schemas.user_schema import CreateUser
+from models.asset_management.user_model import User
+from schemas.asset_management.auth_schema import TokenData, AuthForm
+from schemas.asset_management.user_schema import CreateUser
 from jose import jwt
 from passlib.context import CryptContext
 
