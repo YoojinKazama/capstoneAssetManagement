@@ -72,7 +72,7 @@
       </div>
       <div class="modal-body">
         <div class="card-body">
-            <button id="button">button</button>
+            <div><label for="">Select multiple/single asset</label><label style="color: red;">*</label></div>
             <form id="addMaintenanceForm">
                 <table style = "width: 100% !important" id="asset_table" class="table table-bordered table-hover">
                 <thead>
@@ -382,14 +382,17 @@
 
 <!-- /MODALS -->
 
+
 <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
 <script>
 $(document).ready(function () {
 
     $("#asset_table").dataTable({
 
         ajax: "/asset_management/api/Asset/",
+        select: true,
         columns: [
                 { data: "asset_id"},
                 { data: "asset_number"},
@@ -430,14 +433,7 @@ $(document).ready(function () {
         
         })
 
-        var table = $("#asset_table").DataTable()
-        $('#asset_table tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        } );
-     
-        $('#button').click( function () {
-            console.log( table.rows('.selected').data([0]));
-        } );
+        
 
     id = "{{id}}"
     $("#maintenance_table").dataTable({
@@ -448,7 +444,8 @@ $(document).ready(function () {
                 { data: "maintenance_name"},
                 { data: "maintenance_cost"},
                 { data: "maintenance_due", render:function(data){
-                    return moment(data).format('LL')
+                    return moment(data).format('LL') +
+                    "<div class='text-secondary font-italic'>" + moment(data).startOf('seconds').fromNow()+"</div>"
                   } 
                 },
                 { data: "maintenance_completed", render:function(data){
@@ -620,11 +617,15 @@ $('#repeatable_no').change(function(){
 });
 
 
+var table = $("#asset_table").DataTable()
+        $('#asset_table tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        } );
+
 $("#addMaintenanceForm").on("submit", function(e){
 
     e.preventDefault();
 
-    id = "{{id}}"
     date_completed = ""
     days = 0
 
@@ -652,9 +653,12 @@ $("#addMaintenanceForm").on("submit", function(e){
         repeatable = "False"
     }
 
-    
+        selectedRow = table.rows('.selected').count()
+        for (i = 0; i < selectedRow; i++){
 
-    form =  { asset_id: id,
+            asset_id_multi = table.rows('.selected').data()[i]["asset_id"]
+
+            form =  { asset_id: asset_id_multi,
                 maintenance_name: $(maintenance_name).val(),
                 maintenance_details: $(maintenance_details).val(),
                 maintenance_provider_id: $(maintenance_provider).val(),
@@ -666,46 +670,44 @@ $("#addMaintenanceForm").on("submit", function(e){
                 maintenance_day: days,
                 };
 
-    encoded = JSON.stringify(form)
-    console.log(encoded)
+            encoded = JSON.stringify(form)
+            console.log(encoded)
 
-        $.ajax({
-            url:'/asset_management/api/Maintenance/',
-            type: "POST",
-            data: encoded,
-            dataType: "JSON",
-            contentType: "application/json",
+            $.ajax({
+                url:'/asset_management/api/Maintenance/',
+                type: "POST",
+                data: encoded,
+                dataType: "JSON",
+                contentType: "application/json",
+            })
+        }
 
-            success: function(data){
+        for (i = 0; i < selectedRow; i++){
 
-                events = {
-                    asset_id : "{{id}}",
-                    event_title : "Maintenance Added",
-                    event_message: "Maintenance named " + $(maintenance_name).val() + "." +
-                                    " Added by " + sessionStorage.getItem("name")
-                }
+            aevent_id_multi = table.rows('.selected').data()[i]["asset_id"]
 
-                    $.ajax({
-                    url:'/asset_management/api/Event/',
-                    type: "POST",
-                    data: JSON.stringify(events),
-                    dataType: "JSON",
-                    contentType: "application/json",
-
-                    success: function(data){
-                    console.log("EVENT CREATED")
-
-                    assetDetails()
-                    load_event("{{id}}")
-                    $('#addMaintenance').modal('hide');
-                    refresh()
-                    toastr.success('Maintenance added successfully')
-                    }
-                })
+            events = {
+                asset_id : aevent_id_multi,
+                event_title : "Maintenance Added",
+                event_message: "Maintenance named " + $(maintenance_name).val() + "." +
+                                " Added by " + sessionStorage.getItem("name")
             }
-        })
 
-       
+            $.ajax({
+                url:'/asset_management/api/Event/',
+                type: "POST",
+                data: JSON.stringify(events),
+                dataType: "JSON",
+                contentType: "application/json",
+
+                success: function(data){
+                console.log("EVENT CREATED")     
+                }
+            })
+        }
+
+        $('#addMaintenance').modal('hide');
+        toastr.success('Maintenance added successfully')
     });
 
 

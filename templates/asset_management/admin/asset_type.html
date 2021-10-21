@@ -216,7 +216,13 @@ $(document).ready(function () {
         columns: [
                 { data: "asset_type_id"},
                 { data: "asset_type_title" },
-                { data: "description" },
+                { data: "description", render:function(data){
+                  if (data == "                        "){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  }
+                },
                 { data: "created_at", render:function(data){
                     return moment(data).format('LL')
                   } 

@@ -167,9 +167,27 @@ $(document).ready(function () {
                 { data: "asset_number"},
                 { data: "asset_title"},
                 { data: "asset_type.asset_type_title"},
-                { data: "asset_brand"},
-                { data: "asset_model" },
-                { data: "asset_serial" },
+                { data: "asset_brand", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  }
+                },
+                { data: "asset_model", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  }
+                },
+                { data: "asset_serial", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  }
+                },
                 { data: "created_at" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){

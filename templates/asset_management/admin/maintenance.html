@@ -350,7 +350,8 @@ $(document).ready(function () {
                 { data: "maintenance_name"},
                 { data: "maintenance_cost"},
                 { data: "maintenance_due", render:function(data){
-                    return moment(data).format('LL')
+                    return moment(data).format('LL') +
+                    "<div class='text-secondary font-italic'>" + moment(data).startOf('seconds').fromNow()+"</div>"
                   } 
                 },
                 { data: "maintenance_completed", render:function(data){
@@ -926,7 +927,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                         assetDetails()
                         load_event("{{id}}")
                         $('#editMaintenance').modal('hide');
-                        toastr.success('Asset edited successfully')
+                        toastr.success('Maintenance edited successfully')
                         refresh()
                         }
                     })

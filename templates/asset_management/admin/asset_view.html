@@ -480,12 +480,41 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     $("#asset_cost").html("₱" + asset_info.asset_cost);
                     $("#asset_acquisition").html( asset_info.asset_acquisition);
                     $("#acquisition_date").html(moment(asset_info.acquisition_date).format('LL'));
-                    $("#asset_model").html(asset_info.asset_model);
-                    $("#asset_brand").html(asset_info.asset_brand);
-                    $("#asset_serial").html(asset_info.asset_serial);
-                    $("#asset_description").html(asset_info.asset_description);
+
+                    if (asset_info.asset_model == ""){
+                        $("#asset_model").html('<div class="text-secondary font-italic">Not set</div>')
+                    } else{
+                        $("#asset_model").html(asset_info.asset_model);
+                    }
+
+                    if (asset_info.asset_brand == ""){
+                        $("#asset_brand").html('<div class="text-secondary font-italic">Not set</div>')
+                    } else{
+                        $("#asset_brand").html(asset_info.asset_brand);
+                    }
+
+                    if (asset_info.asset_serial == ""){
+                        $("#asset_serial").html('<div class="text-secondary font-italic">Not set</div>')
+                    } else{
+                        $("#asset_serial").html(asset_info.asset_serial);
+                    }
+
+                    if (asset_info.asset_description == "                        "){
+                        $("#asset_description").html('<div class="text-secondary font-italic">Not set</div>')
+                    } else{
+                        $("#asset_description").html(asset_info.asset_description);
+                    }
+
+                    
                     $("#created_by").html(asset_info.created_by_details.user_name);
-                    $("#asset_remarks").html(asset_info.asset_remarks);
+
+                    if (asset_info.asset_remarks == null){
+                        $("#asset_remarks").html('<div class="text-secondary font-italic">Not set</div>')
+                    } else{
+                        $("#asset_remarks").html(asset_info.asset_remarks);
+                    }
+
+
                     $(".current_status").val(asset_info.asset_status);
 
                     if (asset_info.asset_status == "Available"){
