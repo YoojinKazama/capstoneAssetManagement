@@ -52,35 +52,130 @@ filter_user()
   <!-- Top Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url_for('static', path='/index3.html')}}" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-    </ul>
+    <button class="nav-link navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+  </button>
+  
+  <!-- Left navbar links -->
+  <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+      <ul class="navbar-nav">
+  
+          <!-- Sidebar Toggler -->
+          <li class="nav-item">
+              <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                  <i class="fas fa-bars"></i>
+              </a>
+          </li>
+  
+          <!-- Hospital Core -->
+          <li class="nav-item dropdown">
+              <a 
+                  href="#" 
+                  data-toggle="dropdown" 
+                  class="nav-link dropdown-toggle"
+              >Hospital Core</a>
+              
+              <ul class="dropdown-menu dropdown-menu-left">
+                  <li><a href="#" class="dropdown-item">Patient Management</a></li>
+                  <li><a href="#" class="dropdown-item">Treatment Management</a></li>
+                  <li><a href="#" class="dropdown-item">Pharmacy</a></li>
+                  <li><a href="#" class="dropdown-item">Medical Record</a></li>
+                  <li><a href="#" class="dropdown-item">Doctors Management</a></li>
+                  <li><a href="#" class="dropdown-item">Visitors Management</a></li>
+              </ul>
+          </li>
+  
+          <!-- Human Resource -->
+          <li class="nav-item dropdown">
+              <a 
+                  href="#" 
+                  data-toggle="dropdown" 
+                  class="nav-link dropdown-toggle"
+              >Human Resource</a>
+              
+              <ul class="dropdown-menu dropdown-menu-left">
+                  <li><a href="#" class="dropdown-item">Core Human Capital Management</a></li>
+                  <li><a href="#" class="dropdown-item">Recruitment Management</a></li>
+                  <li><a href="#" class="dropdown-item">Time & Attendance</a></li>
+                  <li><a href="#" class="dropdown-item">Performance Management</a></li>
+              </ul>
+          </li>
+  
+          <!-- Finance -->
+          <li class="nav-item dropdown">
+              <a 
+                  href="#" 
+                  data-toggle="dropdown" 
+                  class="nav-link dropdown-toggle"
+              >Finance</a>
+              
+              <ul class="dropdown-menu dropdown-menu-left">
+                  <li><a href="#" class="dropdown-item">General Ledger</a></li>
+                  <li><a href="#" class="dropdown-item">Accounts Payable/Receivable</a></li>
+                  <li><a href="#" class="dropdown-item">Collection/Disbursement</a></li>
+              </ul>
+          </li>
+  
+          <!-- Logistics -->
+          <li class="nav-item dropdown">
+              <a 
+                  href="#" 
+                  data-toggle="dropdown" 
+                  class="nav-link dropdown-toggle text-primary"
+              >Logistics</a>
+              
+              <ul class="dropdown-menu dropdown-menu-left">
+                  <li><a href="#" class="dropdown-item">Procurement Management</a></li>
+                  <li><a href="#" class="dropdown-item">Warehousing Management</a></li>
+                  <li><a href="#" class="dropdown-item active">Asset Management</a></li>
+                  <li><a href="#" class="dropdown-item">Project Management</a></li>
+              </ul>
+          </li>
+      </ul>
+  </div>  
     <!-- /.navbar-nav -->
 
     <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
-
-      <!-- Notifications Dropdown Menu -->
+    <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            
+      <!-- User Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="fa fa-user"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item" id="logoutBtn">
-            <i class="fas fa-file mr-2"></i> Log out
+          <a href="#" class="nav-link" data-toggle="dropdown" role="button">
+              <i class="fas fa-user-circle"></i>
+              <!-- <span class="badge badge-warning navbar-badge">15</span> -->
           </a>
-        </div>
+  
+          <div class="dropdown-menu dropdown-menu-right">
+              <a href="#" class="dropdown-item d-flex align-items-center">
+                  <div class="mr-3" style="width: 1.25rem">
+                      <i class="fas fa-user"></i>
+                  </div>
+                  <span>Profile</span>
+              </a>
+              <a href="#" class="dropdown-item d-flex align-items-center">
+                  <div class="mr-3" style="width: 1.25rem">
+                      <i class="fas fa-cog"></i>
+                  </div>
+                  <span>Settings</span>
+              </a>
+  
+              <div class="dropdown-divider"></div>
+              
+              <a
+                  id="logoutBtn"
+                  role="button" 
+                  class="dropdown-item d-flex align-items-center" 
+                  data-toggle="modal" 
+                  data-target="#logoutModal"
+              >
+                  <div class="mr-3" style="width: 1.25rem">
+                      <i class="fas fa-sign-out-alt"></i>
+                  </div>
+                  <span>Log out</span>
+              </a>
+          </div>
       </li>
-    </ul>
+  </ul>
     <!-- /.navbar-nav -->
   </nav>
   <!-- /.navbar -->
@@ -91,7 +186,7 @@ filter_user()
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
       <img src="{{url_for('static', path='/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle border" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">HoMIES</span>
     </a>
 
     <!-- Sidebar -->
@@ -99,11 +194,27 @@ filter_user()
       
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+        <!-- User Image -->
         <div class="image">
-          <img src="{{url_for('static', path='/dist/img/user2-160x160.jpg')}}" class="img-circle border" alt="User Image">
+            <img 
+                src="{{url_for('static', path='/dist/img/user2-160x160.jpg')}}"
+                class="img-circle border" 
+                alt="User Image"
+            >
         </div>
-        <div class="info mr-1">
-          <a href="#" class="d-block text-truncate" id="profile_name"></a>
+        
+        <!-- User Full Name -->
+        <div class="info mr-1 w-100" id="userFullNameDisplay">
+            
+            <!-- User Full Name -->
+            <a href="#" class="nav-item text-truncate" id="userFullName"></a>
+
+            <!-- User Position -->
+            <div class="small text-secondary text-truncate" id="userPosition"></div>
+            
+            <!-- User Department -->
+            <div class="small text-secondary text-truncate" id="userDepartment">Information Technology (IT) Department</div>
         </div>
       </div>
 
@@ -122,7 +233,8 @@ filter_user()
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-header">ASSET MANAGEMENT</li>
+          <li class="nav-header font-weight-bold text-wrap">ASSET MANAGEMENT</li>
+          <li class="nav-header">CORE</li>
             <li class="nav-item">
               <a href="/asset_management/" class="nav-link" id="dashboard_sidebar">
                 <script>if(window.location.pathname == '/asset_management/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
@@ -130,75 +242,52 @@ filter_user()
                 <p>Dashboard</p>
               </a>
             </li>
-            <li class="nav-item" id="asset_sidebar_dropdown">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tags"></i>
-                <p>
-                  Assets
-                  <i class="right fas fa-angle-left"></i>
-                </p>
+            <li class="nav-header">ASSETS</li>
+            <li class="nav-item">
+              <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
+                <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')}</script>
+                <i class="nav-icon fas fa-stream"></i>
+                <p>List of Assets</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
-                    <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')
-                                                                                      document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
-                    <i class="fas fa-stream"></i>
-                    <p>List of Assets</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
-                  <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')
-                                                                                        document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
-                    <i class="fas fa-box"></i>
-                    <p>Asset Category</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
-                  <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')
-                                                                                            document.getElementById("asset_sidebar_dropdown").classList.add('menu-open')}</script>
-                    <i class="fas fa-handshake"></i>
-                    <p>Asset Providers</p>
-                  </a>
-                </li>
             </li>
-        </ul>
-        <li class="nav-item" id="maintenance_sidebar_dropdown">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>
-              Maintenance
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
+                <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')}</script>
+                  <i class="nav-icon fas fa-box"></i>
+                  <p>Asset Category</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
+                <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')}</script>
+                  <i class="nav-icon fas fa-handshake"></i>
+                  <p>Asset Providers</p>
+              </a>
+            </li>
+            <li class="nav-header">MAINTENANCE</li>
             <li class="nav-item">
               <a href="/asset_management/maintenance_page" class="nav-link" id="maintenance_page_sidebar">
-                <script>if(window.location.pathname == '/asset_management/maintenance_page'){document.getElementById("maintenance_page_sidebar").classList.add('active')
-                                                                                  document.getElementById("maintenance_sidebar_dropdown").classList.add('menu-open')}</script>
-                <i class="fas fa-tools"></i>
+                <script>if(window.location.pathname == '/asset_management/maintenance_page'){document.getElementById("maintenance_page_sidebar").classList.add('active')}</script>
+                <i class="nav-icon fas fa-tools"></i>
                 <p>List of Maintenances</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="/asset_management/maintenance_provider" class="nav-link" id="maintenance_provider_sidebar">
-              <script>if(window.location.pathname == '/asset_management/maintenance_provider'){document.getElementById("maintenance_provider_sidebar").classList.add('active')
-                                                                                    document.getElementById("maintenance_sidebar_dropdown").classList.add('menu-open')}</script>
-                <i class="fas fa-users-cog"></i>
-                <p>Maintenance Providers</p>
+                <script>if(window.location.pathname == '/asset_management/maintenance_provider'){document.getElementById("maintenance_provider_sidebar").classList.add('active')}</script>
+                  <i class="nav-icon fas fa-users-cog"></i>
+                  <p>Maintenance Providers</p>
+              </a>
+          </li>
+            <li class="nav-header">REQUESTS</li>
+            <li class="nav-item">
+              <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
+              <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>
+                <i class="nav-icon fas fa-hand-holding-heart"></i>
+                <p>Equipment Requests</p>
               </a>
             </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
-          <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>
-            <i class="fas fa-hand-holding-heart"></i>
-            <p>Requests</p>
-          </a>
-        </li>
+        </ul>
       </nav>
       <!-- /.sidebar-menu -->
 
@@ -207,9 +296,16 @@ filter_user()
 
     <!-- Sidebar Custom -->
     <div class="sidebar-custom">
-      <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-      <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
-    </div>
+      <a href="#" class="btn btn-sm btn-light"><i class="fas fa-cogs"></i></a>
+      <button
+          class="btn btn-sm btn-danger hide-on-collapse pos-right"
+          data-toggle="modal"
+          data-target="#logoutModal"
+      >
+          <span>Log out</span>
+          <i class="fas fa-sign-out-alt ml-1"></i>
+      </button>
+  </div>
       <!-- /.sidebar-custom -->
   </aside>
   <!-- /.main-sidebar -->
@@ -228,12 +324,6 @@ filter_user()
             <h1>Page Title</h1>
           {% endblock %}
           </div>
-
-          <!-- Breadcrumb -->
-          {% block breadcrumb%}
-          
-          {% endblock %}
-          <!-- / breadcrumb -->
 
         </div>
       </div><!-- /.container-fluid -->
@@ -302,7 +392,8 @@ filter_user()
 <script>
 $(document).ready(function () {
 
-  $("#profile_name").html(sessionStorage.getItem("name"));
+  $("#userFullName").html(sessionStorage.getItem("name"));
+  $("#userPosition").html(sessionStorage.getItem("type"));
 
 });
 

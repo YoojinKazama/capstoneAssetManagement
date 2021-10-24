@@ -1,142 +1,87 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin | Hospital Management System</title>
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/fontawesome-free/css/all.min.css')}}">
-
-    <!-- BLOCK FOR PLUGINS STYLESHEET -->
-    {%block plugins_css%}
-
-      <!-- overlayScrollbars -->
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-      
-      <!-- DataTables -->
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.min.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/select2/css/select2.css')}}">
-      <link rel="stylesheet" href="{{url_for('static', path='/plugins/select2/css/select2.min.css')}}">
-
-    {%endblock%}
-    
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
-    
-    <!-- BLOCK FOR EXTRA STYLES -->
-    {%block styles%}
-    {%endblock%}
-  
-  <script>
-
-  function filter_user(){
-  user_type = sessionStorage.getItem("type")
-    if (user_type == "Equipment Manager"){
-    window.location.href = "/asset_management/";
-    }
-  }
-  filter_user()
-
-  </script>
-
 </head>
 
+<!-- 
+| =================================================================================
+| LOGIN PAGE - body tag must have .login-page and .bg-white class
+| =================================================================================
+-->
+<body class="hold-transition login-page bg-white">
 
-  
-    <body class="hold-transition login-page bg-white">
-        <div class="login-box">
-          <div class="login-logo">
-            <a href=""><b>HM</b>CMS</a>
-          </div>
-          <!-- /.login-logo -->
-          <div class="card shadow-none">
-            <div class="card-body login-card-body">
-              <p class="login-box-msg">Sign in to start your session</p>
-
-              <form id="login_form" class = "needs-validation" novalidate>
-                <div class="input-group mb-3">
-                  <input required type="email" id="login_email" class="form-control" placeholder="Email">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <span class="fas fa-envelope"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group mb-3">
-                  <input required type="password" id="login_password" class="form-control" placeholder="Password">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <span class="fas fa-lock"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-8">
-                    <div class="icheck-primary">
-                      <input type="checkbox" id="remember">
-                        <label for="remember">
-                          Remember Me
-                      </label>
-                    </div>
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-4">
-                    <button type="submit" id="loginBtn" class="btn btn-primary btn-block">Sign In</button>
-                  </div>
-                  <!-- /.col -->
-                </div>
-              </form>
-
-              <p class="mb-1">
-                <a href="#">I forgot my password</a>
-              </p>
-            <!-- /.login-card-body -->
-          </div>
+    <!-- 
+    | =================================================================================
+    | LOGIN FORM (CENTERED)
+    | =================================================================================
+    -->
+    <div class="login-box">
+        <div class="login-logo">
+            <div class="">HoMIES</div>
         </div>
-        <!-- /.login-box -->
+
+        <div class="card shadow-none">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Log in to start your session</p>
+
+                <form id="loginForm">
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <input type="email" id="email" class="form-control" name="email" placeholder="Email">
+                            <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label for="password">Password</label>
+                            <a class="mb-3" href="#">I forgot my password</a>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Actions -->
+                    <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                        <span>Log in</span>
+                        <i class="fas fa-sign-in-alt ml-1"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
+    <!-- jQuery -->
     <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
+    <!-- Bootstrap 4 -->
     <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-
-    <!-- BLOCK FOR PLUGINS JAVASCRIPT -->
-    {%block plugins_js%}
-      <!-- Bootstrap 4 -->
-      <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-      <!-- overlayScrollbars -->
-      <script src="{{url_for('static', path='/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-      <!-- DataTables  & Plugins -->
-      <script src="{{url_for('static', path='/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/jszip/jszip.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/pdfmake/pdfmake.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/pdfmake/vfs_fonts.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/moment/moment-with-locales.js')}}"></script>
-      <script src="{{url_for('static', path='/plugins/moment/moment-with-locales.min.js')}}"></script>
-      <!-- AdminLTE App -->
-      <script src="{{url_for('static', path='/dist/js/adminlte.min.js')}}"></script>
-    {%endblock%}
-    
+    <!-- overlayScrollbars -->
+    <script src="{{url_for('static', path='/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <!-- AdminLTE App -->
     <script src="{{url_for('static', path='/dist/js/adminlte.min.js')}}"></script>
-    <script src="{{url_for('static', path='/plugins/select2/js/select2.js')}}"></script>
-    <script src="{{url_for('static', path='/plugins/select2/js/select2.min.js')}}"></script>
-
-    <!-- BLOCK FOR EXTRA SCRIPTS -->
-    {%block scripts%}
-    {%endblock%}
-
 
     <script>
 
@@ -165,8 +110,8 @@
             e.preventDefault()
 
             let formData = {
-              user_email: $('#login_email').val(),
-              user_password: $('#login_password').val()
+              user_email: $('#email').val(),
+              user_password: $('#password').val()
             }
 
             console.log(JSON.stringify(formData))
@@ -181,12 +126,6 @@
               success: function(data){
                 user = data.user;
                 console.log(user)
-
-                Swal.fire(
-                    'Success!',
-                    data.message,
-                    'success'
-                )
 
               // Store
 
