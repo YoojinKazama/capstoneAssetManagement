@@ -25,7 +25,7 @@ function load_event(id){
                 '<div class="timeline-item">' +
                 '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                 '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                '<div class="timeline-body">' +
+                '<div class="timeline-body text-small">' +
                     event[i].event_message +
                 '</div>' +
                 '</div>' +
@@ -45,7 +45,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -73,7 +73,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -101,7 +101,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -129,7 +129,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -157,7 +157,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -185,7 +185,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +
@@ -213,7 +213,7 @@ function load_event(id){
                     '<div class="timeline-item">' +
                     '<span class="time"><i class="fas fa-clock"></i>  ' + moment(event[i].created_at).startOf('seconds').fromNow() + '</span>'+
                     '<h3 class="timeline-header">' + event[i].event_title + '</h3>' +
-                    '<div class="timeline-body">' +
+                    '<div class="timeline-body text-small">' +
                         event[i].event_message +
                     '</div>' +
                     '</div>' +

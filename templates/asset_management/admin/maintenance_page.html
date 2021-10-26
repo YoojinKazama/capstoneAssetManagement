@@ -453,7 +453,10 @@ $(document).ready(function () {
         columns: [
                 { data: "maintenance_id"},
                 { data: "maintenance_name"},
-                { data: "maintenance_cost"},
+                { data: "maintenance_cost", render:function(data){
+                    return "₱" + data
+                  } 
+                },
                 { data: "maintenance_due", render:function(data){
                     return moment(data).format('LL') +
                     "<div class='text-secondary font-italic'>" + moment(data).startOf('seconds').fromNow()+"</div>"
@@ -745,7 +748,7 @@ $("#addMaintenanceForm").on("submit", function(e){
                   $('#view_maintenance_name').html(maintenanceInfo.maintenance_name);
                   $('#view_maintenance_details').html(maintenanceInfo.maintenance_details);
                   $('#view_maintenance_provider').html(maintenanceInfo.Maintenance_provider.maintenance_provider_name);
-                  $('#view_maintenance_cost').html(maintenanceInfo.maintenance_cost);
+                  $('#view_maintenance_cost').html("₱"+maintenanceInfo.maintenance_cost);
                   $('#view_maintenance_due').html(moment(maintenanceInfo.maintenance_due).format('LL'));
                   $('#view_maintenance_status').html(maintenanceInfo.maintenance_status);
 
