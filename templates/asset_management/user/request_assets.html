@@ -9,32 +9,15 @@
 {% block title %}Asset - Dashboard{% endblock %}
 {% block title_header %} <h3> Asset Requests </h3>{% endblock %}
 
-{% block breadcrumb%}
-<div class="col-sm-6">
-  <ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Hospital Management</a></li>
-    <li class="breadcrumb-item"><a href="/asset_management"> Asset Management</a></li>
-    <li class="breadcrumb-item active">Request Assets</li>
-  </ol>
-</div>  
-{% endblock %}
-
 {%block content%}
-
-<div style="margin-bottom: 10px;">
-<button type="button" class="btn btn-primary request_asset" data-toggle="modal" data-target="#requestAsset">
-  Request Asset
-</button>
-</div>
-
-
 
 <div class="card card-primary card-outline">
 
           <!-- DATA TABLES -->
           <div class="card-header">
-            <h3 class="card-title">Assets</h3>
+            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#requestAsset">
+              Request Asset
+            </button>
           </div>
           <!-- /DATA TABLES -->
 

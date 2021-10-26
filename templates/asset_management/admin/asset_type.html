@@ -12,18 +12,14 @@
 
 {%block content%}
 
-<div style="margin-bottom: 10px;">
-<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addAssetType">
-  Add Asset Category
-</button>
-</div>
-
-
 <div class="card card-primary card-outline">
 
           <!-- DATA TABLES -->
           <div class="card-header">
-            <h3 class="card-title">Assets Category</h3>
+            <h3 class="card-title">List of Assets Category</h3>
+            <button type="button" class="btn btn-primary float-right add_asset" data-toggle="modal" data-target="#addAssetType">
+              Add Asset Category
+            </button>
           </div>
           <!-- /DATA TABLES -->
 
@@ -211,6 +207,9 @@ $(document).ready(function () {
                     html = '<div class="text-secondary font-italic">Not set</div>'
                     return html
                     }
+                  else{
+                    return data
+                  }
                   }
                 },
                 { data: "created_at", render:function(data){

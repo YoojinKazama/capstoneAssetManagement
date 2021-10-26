@@ -12,18 +12,13 @@
 
 {%block content%}
 
-<div style="margin-bottom: 10px;">
-<button type="button" class="btn btn-primary add_asset" data-toggle="modal" data-target="#addMaintenance">
-  Add Maintenance
-</button>
-</div>
-
-
 <div class="card card-primary card-outline">
 
           <!-- DATA TABLES -->
           <div class="card-header">
-            <h3 class="card-title">Maintenances</h3>
+            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addMaintenance">
+                Add Maintenance
+            </button>
           </div>
           <!-- /DATA TABLES -->
 
@@ -392,6 +387,9 @@ $(document).ready(function () {
                       html = '<div class="text-secondary font-italic">Not set</div>'
                       return html
                       }
+                    else{
+                    return data
+                    }
                     }
                   },
                 { data: "asset_model", render:function(data){
@@ -399,6 +397,9 @@ $(document).ready(function () {
                       html = '<div class="text-secondary font-italic">Not set</div>'
                       return html
                       }
+                    else{
+                    return data
+                    }
                     }
                   },
                 { data: "asset_serial", render:function(data){
@@ -406,27 +407,30 @@ $(document).ready(function () {
                       html = '<div class="text-secondary font-italic">Not set</div>'
                       return html
                       }
+                    else{
+                    return data
+                    }
                     }
                   },
                 { data: "created_at" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){
-                            return '<div class="text-center"><span class="badge badge-success">Available</span></div>'
+                            return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>'
                         }
                         else if(data == "Missing"){
-                            return '<div class="text-center"><span class="badge badge-warning">Missing</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-sticky-note mr-1"></i><span>Missing</span></div>'
                         } 
                         else if(data == "Sold"){
-                            return '<div class="text-center"><span class="badge badge-info">Sold</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>'
                         }
                         else if(data == "Disposed"){
-                            return '<div class="text-center"><span class="badge badge-info">Disposed</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-thumbs-down mr-1"></i><span>Disposed</span></div>'
                         }
                         else if(data == "Broken"){
-                            return '<div class="text-center"><span class="badge badge-warning">Broken</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-heart-broken mr-1"></i><span>Broken</span></div>'
                         }
                         else if(data == "Repair"){
-                            return '<div class="text-center"><span class="badge badge-info">Repair</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Broken</span></div>'
                         }   
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -475,14 +479,14 @@ $(document).ready(function () {
                 { data: "maintenance_day"},
                 { data: "maintenance_status", render: function(data, type, row){
                         if(data == "Completed"){
-                            return '<div class="text-center"><span class="badge badge-success">Completed</span></div>'
+                            return '<div class="badge badge-success p-2 w-100"><span>Completed</span></div>'
                         }
                         else if(data == "Pending" && moment(new Date()).format('L') > moment(row.maintenance_due).format('L')){
-                            return '<div class="text-center"><span class="badge badge-warning">Past Due</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><span>Past Due</span></div>'
                         }
                         
                         else if(data == "Pending"){
-                            return '<div class="text-center"><span class="badge badge-info">Pending</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><span>Pending</span></div>'
                         }
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
