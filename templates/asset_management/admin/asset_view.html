@@ -507,7 +507,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     $(".current_status").val(asset_info.asset_status);
 
                     if (asset_info.asset_status == "Available"){
-                        $("#asset_status").html('<span class="badge badge-success">Available</span>');
+                        $("#asset_status").html('<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
@@ -518,7 +518,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
                     if (asset_info.asset_status == "Missing"){
-                        $("#asset_status").html('<span class="badge badge-warning">Missing</span></div>');
+                        $("#asset_status").html('<div class="badge badge-warning p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Missing</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
@@ -530,7 +530,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Sold"){
-                        $("#asset_status").html('<span class="badge badge-info" >Sold</span></div>');
+                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
@@ -542,7 +542,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Disposed"){
-                        $("#asset_status").html('<span class="badge badge-info" >Disposed</span></div>');
+                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-thumbs-down mr-1"></i><span>Disposed</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
@@ -554,7 +554,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Broken"){
-                        $("#asset_status").html('<span class="badge badge-warning" >Broken</span></div>');
+                        $("#asset_status").html('<div class="badge badge-warning p-2 w-100"><i class="fas fa-heart-broken mr-1"></i><span>Broken</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item undo-broken" ><i class="fas fa-heart-broken"></i>&nbsp;Undo Broken</a>' +
@@ -566,7 +566,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Repair"){
-                        $("#asset_status").html('<span class="badge badge-info" >Repair</span></div>');
+                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Repair</span></div>');
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item undo-repair" ><i class="fas fa-hammer"></i>&nbsp;Undo Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +

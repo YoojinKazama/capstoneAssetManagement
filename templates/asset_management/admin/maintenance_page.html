@@ -17,7 +17,7 @@
           <!-- DATA TABLES -->
           <div class="card-header">
             <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addMaintenance">
-                Add Maintenance
+                Add Maintenance <i class="fas fa-plus mr-1"></i>
             </button>
           </div>
           <!-- /DATA TABLES -->
@@ -252,6 +252,7 @@
               <form id="editMaintenanceForm">
                 <div class="form-row">
                     <input hidden type="text" id="edit_maintenance_id">
+                    <input hidden type="text" id="edit_asset_id">
                     <div class="form-group col-sm-12">
                         <label for="edit_maintenance_name">Name</label><label style="color: red;">*</label>
                         <input required class="form-control" name="edit_maintenance_name" id="edit_maintenance_name"  >
@@ -482,14 +483,14 @@ $(document).ready(function () {
                 { data: "maintenance_day"},
                 { data: "maintenance_status", render: function(data, type, row){
                         if(data == "Completed"){
-                            return '<div class="badge badge-success p-2 w-100"><span>Completed</span></div>'
+                            return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Completed</span></div>'
                         }
                         else if(data == "Pending" && moment(new Date()).format('L') > moment(row.maintenance_due).format('L')){
-                            return '<div class="badge badge-warning p-2 w-100"><span>Past Due</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
                         }
                         
                         else if(data == "Pending"){
-                            return '<div class="badge badge-info p-2 w-100"><span>Pending</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
                         }
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -799,6 +800,7 @@ $("#addMaintenanceForm").on("submit", function(e){
 
                     //EDIT
                     $("#edit_maintenance_id").val(maintenance_info.maintenance_id );
+                    $("#edit_asset_id").val(maintenance_info.asset_id );
                     $("#edit_maintenance_name").val(maintenance_info.maintenance_name );
                     $("#edit_maintenance_details").val(maintenance_info.maintenance_details);
                     $("#edit_maintenance_provider").val(maintenance_info.Maintenance_provider.maintenance_provider_id );
@@ -967,7 +969,8 @@ $("#editMaintenanceForm").on("submit", function(e){
     }
     
     
-    form =  { maintenance_name: $(edit_maintenance_name).val(),
+    form =  { asset_id: $(edit_asset_id).val(),  
+                maintenance_name: $(edit_maintenance_name).val(),
                 maintenance_details: $(edit_maintenance_details).val(),
                 maintenance_provider_id: $(edit_maintenance_provider).val(),
                 maintenance_cost: $(edit_maintenance_cost).val(),
@@ -994,7 +997,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                 if ($(edit_maintenance_status).val() == "Completed"){
 
                     events = {
-                        asset_id : "{{id}}",
+                        asset_id : $(edit_asset_id).val(),
                         event_title : "Maintenance Completed",
                         event_message: "Maintenance named " + $(edit_maintenance_name).val()  + " completed on " + moment(date_completed).format('LL') +
                         " costing ₱" + $(edit_maintenance_cost).val() + ". Updated by " + sessionStorage.getItem("name")
@@ -1009,9 +1012,6 @@ $("#editMaintenanceForm").on("submit", function(e){
     
                         success: function(data){
                         console.log("EVENT CREATED")
-    
-                        assetDetails()
-                        load_event("{{id}}")
                         $('#editMaintenance').modal('hide');
                         toastr.success('Maintenance updated successfully')
                         refresh()
@@ -1022,7 +1022,7 @@ $("#editMaintenanceForm").on("submit", function(e){
 
                 else{
                     events = {
-                        asset_id : "{{id}}",
+                        asset_id : $(edit_asset_id).val(),
                         event_title : "Maintenance Updated",
                         event_message: "Maintenance named " + $(edit_maintenance_name).val() + ". Updated by " + sessionStorage.getItem("name")
                       }
@@ -1037,8 +1037,6 @@ $("#editMaintenanceForm").on("submit", function(e){
                         success: function(data){
                         console.log("EVENT CREATED")
     
-                        assetDetails()
-                        load_event("{{id}}")
                         $('#editMaintenance').modal('hide');
                         toastr.success('Asset edited successfully')
                         refresh()

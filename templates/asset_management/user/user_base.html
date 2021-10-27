@@ -89,9 +89,10 @@ filter_user()
                         <div class="dropdown-divider"></div>
                         
                         <a
-                            id="logoutBtn"
                             role="button" 
                             class="dropdown-item d-flex align-items-center"
+                            data-toggle="modal" 
+                            data-target="#logoutModal"
                         >
                             <div class="mr-3" style="width: 1.25rem">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -170,8 +171,10 @@ filter_user()
     <div class="sidebar-custom">
                 <a href="#" class="btn btn-sm btn-light"><i class="fas fa-cogs"></i></a>
                 <button
-                    id="logoutBtn"
+                    role="button"
                     class="btn btn-sm btn-danger hide-on-collapse pos-right"
+                    data-toggle="modal" 
+                    data-target="#logoutModal"
                 >
                     <span>Log out</span>
                     <i class="fas fa-sign-out-alt ml-1"></i>
@@ -210,6 +213,24 @@ filter_user()
 
     {% block content %}
     {% endblock %}
+
+    <div class="modal fade" id="logoutModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title text-secondary"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Delete Category</h4>
+            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"><i class="fas fa-times"></i></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure to you want to Logout?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger confirmed_logout">Logout <i class="fas fa-sign-out-alt"></i></button>
+          </div>
+        </div>
 
     </section>
     <!-- /.content -->
@@ -268,7 +289,7 @@ $(document).ready(function () {
 
 });
 
-$(document).on("click", "#logoutBtn", function(){
+$(document).on("click", ".confirmed_logout", function(){
   sessionStorage.setItem("type", "");
   sessionStorage.setItem("id", "");
   sessionStorage.setItem("email", "");

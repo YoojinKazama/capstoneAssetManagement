@@ -4,7 +4,7 @@
 <div class="card-header">
     <h3 class="card-title">List of Maintenances</h3>
     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addMaintenance">
-        Add Maintenance
+        Add Maintenance <i class="fas fa-plus mr-1"></i>
       </button>
 </div>
 
@@ -379,14 +379,14 @@ $(document).ready(function () {
                 { data: "maintenance_day"},
                 { data: "maintenance_status", render: function(data, type, row){
                         if(data == "Completed"){
-                            return '<div class="badge badge-success p-2 w-100"><span>Completed</span></div>'
+                            return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Completed</span></div>'
                         }
                         else if(data == "Pending" && moment(new Date()).format('L') > moment(row.maintenance_due).format('L')){
-                            return '<div class="badge badge-warning p-2 w-100"><span>Past Due</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
                         }
                         
                         else if(data == "Pending"){
-                            return '<div class="badge badge-info p-2 w-100"><span>Pending</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
                         }
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
