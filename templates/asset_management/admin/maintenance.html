@@ -88,7 +88,6 @@
                         <label for="maintenance_status">Status</label><label style="color: red;">*</label>
                         <select required  class="form-control" name="maintenance_status" id="maintenance_status"  >
                             <option value = ""> - - Select - -</option>
-                            <option value = "Completed">Completed</option>
                             <option value = "Pending">Pending</option>
                         </select>
                     </div>
@@ -265,9 +264,7 @@
                     <div class="form-group col-sm-12">
                         <label for="edit_maintenance_status">Status</label><label style="color: red;">*</label>
                         <select required  class="form-control" name="edit_maintenance_status" id="edit_maintenance_status"  >
-                            <option value = ""> - - Select - -</option>
-                            <option value = "Completed">Completed</option>
-                            <option value = "Pending">Pending</option>
+                            
                         </select>
                     </div>
                 </div>
@@ -302,6 +299,66 @@
                 </div>
                 <div class="form-row" id="frequency_days">
                     
+                </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" id="edit_maintenanceBtn">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- COMPLETE MODAL -->
+
+  <div class="modal fade" id="completeMaintenance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Complete Maintenance</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+              <form id="completeMaintenanceForm">
+                <div class="form-row">
+                    <input hidden type="number" id="maintenance_repeat_days">
+                    <input hidden type="text" id="maintenance_complete_id">
+                    <div class="form-group col-sm-12">
+                        <label for="complete_maintenance_name">Name</label><label style="color: red;">*</label>
+                        <input disabled class="form-control" name="complete_maintenance_name" id="complete_maintenance_name"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="complete_maintenance_cost">Cost</label><label style="color: red;">*</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">₱</div>
+                            </div>
+                            <input required type="number"  class="form-control" name="complete_maintenance_cost" id="complete_maintenance_cost"  >
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="completed_due_date">Due Date</label><label style="color: red;">*</label>
+                    <input disabled type="date" name="completed_due_date" id="completed_due_date" class="form-control">
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="completed_date_legit">Date Completed</label><label style="color: red;">*</label>
+                    <input required type="date" name="completed_date_legit" id="completed_date_legit" class="form-control">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label for="complete_remarks">Remarks</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="complete_remarks" id="complete_remarks">
+                        </textarea>
+                    </div>
                 </div>
       </div>
     </div>
@@ -381,6 +438,9 @@ $(document).ready(function () {
                         if(data == "Completed"){
                             return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Completed</span></div>'
                         }
+                        else if(data == "Pending" && row.maintenance_repeatable == "True" && moment(row.maintenance_completed).format('L') > moment(row.maintenance_due).format('L')){
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
+                        }
                         else if(data == "Pending" && moment(new Date()).format('L') > moment(row.maintenance_due).format('L')){
                             return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
                         }
@@ -396,6 +456,24 @@ $(document).ready(function () {
                 },
                 { data: "active_status", render: function(data, type, row){
                         if(data == "Active"){
+                            if(row.maintenance_status == "Pending"){
+                                return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                                '<div class="dropdown-menu dropdown-menu-right">' +
+                                '<div class="dropdown-item d-flex btn_view" id="'+ row.maintenance_id +'" role="button">' +
+                                '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
+                                '<div>View Maintenance</div></div>' +
+                                '<div class="dropdown-item d-flex btn_edit" id="'+ row.maintenance_id +'" role="button">' +
+                                '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
+                                '<div>Edit Maintenance</div></div>'+
+                                '<div class="dropdown-item d-flex btn_complete" id="'+ row.maintenance_id +'" role="button">' +
+                                '<div style="width: 2rem"><i class="fas fa-check-circle"></i></div>' +
+                                '<div>Complete Maintenance</div></div>'+
+                                '<div class="dropdown-divider"</div></div>' +
+                                '<div class="dropdown-item d-flex btn_delete" id="'+ row.maintenance_id +'" role="button">' +
+                                '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
+                                '<div style="color: red">Delete Maintenance</div></div></div></div>';
+                                
+                              }
                             return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
                               '<div class="dropdown-menu dropdown-menu-right">' +
                                   '<div class="dropdown-item d-flex btn_view" id="'+ row.maintenance_id +'" role="button">' +
@@ -403,7 +481,7 @@ $(document).ready(function () {
                                     '<div>View Maintenance</div></div>' +
                                     '<div class="dropdown-item d-flex btn_edit" id="'+ row.maintenance_id +'" role="button">' +
                                       '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
-                                      '<div>Edit Maintenance</div></div>' +
+                                      '<div>Edit Maintenance</div></div>'+
                                       '<div class="dropdown-divider"</div></div>' +
                                       '<div class="dropdown-item d-flex btn_delete" id="'+ row.maintenance_id +'" role="button">' +
                                         '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
@@ -448,24 +526,6 @@ $(document).ready(function () {
 
                 }
                 })
-
-$('#maintenance_status').change(function(){
-    
-        if(this.value == "Completed") {
-            html = 
-            '<div class="form-group col-sm-12 completed_date">' +
-                '<label for="maintenance_completed">Date Completed</label><label style="color: red;">*</label>' +
-                '<input required type="date" name="maintenance_completed" id="maintenance_completed" class="form-control">' +
-            '</div>'
-
-        $('#completed_date').html(html);
-        }
-        else{
-            $('.completed_date').remove();
-        }
-
-    
-});
 
 $('#edit_maintenance_status').change(function(){
     
@@ -536,10 +596,6 @@ $("#addMaintenanceForm").on("submit", function(e){
     date_completed = ""
     days = 0
 
-    if($(edit_maintenance_status).val() == "Completed"){
-        date_completed = new Date($(maintenance_completed).val())
-    }
-
     if(document.getElementById('repeatable_yes').checked){
         repeatable = "True"
 
@@ -569,7 +625,6 @@ $("#addMaintenanceForm").on("submit", function(e){
                 maintenance_cost: $(maintenance_cost).val(),
                 maintenance_due: new Date($(maintenance_due).val()),
                 maintenance_status: $(maintenance_status).val(),
-                maintenance_completed: new Date($(date_completed).val()),
                 maintenance_repeatable: repeatable,
                 maintenance_day: days,
                 };
@@ -751,11 +806,25 @@ $("#addMaintenanceForm").on("submit", function(e){
                         html = 
                         '<div class="form-group col-sm-12 edit_completed_date">' +
                             '<label for="edit_maintenance_completed">Date Completed</label><label style="color: red;">*</label>' +
-                            '<input required type="date" name="edit_maintenance_completed" id="edit_maintenance_completed" class="form-control">' +
+                            '<input disabled type="date" name="edit_maintenance_completed" id="edit_maintenance_completed" class="form-control">' +
                         '</div>'
+
+                        html_status = '<option value = ""> - - Select - -</option>' +
+                            '<option value = "Pending">Pending</option>' +
+                            '<option value = "Completed">Completed</option>'
                 
+                    $('#edit_maintenance_status').html(html_status);
+                    $('#edit_maintenance_status').val(maintenance_info.maintenance_status);
                     $('#edit_completed_date').html(html);
                     $("#edit_maintenance_completed").val(moment(new Date(maintenance_info.maintenance_due)).format('YYYY[-]MM[-]DD'));
+                    }
+                    else if(maintenance_info.maintenance_status == "Pending"){
+                        html_status = '<option value = ""> - - Select - -</option>' +
+                            '<option value = "Pending">Pending</option>' 
+
+                        $('#edit_maintenance_status').html(html_status);
+                        $('#edit_maintenance_status').val(maintenance_info.maintenance_status);
+                        $('.edit_completed_date').remove();
                     }
                     else{
                         $('.edit_completed_date').remove();
@@ -763,9 +832,30 @@ $("#addMaintenanceForm").on("submit", function(e){
 
                     $('#editMaintenance').modal('show');
 
+                    $('#edit_maintenance_status').change(function(){
+    
+                        if(this.value == "Completed") {
+                            html = 
+                            '<div class="form-group col-sm-12 edit_completed_date">' +
+                                '<label for="edit_maintenance_completed">Date Completed</label><label style="color: red;">*</label>' +
+                                '<input disabled type="date" name="edit_maintenance_completed" id="edit_maintenance_completed" class="form-control">' +
+                            '</div>'
+
+                        
+                        $('#edit_completed_date').html(html);
+                        $("#edit_maintenance_completed").val(moment(new Date(maintenance_info.maintenance_completed)).format('YYYY[-]MM[-]DD'));
+                        }
+                        else{
+                            $('.edit_completed_date').remove();
+                        }
+                    
+                    
+                    });
+
                 }
                 
         });
+        
         $('#edit_repeatable_yes').change(function(){
             if(this.checked) {
                 html = '<div class="form-group col-sm-12 edit_frequency_form">' +
@@ -826,8 +916,6 @@ $("#editMaintenanceForm").on("submit", function(e){
 
     if(document.getElementById('edit_repeatable_yes').checked){
         repeatable = "True"
-        
-        
 
         if(document.getElementById('edit_daily').checked){
             days = 1
@@ -842,20 +930,9 @@ $("#editMaintenanceForm").on("submit", function(e){
             days = 365
         }
 
-        due.setDate(due.getDate() + days)
-        console.log(due)
-
-        if($(edit_maintenance_status).val() == "Completed"){
-            status = "Pending"
-        }
     }
     else{
         repeatable = "False"
-    }
-
-    
-        if(document.getElementById('edit_repeatable_yes').checked){
-            
     }
     
     
@@ -866,7 +943,6 @@ $("#editMaintenanceForm").on("submit", function(e){
                 maintenance_due: due,
                 maintenance_status: status,
                 remarks: $(edit_maintenance_remarks).val(),
-                maintenance_completed: new Date((date_completed)),
                 maintenance_repeatable: repeatable,
                 maintenance_day: days
                 };
@@ -883,64 +959,182 @@ $("#editMaintenanceForm").on("submit", function(e){
 
             success: function(data){
 
-                if ($(edit_maintenance_status).val() == "Completed"){
+                events = {
+                    asset_id : "{{id}}",
+                    event_title : "Maintenance Updated",
+                    event_message: "Maintenance named " + $(edit_maintenance_name).val() + ". Updated by " + sessionStorage.getItem("name")
+                    }
 
-                    events = {
-                        asset_id : "{{id}}",
-                        event_title : "Maintenance Completed",
-                        event_message: "Maintenance named " + $(edit_maintenance_name).val()  + " completed on " + moment(date_completed).format('LL') +
-                        " costing ₱" + $(edit_maintenance_cost).val() + ". Updated by " + sessionStorage.getItem("name")
-                      }
-    
-                        $.ajax({
-                        url:'/asset_management/api/Event/',
-                        type: "POST",
-                        data: JSON.stringify(events),
-                        dataType: "JSON",
-                        contentType: "application/json",
-    
-                        success: function(data){
-                        console.log("EVENT CREATED")
-    
-                        assetDetails()
-                        load_event("{{id}}")
-                        $('#editMaintenance').modal('hide');
-                        toastr.success('Maintenance updated successfully')
-                        refresh()
-                        }
-                    })
+                    $.ajax({
+                    url:'/asset_management/api/Event/',
+                    type: "POST",
+                    data: JSON.stringify(events),
+                    dataType: "JSON",
+                    contentType: "application/json",
 
-                }
+                    success: function(data){
+                    console.log("EVENT CREATED")
 
-                else{
-                    events = {
-                        asset_id : "{{id}}",
-                        event_title : "Maintenance Updated",
-                        event_message: "Maintenance named " + $(edit_maintenance_name).val() + ". Updated by " + sessionStorage.getItem("name")
-                      }
-    
-                        $.ajax({
-                        url:'/asset_management/api/Event/',
-                        type: "POST",
-                        data: JSON.stringify(events),
-                        dataType: "JSON",
-                        contentType: "application/json",
-    
-                        success: function(data){
-                        console.log("EVENT CREATED")
-    
-                        assetDetails()
-                        load_event("{{id}}")
-                        $('#editMaintenance').modal('hide');
-                        toastr.success('Maintenance edited successfully')
-                        refresh()
-                        }
-                    })
-                }
-
-                
+                    assetDetails()
+                    load_event("{{id}}")
+                    $('#editMaintenance').modal('hide');
+                    toastr.success('Maintenance edited successfully')
+                    refresh()
+                    }
+                })
             }
+                
         })
+    });
+
+
+
+    $(document).on("click", ".btn_complete", function(){
+        var id = this.id;
+
+        $.ajax({
+            url: '/asset_management/api/Maintenance/view/' + id,
+            type: "GET",
+            dataType: "JSON",
+        
+            success: function(data){
+                var maintenance_info = data.data;
+                $('#maintenance_complete_id').val(maintenance_info.maintenance_id);
+                $('#maintenance_repeat_days').val(maintenance_info.maintenance_day);
+                $('#complete_maintenance_name').val(maintenance_info.maintenance_name);
+                $('#complete_maintenance_cost').val(maintenance_info.maintenance_cost);
+                $('#completed_due_date').val(moment(new Date(maintenance_info.maintenance_due)).format('YYYY[-]MM[-]DD'));
+
+                $('#completeMaintenance').modal('show');
+
+            }
+        })  
+        
+      });
+
+      $("#completeMaintenanceForm").on("submit", function(e){
+
+        e.preventDefault();
+
+        var id = $(maintenance_complete_id).val();
+
+        form =  { maintenance_id: $(maintenance_complete_id).val(),
+                    maintenance_cost: $(complete_maintenance_cost).val(),
+                    remarks: $(complete_remarks).val(),
+                    completed_date: new Date($(completed_date_legit).val()),
+                    };
+    
+        encoded = JSON.stringify(form)
+        console.log(encoded)
+        
+        $.ajax({
+            url: '/asset_management/api/Maintenance_report/',
+            type: "POST",
+            data: encoded,
+            dataType: "JSON",
+            contentType: "application/json",
+
+            success: function(data){
+                if($(maintenance_repeat_days).val() != 0){
+
+                    due = new Date($(completed_due_date).val())
+                    due.setDate(due.getDate() + parseInt($(maintenance_repeat_days).val()))
+                    console.log(due)
+
+                    form =  {
+                        maintenance_cost: $(complete_maintenance_cost).val(),
+                        maintenance_due: due,
+                        maintenance_completed: new Date($(completed_date_legit).val()),
+                        maintenance_status: "Pending",
+                        };
+
+                    encoded = JSON.stringify(form)
+                    console.log(encoded)
+
+                    $.ajax({
+                        url: '/asset_management/api/Maintenance/complete/' + id,
+                        type: "PUT",
+                        data: encoded,
+                        dataType: "JSON",
+                        contentType: "application/json",
+
+                        success:function(data){
+                            events = {
+                                asset_id : "{{id}}",
+                                event_title : "Maintenance Completed",
+                                event_message: "Maintenance named " + $(complete_maintenance_name).val()  + " completed on " + moment($(completed_date_legit).val()).format('LL') +
+                                " costing ₱" + $(complete_maintenance_cost).val() + ". Updated by " + sessionStorage.getItem("name")
+                                }
+            
+                                $.ajax({
+                                    url:'/asset_management/api/Event/',
+                                    type: "POST",
+                                    data: JSON.stringify(events),
+                                    dataType: "JSON",
+                                    contentType: "application/json",
+                
+                                    success: function(data){
+                                    console.log("EVENT CREATED")
+                                    $('#completeMaintenance').modal('hide');
+                                    toastr.success('Maintenance updated successfully');
+                                    refresh();
+                                    }
+                                })
+                        }
+
+                    });
+                    
+                    
+                }
+                else{
+
+                    form =  {
+                        maintenance_due: new Date($(completed_due_date).val()),
+                        maintenance_cost: $(complete_maintenance_cost).val(),
+                        maintenance_completed: new Date($(completed_date_legit).val()),
+                        maintenance_status: "Completed",
+                        };
+
+                    encoded = JSON.stringify(form)
+                    console.log(encoded)
+
+                    $.ajax({
+                        url: '/asset_management/api/Maintenance/complete/' + id,
+                        type: "PUT",
+                        data: encoded,
+                        dataType: "JSON",
+                        contentType: "application/json",
+
+                        success:function(data){
+                        events = {
+                            asset_id : "{{id}}",
+                            event_title : "Maintenance Completed",
+                            event_message: "Maintenance named " + $(complete_maintenance_name).val()  + " completed on " + moment($(completed_date_legit).val()).format('LL') +
+                            " costing ₱" + $(complete_maintenance_cost).val() + ". Updated by " + sessionStorage.getItem("name")
+                            }
+        
+                            $.ajax({
+                                url:'/asset_management/api/Event/',
+                                type: "POST",
+                                data: JSON.stringify(events),
+                                dataType: "JSON",
+                                contentType: "application/json",
+            
+                                success: function(data){
+                                console.log("EVENT CREATED")
+                                $('#completeMaintenance').modal('hide');
+                                toastr.success('Maintenance updated successfully');
+                                refresh();
+                                }
+                            })
+                        }
+
+                    });
+                }
+
+            }
+
+        }); 
     });
 
 

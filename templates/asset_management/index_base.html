@@ -18,14 +18,14 @@
   <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
   <!-- BLOCK FOR PLUGINS STYLESHEET -->
-    {%block plugins_css%}
-    {%endblock%}
+    {% block plugins_css %}
+    {% endblock %}
 
   <!-- Theme style -->
   <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
   <!-- BLOCK FOR EXTRA STYLES -->
-    {%block styles%}
-    {%endblock%}
+    {% block styles %}
+    {% endblock %}
 <script>
 
 function filter_user(){
@@ -78,9 +78,10 @@ filter_user()
 
             <!-- Home -->
             <li class="nav-item">
-                <a class="nav-link text-primary" href="/index" role="button">
+                <a class="nav-link" href="/index" role="button" id="home_nav">
                     <i class="fas fa-home"></i>
                     <span class="d-inline-block d-md-none ml-1 ml-md-0">Home</span>
+                    <script>if(window.location.pathname == '/index'){document.getElementById("home_nav").classList.add('text-primary')}</script>
                 </a>
             </li>
 
@@ -139,18 +140,12 @@ filter_user()
                     href="#" 
                     data-toggle="dropdown" 
                     class="nav-link dropdown-toggle"
-                    id="logistics_topnav"
                 >Logistics</a>
                 
                 <ul class="dropdown-menu dropdown-menu-left">
                     <li><a href="./submodule.html" class="dropdown-item">Procurement Management</a></li>
                     <li><a href="./submodule.html" class="dropdown-item">Warehousing Management</a></li>
-                    <li><a href="/asset_management/" id="asset_mangement_topnav" class="dropdown-item">Asset Management</a></li>
-                    <script>
-                      if( window.location.pathname.includes("/asset_management/")){
-                      document.getElementById("asset_mangement_topnav").classList.add('text-primary');
-                      document.getElementById("logistics_topnav").classList.add('text-primary')
-                    }</script>
+                    <li><a href="/asset_management/" class="dropdown-item">Asset Management</a></li>
                     <li><a href="./submodule.html" class="dropdown-item">Project Management</a></li>
                 </ul>
             </li>
@@ -262,63 +257,20 @@ filter_user()
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-header font-weight-bold text-wrap">ASSET MANAGEMENT</li>
-          <li class="nav-header">CORE</li>
-            <li class="nav-item">
-              <a href="/asset_management/" class="nav-link" id="dashboard_sidebar">
-                <script>if(window.location.pathname == '/asset_management/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-chart-line"></i>
-                <p>Dashboard</p>
-              </a>
-            </li>
-            <li class="nav-header">ASSETS</li>
-            <li class="nav-item">
-              <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-stream"></i>
-                <p>List of Assets</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-box"></i>
-                  <p>Asset Category</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-handshake"></i>
-                  <p>Asset Providers</p>
-              </a>
-            </li>
-            <li class="nav-header">MAINTENANCE</li>
-            <li class="nav-item">
-              <a href="/asset_management/maintenance_page" class="nav-link" id="maintenance_page_sidebar">
-                <script>if(window.location.pathname == '/asset_management/maintenance_page'){document.getElementById("maintenance_page_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-tools"></i>
-                <p>List of Maintenances</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asset_management/maintenance_provider" class="nav-link" id="maintenance_provider_sidebar">
-                <script>if(window.location.pathname == '/asset_management/maintenance_provider'){document.getElementById("maintenance_provider_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-users-cog"></i>
-                  <p>Maintenance Providers</p>
-              </a>
-          </li>
-            <li class="nav-header">REQUESTS</li>
-            <li class="nav-item">
-              <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
-              <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-hand-holding-heart"></i>
-                <p>Equipment Requests</p>
-              </a>
-            </li>
-        </ul>
-      </nav>
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                
+                <!-- Module Name -->
+                <li class="nav-header font-weight-bold text-wrap">HOME</li>
+
+                <li class="nav-header">CORE</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>Main Dashboard</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
       <!-- /.sidebar-menu -->
 
     </div>
@@ -351,7 +303,6 @@ filter_user()
           <!-- Title -->
           <div class="col-sm-6">
           {% block title_header%}
-            <h1>Page Title</h1>
           {% endblock %}
           </div>
 

@@ -6,6 +6,7 @@ from datatables import DataTable
 from sqlalchemy.orm import Session
 from routes.asset_management import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
 from routes.asset_management import missing_asset_route, asset_request_route, sell_asset_route, dispose_asset_route, broken_asset_route, repair_asset_route
+from routes.asset_management import department_route, maintenance_report_route 
 from database import get_db
 from models.asset_management import asset_model
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,13 +44,21 @@ app.include_router(sell_asset_route.router)
 app.include_router(dispose_asset_route.router)
 app.include_router(broken_asset_route.router)
 app.include_router(repair_asset_route.router)
+app.include_router(department_route.router)
+app.include_router(maintenance_report_route.router)
 
 
-
+@app.get("/", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/home.html", {"request": request})
 
 @app.get("/login", response_class=HTMLResponse)
 def dashboard(request: Request,):
     return template.TemplateResponse("asset_management/login.html", {"request": request})
+
+@app.get("/index", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/index.html", {"request": request})
 
 @app.get("/forbidden", response_class=HTMLResponse)
 def dashboard(request: Request,):

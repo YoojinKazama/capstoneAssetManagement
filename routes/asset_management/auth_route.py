@@ -21,6 +21,11 @@ router = APIRouter(
     tags=['Auth']
 )
 
+@router.get('/')
+def all(db: Session = Depends(get_db)):
+    users = db.query(User).filter(User.active_status == "Active").all()
+    return {'data': users}
+
 @router.post('/register')
 def register(request: CreateUser, db: Session = Depends(get_db)):
     try:

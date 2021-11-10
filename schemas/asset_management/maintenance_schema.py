@@ -13,10 +13,16 @@ class MaintenanceBase(BaseModel):
     maintenance_repeatable: str
     maintenance_status: str
 
+class CompleteMaintenance(BaseModel):
+    maintenance_cost: int
+    maintenance_due: Optional [dt] = None
+    maintenance_status: str
+    maintenance_completed: Optional [dt] = None
 
 # Schema for request body
 class CreateMaintenance(MaintenanceBase):
     asset_id: str
+
 
 class UpdateMaintenance(MaintenanceBase):
     remarks: str

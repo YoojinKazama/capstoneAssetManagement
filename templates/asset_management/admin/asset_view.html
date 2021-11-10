@@ -3,6 +3,7 @@
 
 {%block plugins_css%}
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-select/css/select.bootstrap4.min.css')}}">
 {%endblock%}
 
 {% block title %}View Asset{% endblock %}
@@ -184,7 +185,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="card-body">
             <form id="editAssetForm">
                 <div class="form-row">
                     <div class="form-group col-sm-12">
@@ -251,16 +251,13 @@
                         <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="edit_asset_description" id="edit_asset_description">
                         </textarea>
                     </div>
-                <div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Save" id="editAssetBtn">            
-        </form>
-      </div>
-    </div>
+                </div> 
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <input type="submit" class="btn btn-primary" value="Save" id="editAssetBtn">            
+    </form>
+</div>
   </div>
   </div>
   </div>
@@ -292,98 +289,77 @@
   </div>
   <!-- /.modal -->
 
-<div class="modal fade" id="checkOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <form class="modal-dialog-centered modal-dialog-scrollable" id="addMaintenanceForm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Check Out Asset</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
+  <div class="modal fade" id="checkOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-lg modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+              <div><label for="">Check-out to:</label><label style="color: red;">*</label></div>
+              <form id="checkout_form">
+                  <div class="form-row">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="checkout_to" id="checkout_person">
+                        <label class="form-check-label" for="checkout_person">
+                          Person
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="checkout_to" id="checkout_department">
+                        <label class="form-check-label" for="checkout_department">
+                          Department
+                        </label>
+                    </div>
+                  </div>
+                <div class="card-body" id="checkout_table">
+                
+                </div>
                 <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_name">Name</label><label style="color: red;">*</label>
-                        <input required class="form-control" name="maintenance_name" id="maintenance_name"  >
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_out_loc">Location</label>
+                        <input type="text" class="form-control" name="check_out_loc" id="check_out_loc"  >
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_details">Details</label>
-                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="maintenance_details" id="maintenance_details">
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_out_date">Check-out Date</label>
+                        <input type="date" class="form-control" name="check_out_date" id="check_out_date"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="check_out_due_box" id="check_out_due_box">
+                        <label class="form-check-label" for="check_out_due_box">
+                          With Due Date
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row" id="with_due">
+                    
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_out_remarks">Remarks</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="check_out_remarks" id="check_out_remarks">
                         </textarea>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_provider">Maintenance Provider</label><label style="color: red;">*</label>
-                        <select required name="maintenance_provider" id="maintenance_provider" class="form-control">
-                            
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="maintenance_cost">Cost</label><label style="color: red;">*</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">₱</div>
-                            </div>
-                            <input required type="number"  class="form-control" name="maintenance_cost" id="maintenance_cost"  >
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="maintenance_due">Due Date</label><label style="color: red;">*</label>
-                        <input required type="date" name="maintenance_due" id="maintenance_due" class="form-control">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_status">Status</label>
-                        <select required  class="form-control" name="maintenance_status" id="maintenance_status"  >
-                            <option value = ""> - - Select - -</option>
-                            <option value = "Completed">Completed</option>
-                            <option value = "Pending">Pending</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row" id="completed_date">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="acquisition_date">Repeatable</label><label style="color: red;">*</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="True" name="repeatable" id="repeatable_yes">
-                            <label class="form-check-label" for="repeatable_yes">
-                                Yes
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="repeatable" id="repeatable_no" checked>
-                            <label class="form-check-label" for="repeatable_no">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row" id="frequency_form">
-                    
-                </div>
-                <div class="form-row" id="frequency_days">
-                    
-                </div>
+
+        </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn btn-primary" value="Check Out" id="checkout_submit">
+          </form>
+        </div>
       </div>
     </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="addAssetBtn">
-      </div>
-    </div>
-</form>
-</div>
-<!-- /MODALS -->
+  </div>
 {%endblock%}
 
 {% block scripts%}
@@ -870,6 +846,137 @@ $(document).on("click", ".undo-repair", function(){
    
 });
 
+$('#checkout_department').change(function(){
+    if(this.checked) {
+        html = '<table style = "width: 100% !important" id="department_table" class="table table-bordered table-hover">' +
+            '<thead>' +
+            '<tr>' +
+                '<th>ID</th>' +
+                '<th>Department Name</th>' +
+            '</tr>' +
+            '</thead>' +
+            '</table>'
+
+        $('#checkout_table').html(html);
+        
+        $("#department_table").dataTable({
+
+            ajax: "/asset_management/api/Department/",
+            select: true,
+            columns: [
+                    { data: "department_id"},
+                    { data: "department_name"},
+                    
+            ],
+            "order": [[1, "desc"]]
+            
+            })
+    }
+    var table = $('#department_table').DataTable();
+    $('#department_table tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            selectedRow = table.rows('.selected').data()[0]["department_id"]
+        }
+    } );
+    selectedRow = table.rows('.selected')
+});
+
+$('#check_out_due_box').change(function(){
+    if(this.checked) {
+        html = '<div class="form-group col-sm-12 with_due">' +
+            '<label for="check_out_due">Due Date</label>' +
+            '<input type="date" class="form-control" name="check_out_due" id="check_out_due"  >' +
+        '</div>'
+
+        $('#with_due').html(html);
+    }
+    else{
+        $('.with_due').remove();
+    }
+});
+
+$('#checkout_person').change(function(){
+    if(this.checked) {
+        html = '<table style = "width: 100% !important" id="person_table" class="table table-bordered table-hover">' +
+            '<thead>' +
+            '<tr>' +
+                '<th>ID</th>' +
+                '<th>Employee Name</th>' +
+                '<th>Department</th>' +
+                '<th>Email</th>' +
+                '<th>User Type</th>' +
+                '<th>Created At</th>' +
+            '</tr>' +
+            '</thead>' +
+            '</table>'
+
+        $('#checkout_table').html(html);
+        
+        $("#person_table").dataTable({
+
+            ajax: "/asset_management/api/Auth/",
+            select: true,
+            columns: [
+                    { data: "user_id"},
+                    { data: "user_name"},
+                    { data: "department_id"},
+                    { data: "user_email"},
+                    { data: "user_type"},
+                    { data: "created_at"},
+                    
+            ],
+            "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 5] }],
+            "order": [[5, "desc"]]
+            
+            })
+    }
+    var table = $('#person_table').DataTable();
+    $('#person_table tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            selectedRow = table.rows('.selected').data()[0]["user_id"]
+        }
+    } );
+    
+});
+
+$("#checkout_form").on("submit", function(e){
+    e.preventDefault()
+
+    person_id = ""
+    department_id = ""
+    due_date = ""
+
+    if($("#checkout_person").is(":checked")){
+        person_id = selectedRow
+    }
+    if($("#checkout_department").is(":checked")){
+        department_id = selectedRow
+    }
+    if($("#check_out_due_box").is(":checked")){
+        due_date = $(check_out_due).val()
+    }
+    
+    form =  { asset_id: "{{id}}",
+                user_id: person_id,
+                department_id: department_id,
+                location: $(check_out_loc).val(),
+                check_out_date: $(check_out_date).val(),
+                check_out_due: due_date,
+                remarks: $(check_out_remarks).val()
+                };
+
+    console.log(form)
+    });
 
     load_event("{{id}}")
 </script>

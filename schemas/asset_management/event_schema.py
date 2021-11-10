@@ -12,9 +12,6 @@ class EventBase(BaseModel):
 class CreateEvent(EventBase):
     pass
 
-class CreateMaintenanceEvent(EventBase):
-    maintenance_id: str
-
 
 
     
