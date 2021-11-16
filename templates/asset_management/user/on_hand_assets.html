@@ -55,7 +55,8 @@
 
 $(document).ready(function () {
     id = sessionStorage.getItem("id")
-    $("#asset_table").dataTable({
+    //RENAMED FOR FUTURE PURPOSES
+    $("#assset_table").dataTable({
 
         ajax: "/asset_management/api/Asset/get_all_by_users/" + id,
         columns: [

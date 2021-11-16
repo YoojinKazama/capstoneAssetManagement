@@ -84,7 +84,7 @@ def dashboard(request: Request,):
 def get_asset(request: Request,):
     return template.TemplateResponse("asset_management/admin/asset.html", {"request": request})
 
-@app.get("/asset_management/asset/{id}/view", response_class=HTMLResponse)
+@app.get("/asset_management/asset/view/{id}", response_class=HTMLResponse)
 def get_asset(request: Request, id: str):
     return template.TemplateResponse("asset_management/admin/asset_view.html", {"request": request, "id": id})
 
@@ -96,6 +96,39 @@ def dashboard(request: Request,):
 def dashboard(request: Request,):
     return template.TemplateResponse("asset_management/admin/maintenance_page.html", {"request": request})
 
+#-------------Equipment Manager----------------#
+
+@app.get("/asset_management/manager", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/dashboard.html", {"request": request})
+
+@app.get("/asset_management/manager/requests", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/request_assets.html", {"request": request})
+
+@app.get("/asset_management/manager/asset_type", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/asset_type.html", {"request": request})
+
+@app.get("/asset_management/manager/asset_provider", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/asset_provider.html", {"request": request})
+
+@app.get("/asset_management/manager/asset", response_class=HTMLResponse)
+def get_asset(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/asset.html", {"request": request})
+
+@app.get("/asset_management/manager/asset/view/{id}", response_class=HTMLResponse)
+def get_asset(request: Request, id: str):
+    return template.TemplateResponse("asset_management/equipment_manager/asset_view.html", {"request": request, "id": id})
+
+@app.get("/asset_management/manager/maintenance_provider", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/maintenance_provider.html", {"request": request})
+
+@app.get("/asset_management/manager/maintenance_page", response_class=HTMLResponse)
+def dashboard(request: Request,):
+    return template.TemplateResponse("asset_management/equipment_manager/maintenance_page.html", {"request": request})
 
 #-------------USER----------------#
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | Hospital Management System</title>
+    <title>Login | Hospital Management System</title>
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', path='/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -139,7 +139,7 @@
               console.log(sessionStorage.getItem("type"))
 
 
-              if(user.user_type == "Equipment Manager" || user.user_type == "Admin" ){
+              if(user.user_type == "Admin" ){
                   setInterval(function(){
                     window.location.href = '/index'
                   },2000)
@@ -147,6 +147,12 @@
                 else if(user.user_type == "Employee"){
                   setInterval(function(){
                     window.location.href = '/asset_management/user/on_hand_assets';
+                  },2000)
+                  
+                }
+                else if(user.user_type == "Equipment Manager"){
+                  setInterval(function(){
+                    window.location.href = '/asset_management/manager';
                   },2000)
                   
                 }

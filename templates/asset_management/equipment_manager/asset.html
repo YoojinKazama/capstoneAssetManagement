@@ -1,5 +1,5 @@
 <!-- Apply layout from base.html -->
-{%extends 'asset_management/admin/admin_base.html'%} 
+{%extends 'asset_management/equipment_manager/manager_base.html'%} 
 
 {%block plugins_css%}
 <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
@@ -358,7 +358,7 @@ $("#addAssetForm").on("submit", function(e){
 $(document).on("click", ".btn_view", function(){
         var id = this.id;
 
-        window.location.href = "/asset_management/asset/view/"+ id;
+        window.location.href = "/asset_management/manager/asset/view/"+ id;
     });
 
 
