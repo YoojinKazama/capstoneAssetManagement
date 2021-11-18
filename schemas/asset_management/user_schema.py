@@ -1,3 +1,4 @@
+from typing import Optional
 from datetime import datetime as dt
 from pydantic import BaseModel
 
@@ -7,7 +8,7 @@ class UserBase(BaseModel):
 
 # Schema for request body
 class CreateUser(UserBase):
-    department_id: str
+    department_id: Optional [str] = None
     user_type: str
     user_password: str
 
