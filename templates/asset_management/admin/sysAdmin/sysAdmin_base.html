@@ -146,17 +146,13 @@ filter_user()
                     <li><a href="./submodule.html" class="dropdown-item">Procurement Management</a></li>
                     <li><a href="./submodule.html" class="dropdown-item">Warehousing Management</a></li>
                     <li><a href="/asset_management/" id="asset_mangement_topnav" class="dropdown-item">Asset Management</a></li>
-                    <script>
-                      if( window.location.pathname.includes("/asset_management/")){
-                      document.getElementById("asset_mangement_topnav").classList.add('text-primary');
-                      document.getElementById("logistics_topnav").classList.add('text-primary')
-                    }</script>
                     <li><a href="./submodule.html" class="dropdown-item">Project Management</a></li>
                 </ul>
             </li>
+
             <!-- System Administration -->
             <li class="nav-item">
-                <a class="nav-link" href="/asset_management/sysAdmin/users" role="button">
+                <a class="nav-link text-primary" href="/asset_management/sysAdmin/users" role="button">
                     <span>SysAdmin</span>
                 </a>
             </li>
@@ -262,58 +258,19 @@ filter_user()
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-header font-weight-bold text-wrap">ASSET MANAGEMENT</li>
-          <li class="nav-header">CORE</li>
+          <li class="nav-header font-weight-bold text-wrap">SYSTEM MANAGEMENT</li>
             <li class="nav-item">
-              <a href="/asset_management/" class="nav-link" id="dashboard_sidebar">
-                <script>if(window.location.pathname == '/asset_management/'){document.getElementById("dashboard_sidebar").classList.add('active')}</script>
+              <a href="/asset_management/sysAdmin/users" class="nav-link" id="user_sidebar">
+                <script>if(window.location.pathname == '/asset_management/sysAdmin/users'){document.getElementById("user_sidebar").classList.add('active')}</script>
                 <i class="nav-icon fas fa-chart-line"></i>
-                <p>Dashboard</p>
-              </a>
-            </li>
-            <li class="nav-header">ASSETS</li>
-            <li class="nav-item">
-              <a href="/asset_management/asset" class="nav-link" id="asset_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset'){document.getElementById("asset_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-stream"></i>
-                <p>List of Assets</p>
+                <p>Users</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/asset_management/asset_type" class="nav-link" id="asset_type_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset_type'){document.getElementById("asset_type_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-box"></i>
-                  <p>Asset Category</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asset_management/asset_provider" class="nav-link" id="asset_provider_sidebar">
-                <script>if(window.location.pathname == '/asset_management/asset_provider'){document.getElementById("asset_provider_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-handshake"></i>
-                  <p>Asset Providers</p>
-              </a>
-            </li>
-            <li class="nav-header">MAINTENANCE</li>
-            <li class="nav-item">
-              <a href="/asset_management/maintenance_page" class="nav-link" id="maintenance_page_sidebar">
-                <script>if(window.location.pathname == '/asset_management/maintenance_page'){document.getElementById("maintenance_page_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-tools"></i>
-                <p>List of Maintenances</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asset_management/maintenance_provider" class="nav-link" id="maintenance_provider_sidebar">
-                <script>if(window.location.pathname == '/asset_management/maintenance_provider'){document.getElementById("maintenance_provider_sidebar").classList.add('active')}</script>
-                  <i class="nav-icon fas fa-users-cog"></i>
-                  <p>Maintenance Providers</p>
-              </a>
-          </li>
-            <li class="nav-header">REQUESTS</li>
-            <li class="nav-item">
-              <a href="/asset_management/requests" class="nav-link" id="request_sidebar">
-              <script>if(window.location.pathname == '/asset_management/requests'){document.getElementById("request_sidebar").classList.add('active')}</script>
-                <i class="nav-icon fas fa-hand-holding-heart"></i>
-                <p>Equipment Requests</p>
+              <a href="/asset_management/sysAdmin/department" class="nav-link" id="department_sidebar">
+                <script>if(window.location.pathname == '/asset_management/sysAdmin/department'){document.getElementById("department_sidebar").classList.add('active')}</script>
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Departments</p>
               </a>
             </li>
         </ul>
@@ -350,7 +307,6 @@ filter_user()
           <!-- Title -->
           <div class="col-sm-6">
           {% block title_header%}
-            <h1>Page Title</h1>
           {% endblock %}
           </div>
 

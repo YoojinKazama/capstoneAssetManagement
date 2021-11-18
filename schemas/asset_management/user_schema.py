@@ -4,10 +4,10 @@ from pydantic import BaseModel
 class UserBase(BaseModel):
     user_name: str
     user_email: str
-    user_name: str
 
 # Schema for request body
 class CreateUser(UserBase):
+    department_id: str
     user_type: str
     user_password: str
 
