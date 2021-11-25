@@ -56,36 +56,63 @@
 $(document).ready(function () {
     id = sessionStorage.getItem("id")
     //RENAMED FOR FUTURE PURPOSES
-    $("#assset_table").dataTable({
+    $("#asset_table").dataTable({
 
-        ajax: "/asset_management/api/Asset/get_all_by_users/" + id,
+        ajax: "/asset_management/api/Check_out/get_all_by_users/" + id,
         columns: [
-                { data: "asset_id"},
-                { data: "asset_number"},
-                { data: "asset_title"},
-                { data: "asset_type.asset_type_title"},
-                { data: "asset_brand"},
-                { data: "asset_model" },
-                { data: "created_at" },
-                { data: "asset_serial" },
-                { data: "asset_status", render: function(data, type, row){
+                { data: "the_asset.asset_id"},
+                { data: "the_asset.asset_number"},
+                { data: "the_asset.asset_title"},
+                { data: "the_asset.asset_type.asset_type_title"},
+                { data: "the_asset.asset_brand", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  else{
+                    return data
+                  }
+                  }
+                },
+                { data: "the_asset.asset_model", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  else{
+                    return data
+                  }
+                  }
+                },
+                { data: "the_asset.asset_serial", render:function(data){
+                  if (data == ""){
+                    html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                  else{
+                    return data
+                  }
+                  }
+                },
+                { data: "the_asset.created_at" },
+                { data: "the_asset.asset_status", render: function(data, type, row){
                         if(data == "Available"){
-                            return '<div class="text-center"><span class="badge badge-success">Available</span></div>'
+                            return '<div class="badge badge-success p-2 w-100"><span>On Hand</span></div>'
                         }
                         else if(data == "Missing"){
-                            return '<div class="text-center"><span class="badge badge-warning">Missing</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-sticky-note mr-1"></i><span>Missing</span></div>'
                         } 
                         else if(data == "Sold"){
-                            return '<div class="text-center"><span class="badge badge-info">Sold</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>'
                         }
                         else if(data == "Disposed"){
-                            return '<div class="text-center"><span class="badge badge-info">Disposed</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-thumbs-down mr-1"></i><span>Disposed</span></div>'
                         }
                         else if(data == "Broken"){
-                            return '<div class="text-center"><span class="badge badge-warning">Broken</span></div>'
+                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-heart-broken mr-1"></i><span>Broken</span></div>'
                         }
                         else if(data == "Repair"){
-                            return '<div class="text-center"><span class="badge badge-info">Repair</span></div>'
+                            return '<div class="badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Repair</span></div>'
                         }   
                         else{
                             return '<button class="btn btn-danger >Activate</button>';
@@ -93,7 +120,7 @@ $(document).ready(function () {
                     }
                     
                 },
-                { data: "active_status", render: function(data, type, row){
+                { data: "the_asset.active_status", render: function(data, type, row){
                         if(data == "Active"){
                             return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
                               '<div class="dropdown-menu dropdown-menu-right">' +
@@ -108,8 +135,8 @@ $(document).ready(function () {
                     
                 },
         ],
-        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6] }],
-        "order": [[6, "desc"]]
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 7] }],
+        "order": [[7, "desc"]]
         
         })
     });
@@ -117,7 +144,7 @@ $(document).ready(function () {
 $(document).on("click", ".btn_view", function(){
         var id = this.id;
 
-        window.location.href = "/asset_management/asset/"+ id + "/view";
+        window.location.href = "/asset_management/user/view_asset/"+id;
     });
 
 

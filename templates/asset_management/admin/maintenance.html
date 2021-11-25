@@ -396,6 +396,7 @@
 
 <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
 <script>
+
 $(document).ready(function () {
     id = "{{id}}"
     $("#maintenance_table").dataTable({
@@ -1072,6 +1073,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                 
                                     success: function(data){
                                     console.log("EVENT CREATED")
+                                    load_event("{{id}}")
                                     $('#completeMaintenance').modal('hide');
                                     toastr.success('Maintenance updated successfully');
                                     refresh();
@@ -1119,6 +1121,7 @@ $("#editMaintenanceForm").on("submit", function(e){
             
                                 success: function(data){
                                 console.log("EVENT CREATED")
+                                load_event("{{id}}")
                                 $('#completeMaintenance').modal('hide');
                                 toastr.success('Maintenance updated successfully');
                                 refresh();
@@ -1150,6 +1153,7 @@ $("#editMaintenanceForm").on("submit", function(e){
               success: function(data){
                 $('#confirm_delete_maintenance').modal('hide');
                 toastr.info('Maintenance deleted successfully')
+                load_event("{{id}}")
                 refresh();
               }
           // ajax closing tag

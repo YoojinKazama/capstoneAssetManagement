@@ -99,7 +99,6 @@
         <h5> Asset Provider</h5>
     </div>
     <div class="card-body">
-        <span hidden name="routeIdView" id="routeIdView" > </span>
         <div class="row">
             <div class = "col-md-12 border">
                 <label for="asset_provider_name">Provider:</label><br>
@@ -117,6 +116,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="card card-primary" id="ifCheckOut">
+    
 </div>
 
 <div class="row">
@@ -168,7 +171,6 @@
 </div>
 </div>
 </div>
-
 
 
 <!-- MODALS -->
@@ -290,7 +292,7 @@
   </div>
   <!-- /.modal -->
 
-  <div class="modal fade" id="checkOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="checkOutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-lg modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
@@ -356,6 +358,50 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <input type="submit" class="btn btn-primary" value="Check Out" id="checkout_submit">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="checkInModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-lg modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Check In</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+              <form id="checkin_form">
+                <div class="form-row">
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_in_loc">Check-in Location</label>
+                        <input hidden type="text" class="form-control" name="check_out_id" id="check_out_id"  >
+                        <input type="text" class="form-control" name="check_in_loc" id="check_in_loc"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_in_date">Check-in Date</label>
+                        <input type="date" class="form-control" name="check_in_date" id="check_in_date"  >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12 ">
+                        <label for="check_in_remarks">Remarks</label>
+                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="check_in_remarks" id="check_in_remarks">
+                        </textarea>
+                    </div>
+                </div>
+
+        </div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn btn-primary" value="Check In" id="checkin_submit">
           </form>
         </div>
       </div>
@@ -427,6 +473,7 @@ function editDropdowns(){
 
 function assetDetails(){
 var id = "{{id}}"
+var status_show = ""
 $(".created_by_id").val(sessionStorage.getItem("id"));
         $.ajax({
                 url: '/asset_management/api/Asset/' + id,
@@ -436,6 +483,7 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
             
                 success: function(data){
                     var asset_info = data.data;
+                    
                     console.log(asset_info);
 
                     $("#view_title").html( "<h3>" + asset_info.asset_title + "</h3>" );
@@ -484,8 +532,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     $(".current_status").val(asset_info.asset_status);
 
                     if (asset_info.asset_status == "Available"){
-                        $("#asset_status").html('<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ><i class="fas fa-check-circle"></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -495,8 +543,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                                                 '<a class="dropdown-item" style="color: red" href="#" id="asset_delete" ><i class="fas fa-trash-alt"></i>  Delete</a>');
                     }
                     if (asset_info.asset_status == "Missing"){
-                        $("#asset_status").html('<div class="badge badge-warning p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Missing</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-warning p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Missing</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
@@ -507,8 +555,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Sold"){
-                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -519,8 +567,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Disposed"){
-                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-thumbs-down mr-1"></i><span>Disposed</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-info p-2 w-100"><i class="fas fa-thumbs-down mr-1"></i><span>Disposed</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -531,8 +579,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Broken"){
-                        $("#asset_status").html('<div class="badge badge-warning p-2 w-100"><i class="fas fa-heart-broken mr-1"></i><span>Broken</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-warning p-2 w-100"><i class="fas fa-heart-broken mr-1"></i><span>Broken</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item undo-broken" ><i class="fas fa-heart-broken"></i>&nbsp;Undo Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -543,8 +591,8 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     }
 
                     if (asset_info.asset_status == "Repair"){
-                        $("#asset_status").html('<div class="badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Repair</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#checkOut" ></i>&nbsp;Check out</a>' +
+                        $("#asset_status").html('<div class="status badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Repair</span></div>');
+                        $(".edit-status").html('<a class="dropdown-item check_out_class" data-toggle="modal" data-target="#checkOutModal" ></i>&nbsp;Check out</a>' +
                                                 '<a class="dropdown-item undo-repair" ><i class="fas fa-hammer"></i>&nbsp;Undo Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
@@ -559,9 +607,113 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                     $("#asset_provider_contact").html(asset_info.asset_provider.asset_provider_contact );
                     $("#asset_provider_email").html(asset_info.asset_provider.asset_provider_email );
 
-                    
+                    status_show = asset_info.asset_status
                 }
         });
+
+        $.ajax({
+            url: '/asset_management/api/Check_out/' + "{{id}}",
+            type: "GET",
+            dataType: "JSON",
+        
+            success: function(data){
+                console.log(data.data)
+                if(data.data != null){
+                    html = ""
+                    html += '<div class="card-header"> '+
+                        '<h5>Checked-out to</h5>'+
+                    '</div>'+
+                    '<div class="card-body">'+
+                        '<div class="row">'+
+                            '<div class = "col-md-6 border">'+
+                                '<label for="view_check_out_to">Checked-out to:</label><br>' +
+                                '<span name="view_check_out_to" id="view_check_out_to" > </span>' +
+                            '</div>' +
+                            '<div class = "col-md-6 border-top border-right optional_dept">' +
+                                '<label for="view_check_out_to_department">Department:</label><br>' +
+                                '<span name="view_check_out_to_department" id="view_check_out_to_department" > </span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="row">' +
+                            '<div class = "col-md-6 border-left border-right border-bottom">' +
+                                '<label for="view_check_out_date">Check out Date:</label><br>' +
+                                '<span  name="view_check_out_date" id="view_check_out_date" > </span>' +
+                            '</div>' +
+                            '<div class = "col-md-6 border-right border-bottom border-top">' +
+                                '<label for="view_check_out_due">Check out Due:</label><br>' +
+                                '<span name="view_check_out_due" id="view_check_out_due" > </span>' +
+                                '<div class="if_due"></div>'
+                            '</div>' +
+                        '</div>' +
+                        '<div class="row">' +
+                            '<div class = "col-md-12 border-left border-right border-bottom">' +
+                                '<label for="view_location">Location:</label><br>' +
+                                '<span  name="view_location" id="view_location" > </span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="row">' +
+                            '<div class = "col-md-12 border-left border-right border-bottom">' +
+                                '<label for="view_remarks">Remarks:</label><br>' +
+                                '<span  name="view_remarks" id="view_remarks" > </span>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+
+                    $("#ifCheckOut").html(html);
+
+                check_out_details = data.data
+                checked_to = ""
+                user_department = ""
+
+                if (check_out_details.user_id == null){
+                    checked_to = check_out_details.on_department.department_name
+                    $(".optional_dept").remove()
+                }
+                if (check_out_details.department_id == null){
+                    checked_to = check_out_details.on_user.user_name
+                    user_department = check_out_details.on_user.user_department.department_name
+                }
+
+
+                $("#check_out_id").val(check_out_details.check_out_id);
+                $("#view_check_out_to").html(checked_to);
+                $("#view_check_out_to_department").html(user_department);
+                $("#view_check_out_date").html(moment(check_out_details.check_out_date).format('LL'));
+
+                if (check_out_details.check_out_due == null){
+                    $("#view_check_out_due").html('<div class="text-secondary font-italic">Not set</div>')
+                }
+                else{
+                    $("#view_check_out_due").html(moment(check_out_details.check_out_due).format('LL'));
+                }
+
+                if (moment(new Date()).format('L') > moment(check_out_details.check_out_due).format('L')){
+                    $("#view_check_out_due").html(moment(check_out_details.check_out_due).format('LL')+ '<span class="badge badge-warning">Past Due</span>')
+                }
+                //console.log(moment(new Date()).format('L'))
+                //console.log(moment(check_out_details.check_out_due).format('L'))
+
+                $("#view_location").html(check_out_details.location);
+
+                if (check_out_details.remarks == "                        "){
+                    $("#view_remarks").html('<div class="text-secondary font-italic">Not set</div>')
+                }
+                else{
+                    $("#view_remarks").html(check_out_details.remarks);
+                }
+
+                    if (status_show == "Available"){
+                        $(".status").remove();
+                        $("#asset_status").html('<div class="status badge badge-success p-2 w-100"><i class="fas fa-thumbs-up mr-1"></i><span>Checked-out</span></div>');
+                    }
+
+                $(".check_out_class").html('<i class="fas fa-check-circle"></i>&nbsp;Check in</a>');
+                $(".check_out_class").attr('data-target','#checkInModal');
+
+                }
+                  
+            }
+    });
 }
 
 assetDetails()
@@ -663,7 +815,7 @@ $(document).on("click", "#asset_delete", function(){
             
                 success: function(data){
 
-                window.location.href = "/asset_management/manager/asset/"
+                window.location.href = "/asset_management/asset/"
                 }
             // ajax closing tag
             })
@@ -882,6 +1034,7 @@ $('#checkout_department').change(function(){
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             selectedRow = table.rows('.selected').data()[0]["department_id"]
+            selectedName = table.rows('.selected').data()[0]["department_name"]
         }
     } );
     selectedRow = table.rows('.selected')
@@ -925,7 +1078,14 @@ $('#checkout_person').change(function(){
             columns: [
                     { data: "user_id"},
                     { data: "user_name"},
-                    { data: "department_id"},
+                    { data: "user_department.department_name", render:function(data){
+                    if (data == null){
+                        html = '<div class="text-secondary font-italic">Not set</div>'
+                    return html
+                    }
+                    return data
+                         } 
+                    },
                     { data: "user_email"},
                     { data: "user_type"},
                     { data: "created_at"},
@@ -945,6 +1105,7 @@ $('#checkout_person').change(function(){
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             selectedRow = table.rows('.selected').data()[0]["user_id"]
+            selectedName = table.rows('.selected').data()[0]["user_name"]
         }
     } );
     
@@ -953,31 +1114,118 @@ $('#checkout_person').change(function(){
 $("#checkout_form").on("submit", function(e){
     e.preventDefault()
 
-    person_id = ""
-    department_id = ""
-    due_date = ""
+    person_id = null
+    department_id = null
+    due_date = null
+
+    if($("#check_out_due_box").is(":checked")){
+        due_date = new Date($(check_out_due).val())
+    }
 
     if($("#checkout_person").is(":checked")){
         person_id = selectedRow
+        
     }
     if($("#checkout_department").is(":checked")){
         department_id = selectedRow
+        
     }
-    if($("#check_out_due_box").is(":checked")){
-        due_date = $(check_out_due).val()
-    }
-    
+
     form =  { asset_id: "{{id}}",
                 user_id: person_id,
                 department_id: department_id,
                 location: $(check_out_loc).val(),
-                check_out_date: $(check_out_date).val(),
+                check_out_date: new Date($(check_out_date).val()),
                 check_out_due: due_date,
                 remarks: $(check_out_remarks).val()
                 };
 
-    console.log(form)
+    console.log(JSON.stringify(form))
+
+    $.ajax({
+               url:'/asset_management/api/Check_out/',
+               type: "POST",
+               data: JSON.stringify(form),
+               dataType: "JSON",
+               contentType: "application/json",
+
+               success: function(data){
+
+               events = {
+                asset_id : "{{id}}",
+                event_title : "Asset Checked-out",
+                event_message: "Asset checked-out to " + selectedName + " at " + moment($(check_out_date).val()).format('LL') +
+                                " by " + sessionStorage.getItem("name")
+              }
+ 
+            $.ajax({
+                url:'/asset_management/api/Event/',
+                type: "POST",
+                data: JSON.stringify(events),
+                dataType: "JSON",
+                contentType: "application/json",
+ 
+                success: function(data){
+                console.log("EVENT CREATED")
+ 
+                assetDetails()
+                load_event("{{id}}")
+                $('#checkOutModal').modal('hide');
+                toastr.success('Asset check-out successfully')
+                }
+            })
+               }
+           })
     });
+
+
+    $("#checkin_form").on("submit", function(e){
+        e.preventDefault()
+    
+        form =  {
+                    check_out_id: $(check_out_id).val(),
+                    return_location: $(check_in_loc).val(),
+                    return_date: new Date($(check_in_date).val()),
+                    remarks: $(check_in_remarks).val()
+                    };
+    
+        //console.log(JSON.stringify(form))
+    
+            $.ajax({
+                url:'/asset_management/api/Check_in/',
+                type: "POST",
+                data: JSON.stringify(form),
+                dataType: "JSON",
+                contentType: "application/json",
+
+                success: function(data){
+
+                events = {
+                asset_id : "{{id}}",
+                event_title : "Asset Checked-in",
+                event_message: "Asset checked-in at " + moment($(check_in_date).val()).format('LL') +
+                                " by " + sessionStorage.getItem("name")
+                }
+
+                    $.ajax({
+                        url:'/asset_management/api/Event/',
+                        type: "POST",
+                        data: JSON.stringify(events),
+                        dataType: "JSON",
+                        contentType: "application/json",
+
+                        success: function(data){
+                        console.log("EVENT CREATED")
+
+                        assetDetails()
+                        load_event("{{id}}")
+                        $('#checkInModal').modal('hide');
+                        toastr.success('Asset check-in successfully')
+                        }
+                    })
+                }
+            })
+        });
 
     load_event("{{id}}")
 </script>

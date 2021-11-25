@@ -184,7 +184,7 @@ $(document).ready(function () {
                 { data: "created_at" },
                 { data: "asset_status", render: function(data, type, row){
                         if(data == "Available"){
-                            return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>'
+                            return '<div class="badge badge-success p-2 w-100 '+ row.asset_id +'"><i class="fas fa-check-circle mr-1"></i><span>Available</span></div>'
                         }
                         else if(data == "Missing"){
                             return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-sticky-note mr-1"></i><span>Missing</span></div>'
@@ -202,10 +202,9 @@ $(document).ready(function () {
                             return '<div class="badge badge-info p-2 w-100"><i class="fas fa-hammer mr-1"></i><span>Repair</span></div>'
                         }   
                         else{
-                            return '<button class="btn btn-danger >Activate</button>';
+                            return '<button class="btn btn-danger">Activate</button>';
                         }
-                    }
-                    
+                   }
                 },
                 { data: "active_status", render: function(data, type, row){
                         if(data == "Active"){
@@ -225,6 +224,35 @@ $(document).ready(function () {
         "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 7] }],
         "order": [[7, "desc"]]
         
+        })
+
+        $.ajax({
+          url: '/asset_management/api/Asset/',
+          type: "GET",
+          dataType: "JSON",
+      
+          success: function(data){
+            count = data.data.length
+            for (i = 0; i < count; i++){
+              //console.log(data.data[i].asset_id)
+              status = data.data[i].asset_status
+
+              $.ajax({
+                url: '/asset_management/api/Check_out/' + data.data[i].asset_id,
+                type: "GET",
+                dataType: "JSON",
+            
+                success: function(data){
+                  if (data.data != null){
+                    if (status == 'Available'){
+                    $('.' + data.data.asset_id).html('<i class="fas fa-thumbs-up mr-1"></i><span>Checked-out</span>')
+                    }
+                  }
+                }
+              // ajax closing tag
+              })
+            }
+          }
         })
     });
 

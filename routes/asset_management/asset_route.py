@@ -25,7 +25,7 @@ def creation(db: Session = Depends(get_db)):
 
 @router.get('/get_all_by_users/{id}')
 def all(id: str, db: Session = Depends(get_db)):
-    asset = db.query(Asset).filter(Asset.active_status == "Active", Asset.user_id == id).all()
+    asset = db.query(Asset).filter(Asset.active_status == "Active", Asset.checked_out.user_id == id, Asset.checked_out.active_status == "Active").all()
     return {'data': asset}
 
 @router.get('/{id}')

@@ -431,7 +431,7 @@
 <script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
 <script>
 
-function refresh(){
+function refresh_maintenance(){
 
     $('#maintenance_table').DataTable().ajax.reload();
 }
@@ -807,7 +807,7 @@ $("#addMaintenanceForm").on("submit", function(e){
 
         $('#addMaintenance').modal('hide');
         toastr.success('Maintenance added successfully')
-        refresh();
+        refresh_maintenance();
     });
 
 
@@ -1120,7 +1120,7 @@ $("#editMaintenanceForm").on("submit", function(e){
 
                     $('#editMaintenance').modal('hide');
                     toastr.success('Maintenance edited successfully');
-                    refresh();
+                    refresh_maintenance();
                     }
                 })
                 
@@ -1144,7 +1144,7 @@ $("#editMaintenanceForm").on("submit", function(e){
               success: function(data){
                 $('#confirm_delete').modal('hide');
                 toastr.info('Maintenance deleted successfully')
-                refresh();
+                refresh_maintenance();
               }
           // ajax closing tag
           })
@@ -1246,7 +1246,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                                     console.log("EVENT CREATED")
                                     $('#completeMaintenance').modal('hide');
                                     toastr.success('Maintenance updated successfully');
-                                    refresh();
+                                    refresh_maintenance();
                                     }
                                 })
                         }
@@ -1293,7 +1293,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                                 console.log("EVENT CREATED")
                                 $('#completeMaintenance').modal('hide');
                                 toastr.success('Maintenance updated successfully');
-                                refresh();
+                                refresh_maintenance();
                                 }
                             })
                         }
