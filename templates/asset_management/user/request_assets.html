@@ -242,7 +242,7 @@
 
 $(document).ready(function () {
   id = sessionStorage.getItem("id")
-    $("#request_table").dataTable({
+    $("#request_table").DataTable({
         ajax: "/asset_management/api/Request_asset/requests_by_employee/" + id,
         columns: [
                 { data: "request_id"},

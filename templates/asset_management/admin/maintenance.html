@@ -399,7 +399,7 @@
 
 $(document).ready(function () {
     id = "{{id}}"
-    $("#maintenance_table").dataTable({
+    $("#maintenance_table").DataTable({
 
         ajax: "/asset_management/api/Maintenance/" + id,
         columns: [
@@ -659,7 +659,7 @@ $("#addMaintenanceForm").on("submit", function(e){
                     assetDetails()
                     load_event("{{id}}")
                     $('#addMaintenance').modal('hide');
-                    refresh()
+                    refresh_maintenance()
                     toastr.success('Maintenance added successfully')
                     }
                 })
@@ -670,7 +670,7 @@ $("#addMaintenanceForm").on("submit", function(e){
     });
 
 
-    function refresh(){
+    function refresh_maintenance(){
 
         $('#maintenance_table').DataTable().ajax.reload();
     }
@@ -977,7 +977,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                     load_event("{{id}}")
                     $('#editMaintenance').modal('hide');
                     toastr.success('Maintenance edited successfully')
-                    refresh()
+                    refresh_maintenance()
                     }
                 })
             }
@@ -1076,7 +1076,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                                     load_event("{{id}}")
                                     $('#completeMaintenance').modal('hide');
                                     toastr.success('Maintenance updated successfully');
-                                    refresh();
+                                    refresh_maintenance();
                                     }
                                 })
                         }
@@ -1124,7 +1124,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                                 load_event("{{id}}")
                                 $('#completeMaintenance').modal('hide');
                                 toastr.success('Maintenance updated successfully');
-                                refresh();
+                                refresh_maintenance();
                                 }
                             })
                         }
@@ -1154,7 +1154,7 @@ $("#editMaintenanceForm").on("submit", function(e){
                 $('#confirm_delete_maintenance').modal('hide');
                 toastr.info('Maintenance deleted successfully')
                 load_event("{{id}}")
-                refresh();
+                refresh_maintenance();
               }
           // ajax closing tag
           })

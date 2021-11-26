@@ -438,7 +438,7 @@ function refresh(){
 
 $(document).ready(function () {
 
-    $("#asset_table").dataTable({
+    $("#asset_table").DataTable({
 
         ajax: "/asset_management/api/Asset/",
         select: true,
@@ -512,7 +512,7 @@ $(document).ready(function () {
         
 
     id = "{{id}}"
-    $("#maintenance_table").dataTable({
+    $("#maintenance_table").DataTable({
 
         ajax: "/asset_management/api/Maintenance/",
         columns: [

@@ -1012,7 +1012,7 @@ $('#checkout_department').change(function(){
 
         $('#checkout_table').html(html);
         
-        $("#department_table").dataTable({
+        $("#department_table").DataTable({
 
             ajax: "/asset_management/api/Department/",
             select: true,
@@ -1071,7 +1071,7 @@ $('#checkout_person').change(function(){
 
         $('#checkout_table').html(html);
         
-        $("#person_table").dataTable({
+        $("#person_table").DataTable({
 
             ajax: "/asset_management/api/Auth/",
             select: true,
