@@ -18,14 +18,19 @@ def all(db: Session = Depends(get_db)):
     check_out = db.query(Asset_check_out).filter(Asset_check_out.active_status == "Active").all()
     return {'data': check_out}
 
-@router.get('/{id}')
-def read(id: str, db: Session = Depends(get_db)):
-    check_out = db.query(Asset_check_out).filter(Asset_check_out.asset_id == id, Asset_check_out.active_status == "Active").first()
+@router.get('/dashboard/all_checkout')
+def all(db: Session = Depends(get_db)):
+    check_out = db.query(Asset_check_out).filter(Asset_check_out.active_status == "Active").count()
     return {'data': check_out}
 
 @router.get('/get_all_by_users/{id}')
 def read(id: str, db: Session = Depends(get_db)):
     check_out = db.query(Asset_check_out).filter(Asset_check_out.active_status == "Active", Asset_check_out.user_id == id).all()
+    return {'data': check_out}
+
+@router.get('/{id}')
+def read(id: str, db: Session = Depends(get_db)):
+    check_out = db.query(Asset_check_out).filter(Asset_check_out.asset_id == id, Asset_check_out.active_status == "Active").first()
     return {'data': check_out}
 
 @router.post('/')

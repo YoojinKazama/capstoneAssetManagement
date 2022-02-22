@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from schemas.asset_management.maintenance_schema import CreateMaintenance, UpdateMaintenance, CompleteMaintenance
 from models.asset_management.maintenance_model import Maintenance
 from database import get_db
+from datetime import date
+from dateutil.relativedelta import *
 # from dependencies import get_token
 
 
@@ -16,6 +18,27 @@ router = APIRouter(
 @router.get('/')
 def all(db: Session = Depends(get_db)):
     maintenance = db.query(Maintenance).filter(Maintenance.active_status == "Active").all()
+    return {'data': maintenance}
+
+@router.get('/dashboard/due_today')
+def all(db: Session = Depends(get_db)):
+    maintenance = db.query(Maintenance).filter(Maintenance.maintenance_due == date.today(),
+                                               Maintenance.active_status == "Active",
+                                               Maintenance.maintenance_status == "Pending").count()
+    return {'data': maintenance}
+
+@router.get('/dashboard/due_this_month')
+def all(db: Session = Depends(get_db)):
+    maintenance = db.query(Maintenance).filter(Maintenance.maintenance_due.between(date.today(), date.today()+relativedelta(months=+1) ),
+                                               Maintenance.active_status == "Active",
+                                               Maintenance.maintenance_status == "Pending").count()
+    return {'data': maintenance}
+
+@router.get('/dashboard/pastdue_this_month')
+def all(db: Session = Depends(get_db)):
+    maintenance = db.query(Maintenance).filter(Maintenance.maintenance_due.between(date.today()+relativedelta(months=-1), date.today()+relativedelta(days=-1) ),
+                                               Maintenance.active_status == "Active",
+                                               Maintenance.maintenance_status == "Pending").count()
     return {'data': maintenance}
 
 @router.get('/view/{id}')

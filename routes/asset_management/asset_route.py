@@ -18,6 +18,21 @@ def all(db: Session = Depends(get_db)):
     asset = db.query(Asset).filter(Asset.active_status == "Active").all()
     return {'data': asset}
 
+@router.get('/dashboard/value_all_asset')
+def all(db: Session = Depends(get_db)):
+    asset = db.query(Asset.asset_cost).filter(Asset.active_status == "Active", Asset.asset_status != "Sold").all()
+    return {'data': asset}
+
+@router.get('/dashboard/all_asset')
+def all(db: Session = Depends(get_db)):
+    asset = db.query(Asset).filter(Asset.active_status == "Active", Asset.asset_status != "Sold").count()
+    return {'data': asset}
+
+@router.get('/dashboard/avail')
+def all(db: Session = Depends(get_db)):
+    asset = db.query(Asset).filter(Asset.asset_status == "Available", Asset.active_status == "Active").count()
+    return {'data': asset}
+
 @router.get('/creation')
 def creation(db: Session = Depends(get_db)):
     asset = db.query(Asset).order_by(Asset.created_at.desc()).first()

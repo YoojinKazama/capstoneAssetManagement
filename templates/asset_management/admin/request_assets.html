@@ -162,6 +162,19 @@
 $(document).ready(function () {
     $("#request_table").DataTable({
         ajax: "/asset_management/api/Request_asset/",
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "request_id"},
                 { data: "created_by_details.user_name"},

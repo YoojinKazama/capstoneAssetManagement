@@ -214,6 +214,19 @@ $(document).ready(function () {
     $("#maintenance_provider_table").DataTable({
 
         ajax: "/asset_management/api/Maintenance_Provider/",
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "maintenance_provider_id"},
                 { data: "maintenance_provider_name" },

@@ -11,6 +11,60 @@
 
 {%block content%}
 
+<div class="row">
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-info"><i class="fas fa-procedures"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Total Value of Assets</span>
+        <span class="info-box-number" id ="value_assets"></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-info"><i class="fas fa-procedures"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Number of Assets</span>
+        <span class="info-box-number" id ="num_assets"></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-success"><i class="fas fa-procedures"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Available Assets</span>
+        <span class="info-box-number" id ="num_avail_assets"></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-warning"><i class="fas fa-procedures"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Checked-out Assets</span>
+        <span class="info-box-number" id ="num_checkout"></span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>       
+</div>
+
 <div class="card card-primary card-outline">
 
           <!-- DATA TABLES -->
@@ -146,6 +200,19 @@ $(document).ready(function () {
     $("#asset_table").DataTable({
 
         ajax: "/asset_management/api/Asset/",
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "asset_id"},
                 { data: "asset_number"},
@@ -226,6 +293,58 @@ $(document).ready(function () {
         
         })
 
+        $.ajax({
+          url: '/asset_management/api/Asset/',
+          type: "GET",
+          dataType: "JSON",
+
+          success: function(data){
+              count = data.data.length
+              //console.log(count)
+              total = 0
+              for (let i = 0; i < count; i++) {
+                total += data.data[i].asset_cost;
+              }
+              $('#value_assets').html("₱"+total)
+
+          }
+          })
+          
+        $.ajax({
+            url: '/asset_management/api/Asset/dashboard/all_asset',
+            type: "GET",
+            dataType: "JSON",
+    
+            success: function(data){
+                $('#num_assets').html(data.data)
+    
+            }
+            })
+
+        $.ajax({
+            url: '/asset_management/api/Asset/dashboard/avail',
+            type: "GET",
+            dataType: "JSON",
+    
+            success: function(data){
+                //console.log(data.data.length)
+                $('#num_avail_assets').html(data.data)
+    
+            }
+            })
+
+        $.ajax({
+            url: '/asset_management/api/Check_out/dashboard/all_checkout',
+            type: "GET",
+            dataType: "JSON",
+    
+            success: function(data){
+                //console.log(data.data.length)
+                $('#num_checkout').html(data.data)
+    
+            }
+            })
+
         function check_if_check(){
           $.ajax({
             url: '/asset_management/api/Asset/',
@@ -285,32 +404,32 @@ $(document).on("click", ".add_asset", function(){
         
         $('#asset_type').html(html);
 
-            $.ajax({
-                url: '/asset_management/api/Asset_Provider/',
-                type: "GET",
-                dataType: "JSON",
+        $.ajax({
+            url: '/asset_management/api/Asset_Provider/',
+            type: "GET",
+            dataType: "JSON",
 
-                success: function(data){
-                    var asset_provider = data.data;
+            success: function(data){
+                var asset_provider = data.data;
 
-                    var html = ""
+                var html = ""
 
-                    if(asset_provider.length == 0){
-                      var html = `<option value=""> - - No Provider - - </option>`;
-                    }
-                    else{
-                      var html = `<option value=""> - - Select Provider - - </option>`;
-                    }
-
-                    for(var i=0; i < asset_provider.length; i++){
-                    html += `<option value="${asset_provider[i].asset_provider_id}">${asset_provider[i].asset_provider_name}</option>`
-                    }
-                    
-                    $('#asset_provider').html(html);
-                    
-
+                if(asset_provider.length == 0){
+                  var html = `<option value=""> - - No Provider - - </option>`;
                 }
-                })
+                else{
+                  var html = `<option value=""> - - Select Provider - - </option>`;
+                }
+
+                for(var i=0; i < asset_provider.length; i++){
+                html += `<option value="${asset_provider[i].asset_provider_id}">${asset_provider[i].asset_provider_name}</option>`
+                }
+                
+                $('#asset_provider').html(html);
+                
+
+            }
+            })
       }
     })
   });

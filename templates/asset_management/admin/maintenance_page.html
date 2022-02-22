@@ -12,6 +12,48 @@
 
 {%block content%}
 
+<div class="row">
+
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="fas fa-procedures"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Maintenances Due Today</span>
+          <span class="info-box-number" id ="num_maintenance_due"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-success"><i class="fas fa-procedures"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Maintenances Due in 30 days</span>
+          <span class="info-box-number" id ="num_maintenance_due_month"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-warning"><i class="fas fa-procedures"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Maintenances Due in Past 30 days</span>
+          <span class="info-box-number" id ="num_maintenance_pastdue_month"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+</div>
+
 <div class="card card-primary card-outline">
 
           <!-- DATA TABLES -->
@@ -420,7 +462,7 @@
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-  </div>
+ 
   <!-- /.modal -->
 
 <!-- /MODALS -->
@@ -515,6 +557,19 @@ $(document).ready(function () {
     $("#maintenance_table").DataTable({
 
         ajax: "/asset_management/api/Maintenance/",
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "maintenance_id"},
                 { data: "maintenance_name"},
@@ -550,12 +605,14 @@ $(document).ready(function () {
                             return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Completed</span></div>'
                         }
                         else if(data == "Pending" && row.maintenance_repeatable == "True" && moment(row.maintenance_completed).format('L') > moment(row.maintenance_due).format('L')){
+                            if(row.maintenance_completed == null){
+                                return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
+                            }
                             return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
                         }
-                        else if(data == "Pending" && moment(new Date()).format('L') > moment(row.maintenance_due).format('L')){
+                        else if(data == "Pending" && moment().isAfter(row.maintenance_due)){
                             return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
                         }
-                        
                         else if(data == "Pending"){
                             return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
                         }
@@ -1305,6 +1362,43 @@ $("#editMaintenanceForm").on("submit", function(e){
 
         }); 
     });
+
+    $.ajax({
+        url: '/asset_management/api/Maintenance/dashboard/due_today',
+        type: "GET",
+        dataType: "JSON",
+
+        success: function(data){
+            //console.log(data.data.length)
+            $('#num_maintenance_due').html(data.data)
+
+        }
+        })
+
+    $.ajax({
+        url: '/asset_management/api/Maintenance/dashboard/due_this_month',
+        type: "GET",
+        dataType: "JSON",
+
+        success: function(data){
+            //console.log(data.date)
+            $('#num_maintenance_due_month').html(data.data)
+
+        }
+        })
+
+      $.ajax({
+        url: '/asset_management/api/Maintenance/dashboard/pastdue_this_month',
+        type: "GET",
+        dataType: "JSON",
+
+        success: function(data){
+            //console.log(data.date)
+            $('#num_maintenance_pastdue_month').html(data.data)
+
+        }
+        })
+
 
     });
 </script>

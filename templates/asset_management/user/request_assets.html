@@ -244,6 +244,19 @@ $(document).ready(function () {
   id = sessionStorage.getItem("id")
     $("#request_table").DataTable({
         ajax: "/asset_management/api/Request_asset/requests_by_employee/" + id,
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "request_id"},
                 { data: "asset_type.asset_type_title"},

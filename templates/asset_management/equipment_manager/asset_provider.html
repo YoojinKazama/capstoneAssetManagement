@@ -204,6 +204,19 @@ $(document).ready(function () {
     $("#asset_provider_table").DataTable({
 
         ajax: "/asset_management/api/Asset_Provider/",
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "asset_provider_id"},
                 { data: "asset_provider_name" },

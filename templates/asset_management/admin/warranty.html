@@ -1,27 +1,23 @@
-<html>
 <div class="card-header">
-    <h3 class="card-title">List of Maintenances</h3>
+    <h3 class="card-title">List of Warranties</h3>
     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addMaintenance">
-        Add Maintenance <i class="fas fa-plus mr-1"></i>
+        Add Warranty <i class="fas fa-plus mr-1"></i>
       </button>
 </div>
 
 <div class="card-body">
     <div class="row">
         <div class="col-12">
-            <table id="maintenance_table" class="table table-bordered table-hover"
+            <table id="warranty_table" class="table table-bordered table-hover"
             style = "width: 100% !important">
                 <thead>
                 <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Cost</th>
-                <th>Due Date</th>
-                <th>Date Completed</th>
-                <th>Repeatable</th>
-                <th>Created At</th>
-                <th>Maintenance Days</th>
-                <th>Status</th>
+                <th>Length(Months)</th>
+                <th>Expiration</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Note</th>
                 <th>Action</th>
                 </tr>
                 </thead>
@@ -30,378 +26,14 @@
     </div>
 </div>
 
-
-<!-- MODALS -->
-
-<div class="modal fade" id="addMaintenance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Maintenance</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
-            <form id="addMaintenanceForm">
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_name">Name</label><label style="color: red;">*</label>
-                        <input required class="form-control" name="maintenance_name" id="maintenance_name"  >
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_details">Details</label>
-                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="maintenance_details" id="maintenance_details">
-                        </textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_provider">Maintenance Provider</label><label style="color: red;">*</label>
-                        <select required name="maintenance_provider" id="maintenance_provider" class="form-control">
-                            
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="maintenance_cost">Cost</label><label style="color: red;">*</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">₱</div>
-                            </div>
-                            <input required type="number"  class="form-control" name="maintenance_cost" id="maintenance_cost"  >
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="maintenance_due">Due Date</label><label style="color: red;">*</label>
-                        <input required type="date" name="maintenance_due" id="maintenance_due" class="form-control">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="maintenance_status">Status</label><label style="color: red;">*</label>
-                        <select required  class="form-control" name="maintenance_status" id="maintenance_status"  >
-                            <option value = ""> - - Select - -</option>
-                            <option value = "Pending">Pending</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row" id="completed_date">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="acquisition_date">Repeatable</label><label style="color: red;">*</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="True" name="repeatable" id="repeatable_yes">
-                            <label class="form-check-label" for="repeatable_yes">
-                                Yes
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="repeatable" id="repeatable_no" checked>
-                            <label class="form-check-label" for="repeatable_no">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row" id="frequency_form">
-                    
-                </div>
-                <div class="form-row" id="frequency_days">
-                    
-                </div>
-      </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="addAssetBtn">
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- VIEW MODAL -->
-
-  <div class="modal fade" id="viewMaintenance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">View Maintenance</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-              <form id="viewMaintenanceForm">
-                  <div class="form-row">
-                      <div class="form-group col-sm-12">
-                          <label for="view_maintenance_name">Name</label> <br>
-                          <span  name="view_maintenance_name" id="view_maintenance_name"  ></span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-sm-12">
-                          <label for="view_maintenance_details">Details</label> <br>
-                          <span style="margin-top: 10px;" rows="2" cols="50"  name="view_maintenance_details" id="view_maintenance_details">
-                          </span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-sm-12">
-                          <label for="view_maintenance_provider">Maintenance Provider</label> <br>
-                          <span required name="view_maintenance_provider" id="view_maintenance_provider" >
-                              
-                          </span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-sm-6">
-                          <label for="view_maintenance_cost">Cost</label> <br>
-                              <span required type="number"   name="view_maintenance_cost" id="view_maintenance_cost"  ></span>
-                      </div>
-                      <div class="form-group col-sm-6">
-                          <label for="view_maintenance_due">Due Date</label> <br>
-                          <span required type="date" name="view_maintenance_due" id="view_maintenance_due"></span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-sm-12">
-                          <label for="view_maintenance_status">Status</label> <br>
-                          <span required  name="view_maintenance_status" id="view_maintenance_status"  >
-                          </span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="view_maintenance_completed">Date Completed</label> <br>
-                        <span required   name="view_maintenance_completed" id="view_maintenance_completed"  >
-                        </span>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-sm-12">
-                          <label for="view_repeatable">Repeatable</label> <br>
-                              <span  name="view_repeatable" id="view_repeatable"></span>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="view_frequency">Frequency</label> <br>
-                            <span name="view_frequency" id="view_frequency"></span>
-                    </div>
-                </div>
-        </div>
-      </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT MODAL -->
-
-  <div class="modal fade" id="editMaintenance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Maintenance</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-              <form id="editMaintenanceForm">
-                <div class="form-row">
-                    <input hidden type="text" id="edit_maintenance_id">
-                    <div class="form-group col-sm-12">
-                        <label for="edit_maintenance_name">Name</label><label style="color: red;">*</label>
-                        <input required class="form-control" name="edit_maintenance_name" id="edit_maintenance_name"  >
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="edit_maintenance_details">Details</label>
-                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="edit_maintenance_details" id="edit_maintenance_details">
-                        </textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="edit_maintenance_provider">Maintenance Provider</label><label style="color: red;">*</label>
-                        <select required name="edit_maintenance_provider" id="edit_maintenance_provider" class="form-control">
-                            
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="edit_maintenance_cost">Cost</label><label style="color: red;">*</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">₱</div>
-                            </div>
-                            <input required type="number"  class="form-control" name="edit_maintenance_cost" id="edit_maintenance_cost"  >
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="edit_maintenance_due">Due Date</label><label style="color: red;">*</label>
-                        <input required type="date" name="edit_maintenance_due" id="edit_maintenance_due" class="form-control">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="edit_maintenance_status">Status</label><label style="color: red;">*</label>
-                        <select required  class="form-control" name="edit_maintenance_status" id="edit_maintenance_status"  >
-                            
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row" id="edit_completed_date">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="edit_maintenance_remarks">Remarks</label>
-                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="edit_maintenance_remarks" id="edit_maintenance_remarks">
-                        </textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="acquisition_date">Repeatable</label><label style="color: red;">*</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" value="True" name="edit_repeatable" id="edit_repeatable_yes">
-                            <label class="form-check-label" for="edit_repeatable_yes">
-                                Yes
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="edit_repeatable" id="edit_repeatable_no" checked>
-                            <label class="form-check-label" for="edit_repeatable_no">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row" id="edit_frequency_form">
-                    
-                </div>
-                <div class="form-row" id="frequency_days">
-                    
-                </div>
-      </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="edit_maintenanceBtn">
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- COMPLETE MODAL -->
-
-  <div class="modal fade" id="completeMaintenance" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Complete Maintenance</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-              <form id="completeMaintenanceForm">
-                <div class="form-row">
-                    <input hidden type="number" id="maintenance_repeat_days">
-                    <input hidden type="text" id="maintenance_complete_id">
-                    <div class="form-group col-sm-12">
-                        <label for="complete_maintenance_name">Name</label><label style="color: red;">*</label>
-                        <input disabled class="form-control" name="complete_maintenance_name" id="complete_maintenance_name"  >
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="complete_maintenance_cost">Cost</label><label style="color: red;">*</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">₱</div>
-                            </div>
-                            <input required type="number"  class="form-control" name="complete_maintenance_cost" id="complete_maintenance_cost"  >
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label for="completed_due_date">Due Date</label><label style="color: red;">*</label>
-                    <input disabled type="date" name="completed_due_date" id="completed_due_date" class="form-control">
-                </div>
-                <div class="form-group col-sm-12">
-                    <label for="completed_date_legit">Date Completed</label><label style="color: red;">*</label>
-                    <input required type="date" name="completed_date_legit" id="completed_date_legit" class="form-control">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-12">
-                        <label for="complete_remarks">Remarks</label>
-                        <textarea style="margin-top: 10px;" rows="2" cols="50" class="form-control" name="complete_remarks" id="complete_remarks">
-                        </textarea>
-                    </div>
-                </div>
-      </div>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" id="edit_maintenanceBtn">
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- Confirm Delete Modal -->
-<div class="modal fade" id="confirm_delete_maintenance">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title text-secondary"><i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Delete Maintenance</h4>
-          <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true"><i class="fas fa-times"></i></span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure to delete this maintenance?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-info confirmed_delete">Yes, delete it.</button>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
-<!-- /MODALS -->
-
 <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
 <script>
 
 $(document).ready(function () {
     id = "{{id}}"
-    $("#maintenance_table").DataTable({
+    $("#warranty_table").DataTable({
 
-        ajax: "/asset_management/api/Maintenance/" + id,
+        ajax: "/asset_management/api/Asset_warranty/asset_warranty/" + id,
         dom: 'Blfrtip',
         buttons: [
             'copy',
@@ -416,99 +48,35 @@ $(document).ready(function () {
             
         ],
         columns: [
-                { data: "maintenance_id"},
-                { data: "maintenance_name"},
-                { data: "maintenance_cost", render:function(data){
-                    return "₱"+data
-                  } 
-                },
-                { data: "maintenance_due", render:function(data){
+                { data: "warranty_id"},
+                { data: "warranty_length"},
+                { data: "expiration_date", render:function(data){
                     return moment(data).format('LL') +
                     "<div class='text-secondary font-italic'>" + moment(data).startOf('seconds').fromNow()+"</div>"
-                  } 
-                },
-                { data: "maintenance_completed", render:function(data){
-                    if(data != null)
-                        return moment(data).format('LL')
-                    else{
-                        return "Not yet"
-                    }
-                  } 
-                },
-                { data: "maintenance_repeatable", render:function(data){
-                    if(data == "True")
-                        return "Yes"
-                    else{
-                        return "No"
-                    }
                   }
                 },
-                { data: "created_at" },
-                { data: "maintenance_day"},
-                { data: "maintenance_status", render: function(data, type, row){
-                    if(data == "Completed"){
-                        return '<div class="badge badge-success p-2 w-100"><i class="fas fa-check-circle mr-1"></i><span>Completed</span></div>'
-                    }
-                    else if(data == "Pending" && row.maintenance_repeatable == "True" && moment(row.maintenance_completed).format('L') > moment(row.maintenance_due).format('L')){
-                        if(row.maintenance_completed == null){
-                            return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
-                        }
-                        return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
-                    }
-                    else if(data == "Pending" && moment().isAfter(row.maintenance_due)){
-                        return '<div class="badge badge-warning p-2 w-100"><i class="fas fa-clock mr-1"></i><span>Past Due</span></div>'
-                    }
-                    else if(data == "Pending"){
-                        return '<div class="badge badge-info p-2 w-100"><i class="fas fa-recycle mr-1"></i><span>Pending</span></div>'
-                    }
+                { data: "warranty_contact"},
+                { data: "warranty_email"},
+                { data: "warranty_note"},
+                { data: "active_status", render: function(data, type, row){
+                    if(data == "Active"){
+                        return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
+                          '<div class="dropdown-menu dropdown-menu-right">' +
+                              '<div class="dropdown-item d-flex btn_view" id="'+ row.warranty_id +'" role="button">' +
+                                '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
+                                '<div>View Warranty</div></div>' +
+                                  '<div class="dropdown-item d-flex btn_delete" id="'+ row.warranty_id +'" role="button">' +
+                                    '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
+                                    '<div style="color: red">Delete Warranty</div></div></div></div>';
+                    }  
                     else{
                         return '<button class="btn btn-danger >Activate</button>';
                     }
                 }
                 
             },
-                { data: "active_status", render: function(data, type, row){
-                        if(data == "Active"){
-                            if(row.maintenance_status == "Pending"){
-                                return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
-                                '<div class="dropdown-menu dropdown-menu-right">' +
-                                '<div class="dropdown-item d-flex btn_view" id="'+ row.maintenance_id +'" role="button">' +
-                                '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
-                                '<div>View Maintenance</div></div>' +
-                                '<div class="dropdown-item d-flex btn_edit" id="'+ row.maintenance_id +'" role="button">' +
-                                '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
-                                '<div>Edit Maintenance</div></div>'+
-                                '<div class="dropdown-item d-flex btn_complete" id="'+ row.maintenance_id +'" role="button">' +
-                                '<div style="width: 2rem"><i class="fas fa-check-circle"></i></div>' +
-                                '<div>Complete Maintenance</div></div>'+
-                                '<div class="dropdown-divider"</div></div>' +
-                                '<div class="dropdown-item d-flex btn_delete" id="'+ row.maintenance_id +'" role="button">' +
-                                '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
-                                '<div style="color: red">Delete Maintenance</div></div></div></div>';
-                                
-                              }
-                            return '<div class="text-center dropdown"><div class="btn btn-sm btn-default" data-toggle="dropdown" role="button"><i class="fas fa-ellipsis-v"></i></div>' +
-                              '<div class="dropdown-menu dropdown-menu-right">' +
-                                  '<div class="dropdown-item d-flex btn_view" id="'+ row.maintenance_id +'" role="button">' +
-                                    '<div style="width: 2rem"><i class="fas fa-eye"></i></div>' +
-                                    '<div>View Maintenance</div></div>' +
-                                    '<div class="dropdown-item d-flex btn_edit" id="'+ row.maintenance_id +'" role="button">' +
-                                      '<div style="width: 2rem"><i class="fas fa-edit"></i></div>' +
-                                      '<div>Edit Maintenance</div></div>'+
-                                      '<div class="dropdown-divider"</div></div>' +
-                                      '<div class="dropdown-item d-flex btn_delete" id="'+ row.maintenance_id +'" role="button">' +
-                                        '<div style="width: 2rem"><i class="fas fa-trash-alt"></i></div>' +
-                                        '<div style="color: red">Delete Maintenance</div></div></div></div>';
-                        }  
-                        else{
-                            return '<button class="btn btn-danger >Activate</button>';
-                        }
-                    }
-                    
-                },
         ],
-        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0, 6, 7] }],
-        "order": [[6, "desc"]]
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }]
         
         })
 
@@ -1180,4 +748,4 @@ $("#editMaintenanceForm").on("submit", function(e){
 
     });
 </script>
-</html>
+</div>

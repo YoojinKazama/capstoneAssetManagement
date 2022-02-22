@@ -17,8 +17,7 @@
 <div class="card card-primary card-outline">
     <div class="card-header">
         <div class="btn-group float-right" style="margin-bottom: 10px">
-            <button type="button" class="btn btn-info editAsset" data-toggle="modal" data-target="#editAsset"><i class="fas fa-edit"></i>&nbsp; &nbsp;Edit</button>
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Edit Status
             </button>
                 <div class="dropdown-menu edit-status" role="menu">
                     
@@ -536,7 +535,6 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>');
                     }
                     if (asset_info.asset_status == "Missing"){
@@ -544,17 +542,12 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item undo-missing" ><i class="fas fa-sticky-note"></i>&nbsp;Undo Missing</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>');
                     }
 
                     if (asset_info.asset_status == "Sold"){
                         $("#asset_status").html('<div class="status badge badge-info p-2 w-100"><i class="fas fa-dollar-sign mr-1"></i><span>Sold</span></div>');
-                        $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item undo-sold" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Undo Sold</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>');
+                        $(".edit-status").html('<a class="dropdown-item" ><i class="fas fa-dollar-sign"></i>&nbsp;SOLD</a>');
                     }
 
                     if (asset_info.asset_status == "Disposed"){
@@ -562,7 +555,6 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item undo-disposed" ><i class="fas fa-thumbs-down"></i>&nbsp;Undo Dispose</a>');
                     }
 
@@ -571,7 +563,6 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                         $(".edit-status").html('<a class="dropdown-item" data-toggle="modal" data-target="#repairModal" ><i class="fas fa-hammer"></i>&nbsp;Repair</a>' +
                                                 '<a class="dropdown-item undo-broken" ><i class="fas fa-heart-broken"></i>&nbsp;Undo Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>');
                     }
 
@@ -580,7 +571,6 @@ $(".created_by_id").val(sessionStorage.getItem("id"));
                         $(".edit-status").html('<a class="dropdown-item undo-repair" ><i class="fas fa-hammer"></i>&nbsp;Undo Repair</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#brokenModal" ><i class="fas fa-heart-broken"></i>&nbsp;Broken</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#missingModal" ><i class="fas fa-sticky-note"></i>&nbsp;Missing</a>' +
-                                                '<a class="dropdown-item" data-toggle="modal" data-target="#sellModal" ><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Sell</a>' +
                                                 '<a class="dropdown-item" data-toggle="modal" data-target="#disposeModal" ><i class="fas fa-thumbs-down"></i>&nbsp;Dispose</a>');
                     }
 

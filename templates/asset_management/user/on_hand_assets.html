@@ -59,6 +59,19 @@ $(document).ready(function () {
     $("#asset_table").DataTable({
 
         ajax: "/asset_management/api/Check_out/get_all_by_users/" + id,
+        dom: 'Blfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL'
+          },
+          'print',
+            
+        ],
         columns: [
                 { data: "the_asset.asset_id"},
                 { data: "the_asset.asset_number"},

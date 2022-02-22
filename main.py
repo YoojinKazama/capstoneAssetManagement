@@ -6,7 +6,7 @@ from datatables import DataTable
 from sqlalchemy.orm import Session
 from routes.asset_management import asset_route, asset_type_route, asset_provider_route, maintenance_provider_route, maintenance_route, auth_route, event_route
 from routes.asset_management import missing_asset_route, asset_request_route, sell_asset_route, dispose_asset_route, broken_asset_route, repair_asset_route
-from routes.asset_management import department_route, maintenance_report_route, check_out_route, check_in_route
+from routes.asset_management import department_route, maintenance_report_route, check_out_route, check_in_route, asset_warranty_route
 from database import get_db
 from models.asset_management import asset_model
 from fastapi.middleware.cors import CORSMiddleware
@@ -48,6 +48,7 @@ app.include_router(department_route.router)
 app.include_router(maintenance_report_route.router)
 app.include_router(check_out_route.router)
 app.include_router(check_in_route.router)
+app.include_router(asset_warranty_route.router)
 
 
 @app.get("/", response_class=HTMLResponse)
