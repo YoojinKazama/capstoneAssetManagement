@@ -1,6 +1,9 @@
 # capstoneProject
 
 # To Run
+~PREPARE DATABASE
+https://drive.google.com/file/d/1KH9bSOfrgK56V_AUsW9Exb9lXp_Hjzrw/view?usp=sharing
+
 1. Create virtual environment
     - `python -m venv venv`
     - `venv\scripts\activate`
